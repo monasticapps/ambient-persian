@@ -1,0 +1,3531 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nowruz Persian Intensive — Teachings</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;700&family=Lalezar&family=Noto+Nastaliq+Urdu:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/gh/rastikerdar/parastoo-font@latest/dist/Parastoo.css" rel="stylesheet">
+<style>
+  /* ---- Self-hosted Persian display fonts (Bucket 4) ----
+     local() first so installed copies are used at zero network cost; the
+     url() is fetched only on first use (browser-controlled) and only if
+     local() didn't resolve. font-display: swap so we never block render. */
+  @font-face { font-family: 'baz';        src: local('baz'),        url('fonts/baz.woff2')        format('woff2'); font-display: swap; }
+  @font-face { font-family: 'bazbaran';   src: local('bazbaran'),   url('fonts/bazbaran.woff2')   format('woff2'); font-display: swap; }
+  @font-face { font-family: 'ghasedak';   src: local('ghasedak'),   url('fonts/ghasedak.woff2')   format('woff2'); font-display: swap; }
+  @font-face { font-family: 'ghasedakan'; src: local('ghasedakan'), url('fonts/ghasedakan.woff2') format('woff2'); font-display: swap; }
+  @font-face { font-family: 'kamangir';   src: local('kamangir'),   url('fonts/kamangir.woff2')   format('woff2'); font-display: swap; }
+  @font-face { font-family: 'narm';       src: local('narm'),       url('fonts/narm.woff2')       format('woff2'); font-display: swap; }
+  @font-face { font-family: 'narma';      src: local('narma'),      url('fonts/narma.woff2')      format('woff2'); font-display: swap; }
+  @font-face { font-family: 'nikasha';    src: local('nikasha'),    url('fonts/nikasha.woff2')    format('woff2'); font-display: swap; }
+  @font-face { font-family: 'nisha';      src: local('nisha'),      url('fonts/nisha.woff2')      format('woff2'); font-display: swap; }
+  @font-face { font-family: 'tenha';      src: local('tenha'),      url('fonts/tenha.woff2')      format('woff2'); font-display: swap; }
+  @font-face { font-family: 'tenhayee';   src: local('tenhayee'),   url('fonts/tenhayee.woff2')   format('woff2'); font-display: swap; }
+  @font-face { font-family: 'zan';        src: local('zan'),        url('fonts/zan.woff2')        format('woff2'); font-display: swap; }
+  @font-face { font-family: 'zanjir';     src: local('zanjir'),     url('fonts/zanjir.woff2')     format('woff2'); font-display: swap; }
+  @font-face { font-family: 'zendegi';    src: local('zendegi'),    url('fonts/zendegi.woff2')    format('woff2'); font-display: swap; }
+  @font-face { font-family: 'zhin';       src: local('zhin'),       url('fonts/zhin.woff2')       format('woff2'); font-display: swap; }
+  @font-face { font-family: 'zhina';      src: local('zhina'),      url('fonts/zhina.woff2')      format('woff2'); font-display: swap; }
+
+  @page { size: letter; margin: 0.6in 0.5in; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Georgia', 'Times New Roman', serif;
+    font-size: 13pt;
+    line-height: 1.5;
+    color: #1a1a1a;
+    max-width: 11in;
+    margin: 0 auto;
+    padding: 0 0.5in 0.5in;
+  }
+
+  h2 {
+    font-size: 17pt;
+    color: #1a6db5;
+    margin-top: 20pt;
+    margin-bottom: 10pt;
+    padding-bottom: 5pt;
+    border-bottom: 1.5pt solid #1a6db5;
+    page-break-after: avoid;
+  }
+  h3 {
+    font-size: 14pt;
+    color: #444;
+    margin-top: 18pt;
+    margin-bottom: 8pt;
+    page-break-after: avoid;
+  }
+
+  /* ---- Collapsible sections ---- */
+  details { margin-bottom: 8pt; }
+  details summary { cursor: pointer; list-style: none; }
+  details summary::-webkit-details-marker { display: none; }
+  details summary::before {
+    content: "▶ ";
+    font-size: 0.7em;
+    display: inline-block;
+    transition: transform 0.15s;
+    margin-right: 4px;
+  }
+  details[open] > summary::before { transform: rotate(90deg); }
+  .section-h2 > summary > h2 { display: inline; }
+  .section-h2[open] > summary {
+    position: sticky;
+    top: var(--toolbar-h, 80px);
+    background: #fff;
+    z-index: 50;
+    padding: 8pt 0;
+    margin-bottom: 16pt;
+    border-bottom: 1px solid #ddd;
+  }
+  .section-h3 > summary > h3 { display: inline; }
+  .section-h3 { margin-left: 8pt; margin-top: 16pt; margin-bottom: 8pt; }
+  .section-h3[open] > summary { margin-bottom: 16pt; }
+  .section-h2[open] > summary { margin-bottom: 16pt; }
+
+  /* ---- Letter/diacritic metadata in meaning column ---- */
+  .letter-forms {
+    font-family: 'Vazirmatn', sans-serif;
+    font-size: 16pt;
+    direction: rtl;
+    unicode-bidi: isolate;
+    letter-spacing: 2pt;
+  }
+
+  /* ---- Grammar & Culture (kept mostly as-is) ---- */
+  .grammar-section { margin-bottom: 10pt; }
+  .grammar-section dt {
+    font-weight: bold;
+    color: #1a6db5;
+    font-size: 13pt;
+    margin-top: 7pt;
+    margin-bottom: 2pt;
+  }
+  .grammar-section dd {
+    margin-left: 12pt;
+    margin-bottom: 4pt;
+    font-size: 12pt;
+    line-height: 1.5;
+  }
+  .grammar-section .persian-inline,
+  .cultural-list .persian-inline {
+    font-family: 'Vazirmatn', sans-serif;
+    font-size: 14pt;
+    direction: rtl;
+    unicode-bidi: isolate;
+  }
+
+  .cultural-list { list-style: none; padding: 0; }
+  .cultural-list li {
+    margin-bottom: 6pt;
+    font-size: 12pt;
+    line-height: 1.5;
+    padding-left: 10pt;
+    text-indent: -10pt;
+  }
+  .cultural-list li::before {
+    content: "\25C6 ";
+    color: #1a6db5;
+    font-size: 7pt;
+  }
+
+  .src-tag {
+    display: none;
+  }
+
+  /* ---- Sticky toolbar ---- */
+  .toolbar {
+    position: sticky;
+    top: 0;
+    background: #fff;
+    z-index: 100;
+    padding: 8pt 0 6pt;
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 10pt;
+  }
+  .toolbar-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+  }
+  #char-lookup {
+    background: #f0f6ff;
+    border-top: 1px solid #ccc;
+    padding: 8px 16px;
+    display: none;
+    align-items: baseline;
+    gap: 14pt;
+    flex-wrap: wrap;
+    font-size: 15pt;
+    margin-top: 8px;
+  }
+  #char-lookup.visible { display: flex; }
+  #char-lookup .lookup-char {
+    font-family: 'Vazirmatn', sans-serif;
+    font-size: 36pt;
+    direction: rtl;
+    unicode-bidi: isolate;
+    color: #1a1a1a;
+  }
+  #char-lookup .lookup-name { color: #1a6db5; font-size: 17pt; }
+  #char-lookup .lookup-forms {
+    font-family: 'Vazirmatn', sans-serif;
+    font-size: 16pt;
+    direction: rtl;
+    unicode-bidi: isolate;
+    color: #666;
+    letter-spacing: 2pt;
+  }
+  #char-lookup .lookup-note {
+    color: #888;
+    font-size: 13pt;
+    font-style: italic;
+    margin-left: auto;
+  }
+  /* Hidden lesson filter — used as the source of truth, but visually hidden.
+     The trigger button + modal proxy clicks to these buttons. */
+  .filter-bar { display: none; }
+
+  /* Shared sizing for ALL toolbar buttons (so heights match) */
+  .tb-trigger,
+  .toolbar .toggle-btn,
+  .toolbar .reset-btn {
+    font-family: 'Georgia', serif;
+    font-size: 11pt;
+    height: 32px;
+    padding: 0 12px;
+    border-radius: 4px;
+    background: #fff;
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s;
+    display: inline-flex;
+    align-items: center;
+    box-sizing: border-box;
+  }
+
+  /* Trigger buttons (lesson + font) */
+  .tb-trigger {
+    border: 1.5px solid #1a6db5;
+    color: #1a6db5;
+    gap: 6px;
+  }
+  .tb-trigger:hover { background: #e8f0fa; }
+  .tb-trigger .tb-caret { font-size: 8pt; opacity: 0.6; }
+  #font-trigger .tb-font-sample {
+    font-family: var(--persian-font, 'Parastoo'), serif;
+    font-size: 14pt;
+    line-height: 1;
+    direction: rtl;
+    unicode-bidi: isolate;
+    display: inline-block;
+    text-align: center;
+  }
+
+  /* Spacer pushes lesson/font/reset to the right */
+  .toolbar-spacer { flex: 1; }
+
+  /* Persian font-size A−/A+ controls — sit immediately right of the font trigger */
+  .tb-size-controls {
+    display: inline-flex;
+    height: 32px;
+    border: 1.5px solid #1a6db5;
+    border-radius: 4px;
+    overflow: hidden;
+    box-sizing: border-box;
+  }
+  .tb-size-btn {
+    font-family: 'Georgia', serif;
+    font-size: 11pt;
+    background: #fff;
+    color: #1a6db5;
+    border: none;
+    padding: 0 9px;
+    cursor: pointer;
+    line-height: 1;
+    transition: background 0.15s;
+  }
+  .tb-size-btn + .tb-size-btn { border-left: 1.5px solid #1a6db5; }
+  .tb-size-btn:hover { background: #e8f0fa; }
+  .tb-size-btn:disabled { color: #c0c0c0; cursor: default; background: #f7f7f7; }
+  /* Middle "A" reset button — slightly muted to read as "neutral / reset" */
+  .tb-size-btn.tb-size-reset { color: #666; padding: 0 7px; }
+  .tb-size-btn.tb-size-reset:hover { color: #1a6db5; }
+
+  .toolbar .toggle-btn {
+    border: 1.5px solid #333;
+    color: #333;
+  }
+  .toolbar .toggle-btn:hover { background: #f0f0f0; }
+  .toolbar .toggle-btn.active {
+    background: #333;
+    color: #fff;
+  }
+  .toolbar .reset-btn {
+    border: 1.5px solid #aaa;
+    background: none;
+    color: #888;
+  }
+  .toolbar .reset-btn:hover { background: #aaa; color: #fff; }
+
+  /* ---- Modal ---- */
+  .modal-backdrop {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 5vh 16px 16px;
+    overflow-y: auto;
+  }
+  .modal-backdrop.visible { display: flex; }
+  .modal-panel {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.25);
+    max-width: 760px;
+    width: 100%;
+    padding: 18px 24px 24px;
+    position: relative;
+  }
+  .modal-close {
+    position: absolute;
+    top: 6px;
+    right: 12px;
+    background: none;
+    border: none;
+    font-size: 22pt;
+    color: #888;
+    cursor: pointer;
+    padding: 0;
+    line-height: 1;
+  }
+  .modal-close:hover { color: #333; }
+  .modal-title {
+    font-size: 14pt;
+    color: #1a6db5;
+    margin-bottom: 12pt;
+    border-bottom: 1.5pt solid #1a6db5;
+    padding-bottom: 6pt;
+  }
+  .modal-section { margin-bottom: 14pt; }
+  .modal-section-title {
+    font-size: 11pt;
+    color: #1a6db5;
+    text-transform: uppercase;
+    letter-spacing: 0.5pt;
+    margin-bottom: 6pt;
+    font-weight: bold;
+  }
+  .modal-subgroup-title {
+    font-size: 9pt;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 0.4pt;
+    margin: 8pt 0 4pt;
+  }
+  .modal-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .modal-option {
+    font-family: 'Georgia', serif;
+    font-size: 11pt;
+    padding: 6px 12px;
+    border: 1.5px solid #1a6db5;
+    border-radius: 4px;
+    background: #fff;
+    color: #1a6db5;
+    cursor: pointer;
+  }
+  .modal-option:hover { background: #e8f0fa; }
+  .modal-option.active {
+    background: #1a6db5;
+    color: #fff;
+  }
+  .font-option {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 18px 18px 12px;
+    min-width: 140px;
+    gap: 10px;
+  }
+  .font-option .font-sample {
+    font-size: 22pt;
+    line-height: 1;
+    direction: rtl;
+    unicode-bidi: isolate;
+    color: #1a1a1a;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: visible;
+  }
+  .font-option.active .font-sample { color: #fff; }
+  .font-option .font-name {
+    font-family: 'Georgia', serif;
+    font-size: 9pt;
+    color: #666;
+    direction: ltr;
+    text-align: center;
+  }
+  .font-option.active .font-name { color: #d8e8f5; }
+  /* Greyed-out font option — font isn't available on this device and can't
+     be loaded from a webfont URL. Click is suppressed in JS. */
+  .font-option.font-disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+    filter: grayscale(1);
+  }
+  .font-option.font-disabled:hover { background: transparent; }
+  .font-option.font-disabled .font-sample,
+  .font-option.font-disabled .font-name { color: #888; }
+
+  /* ---- Toast (font load failure notice) ---- */
+  .toast {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    background: #1a6db5;
+    color: #fff;
+    padding: 10px 16px;
+    border-radius: 6px;
+    font-family: 'Georgia', serif;
+    font-size: 12pt;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.18);
+    opacity: 0;
+    transition: opacity 0.25s ease, transform 0.25s ease;
+    z-index: 9999;
+    pointer-events: none;
+    max-width: 90vw;
+    text-align: center;
+  }
+  .toast.toast-visible {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+
+  /* ---- Color-coded character highlighting ---- */
+
+  .hl0  { background: #fde68a; border-radius: 2px; } /* amber */
+  .hl1  { background: #a7f3d0; border-radius: 2px; } /* emerald */
+  .hl2  { background: #bfdbfe; border-radius: 2px; } /* blue */
+  .hl3  { background: #fca5a5; border-radius: 2px; } /* red */
+  .hl4  { background: #c4b5fd; border-radius: 2px; } /* violet */
+  .hl5  { background: #fdba74; border-radius: 2px; } /* orange */
+  .hl6  { background: #99f6e4; border-radius: 2px; } /* teal */
+  .hl7  { background: #f9a8d4; border-radius: 2px; } /* pink */
+  .hl8  { background: #d9f99d; border-radius: 2px; } /* lime */
+  .hl9  { background: #e9d5ff; border-radius: 2px; } /* purple */
+  .hl10 { background: #fed7aa; border-radius: 2px; } /* peach */
+  .hl11 { background: #a5f3fc; border-radius: 2px; } /* cyan */
+
+  /* ---- Row layout (Persian | merged Latin | optional Notes) ----
+     Track count is computed in JS via recomputeRowGrid() and set as inline style. */
+  .text-grid {
+    margin-left: 8pt;
+  }
+  .text-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    border-bottom: 0.5pt solid #ddd;
+    position: relative;
+    margin-bottom: 6pt;
+    padding-bottom: 4pt;
+    margin-left: 50pt;
+  }
+  .text-grid .text-row {
+    margin-left: 0;
+  }
+  .text-col-persian {
+    padding: 4pt 10pt;
+    font-family: var(--persian-font, 'Parastoo'), serif;
+    font-size: var(--persian-font-size, 28pt);
+    line-height: var(--persian-line-height, 1.6);
+    direction: rtl;
+    unicode-bidi: isolate;
+    text-align: right;
+  }
+  /* Merged Latin column: pronunciation + comma + meaning, all inline */
+  .text-col-latin {
+    padding: 4pt 10pt;
+    line-height: 1.6;
+    font-size: 15pt;
+  }
+  .text-col-translit { color: #888; }
+  .text-col-meaning  { color: #1a6db5; }
+  .text-sep {
+    color: #888;
+    display: none;
+  }
+  .text-row.row-show-sep .text-sep { display: inline; }
+  /* Hide the whole latin column wrapper when both translit and meaning are hidden */
+  .text-row.hide-latin > .text-col-latin { display: none; }
+  /* Hide the persian column when persian is toggled off and the row is NOT
+     in writing-practice input mode (Letters / Diacritics rows). */
+  .text-row.hide-persian-col > .text-col-persian { display: none; }
+  .text-col-notes {
+    display: none;
+    font-size: 11pt;
+    color: #555;
+    line-height: 1.4;
+    padding: 4pt 10pt;
+  }
+  .text-col-notes strong { color: #1a6db5; }
+  .text-col-notes .persian-inline { font-family: 'Parastoo', serif; font-size: 13pt; }
+
+  /* Font is set via CSS variables on :root, configured by JS from FONT_CATALOG */
+
+  /* Column visibility — display rules only.
+     Grid track count is computed in JS via recomputeRowGrid() and set as inline style. */
+  .text-row.hide-translit .text-col-translit,
+  .text-row.hide-translit-override .text-col-translit { display: none; }
+  .text-row.hide-meaning .text-col-meaning,
+  .text-row.hide-meaning-override .text-col-meaning { display: none; }
+  /* Per-row override beats global hide (translit/meaning are now inline spans) */
+  .text-row.hide-translit.show-translit-override .text-col-translit { display: inline; }
+  .text-row.hide-meaning.show-meaning-override .text-col-meaning { display: inline; }
+
+  /* Notes column */
+  .text-row.show-notes .text-col-notes { display: block; }
+  .text-row.show-notes { padding-bottom: 22pt; }
+
+  /* Center Persian when it's the only visible column */
+  .text-row.cols-1 .text-col-persian { text-align: center; }
+
+  /* Stanza break */
+  .text-stanza-break {
+    border-bottom: none;
+    padding: 5pt 0;
+    display: block;
+  }
+
+  /* Per-row toggle buttons — right-aligned */
+  .row-toggle {
+    position: absolute;
+    bottom: 2px;
+    font-size: 10pt;
+    background: none;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    color: #999;
+    cursor: pointer;
+    padding: 0;
+    line-height: 1.4;
+    z-index: 1;
+    width: 24px;
+    text-align: center;
+    box-sizing: border-box;
+  }
+  .row-toggle:hover { background: #eee; color: #333; }
+  .row-toggle.rt-fa { right: 92px; }
+  .row-toggle.rt-aa { right: 62px; }
+  .row-toggle.rt-en { right: 32px; }
+  .row-toggle.rt-di { right: 2px; }
+
+  /* Word hover cross-highlighting (all sections) */
+  .tw { cursor: default; }
+  .tw.tw-hover { text-decoration: underline; text-underline-offset: 4px; }
+  .text-col-persian .tw.tw-hover { text-decoration-color: #1a6db5; }
+  .text-col-translit .tw.tw-hover { text-decoration-color: #888; }
+  .text-col-meaning .tw.tw-hover { text-decoration-color: #1a6db5; }
+
+  /* ---- Writing practice input mode ----
+     When .persian-as-input is set on a row, the .text-col-persian is hidden
+     and the .text-col-input-wrap takes its grid slot. The wrapper holds a
+     transparent <input> plus an absolutely-positioned overlay that paints
+     each character with correctness coloring. */
+  .text-col-input-wrap {
+    position: relative;
+    padding: 4pt 10pt;
+    font-family: var(--persian-font, 'Parastoo'), serif;
+    font-size: var(--persian-font-size, 28pt);
+    line-height: var(--persian-line-height, 1.6);
+    direction: rtl;
+    unicode-bidi: isolate;
+    text-align: right;
+    display: none;
+    box-sizing: border-box;
+    border-radius: 4px;
+  }
+  .text-row.persian-as-input > .text-col-persian { display: none; }
+  .text-row.persian-as-input > .text-col-input-wrap { display: block; }
+  .text-col-input-overlay {
+    position: absolute;
+    inset: 4pt 10pt;
+    pointer-events: none;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    direction: rtl;
+    unicode-bidi: isolate;
+    text-align: right;
+  }
+  .text-col-input {
+    position: relative;
+    display: block;
+    width: 100%;
+    background: transparent;
+    border: none;
+    outline: none;
+    padding: 0;
+    margin: 0;
+    font: inherit;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+    caret-color: #1a6db5;
+    direction: rtl;
+    text-align: right;
+    resize: none;
+    overflow: hidden;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    box-sizing: border-box;
+  }
+  .text-col-input::selection {
+    background: rgba(26,109,181,0.2);
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+  }
+  .input-ch { display: inline; }
+  .input-ch.ch-ok { background: #d1fae5; border-radius: 2px; }
+  .input-ch.ch-bad { color: #dc2626; }
+  .input-ch.ch-neutral { color: inherit; }
+  .text-row.input-complete > .text-col-input-wrap { background: #a7f3d0; }
+
+  @media print {
+    .toolbar { display: none; }
+    body { padding: 0; max-width: none; }
+    h2 { margin-top: 14pt; }
+    .text-col-persian { font-size: 22pt; display: block !important; }
+    .text-col-notes { font-size: 8pt; }
+    .text-col-input-wrap { display: none !important; }
+    .row-toggle { display: none; }
+  }
+
+  /* ---- Narrow viewport / mobile ---- */
+  @media (max-width: 700px) {
+    body { padding: 0 10px 24px; }
+    h2 { font-size: 15pt; }
+    h3 { font-size: 13pt; }
+
+    /* Drop the 50pt indent that visually pushes content way to the right
+       and instead let entries fill the width */
+    .text-row { margin-left: 0; padding-right: 4pt; }
+    .text-col-persian { padding: 4pt 6pt; }
+    .text-col-latin   { padding: 4pt 6pt; font-size: 13pt; }
+    .text-col-notes   { padding: 4pt 6pt; }
+
+    /* Section headers / subsection headers — pull them flush left too */
+    .section-h3 { margin-left: 0; }
+
+    /* Toolbar: allow the right-aligned cluster to wrap below the toggles
+       and let triggers shrink */
+    .toolbar { padding: 6pt 0 4pt; }
+    .toolbar-row { gap: 6px; row-gap: 6px; }
+    .tb-trigger { padding: 0 8px; }
+    #font-trigger .tb-font-sample { font-size: 13pt; }
+
+    /* Per-row toggle buttons sit at the bottom-right; on narrow screens
+       they need a bit less reach so they don't overlap content */
+    .row-toggle { font-size: 9pt; width: 20px; }
+    .row-toggle.rt-fa { right: 76px; }
+    .row-toggle.rt-aa { right: 52px; }
+    .row-toggle.rt-en { right: 28px; }
+    .row-toggle.rt-di { right: 4px; }
+    .text-col-input-wrap { padding: 4pt 6pt; }
+    .text-col-input-overlay { inset: 4pt 6pt; }
+  }
+
+  @media (max-width: 480px) {
+    body { padding: 0 6px 20px; }
+    h2 { font-size: 14pt; padding-bottom: 3pt; }
+    .text-col-latin { font-size: 12pt; }
+    .toolbar .toggle-btn,
+    .tb-trigger,
+    .toolbar .reset-btn,
+    .tb-size-btn { font-size: 10pt; height: 28px; }
+    .toolbar .toggle-btn { padding: 0 8px; }
+    .tb-trigger { padding: 0 6px; gap: 4px; }
+    .tb-size-btn { padding: 0 7px; }
+    .tb-size-controls { height: 28px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="toolbar">
+  <!-- Hidden source-of-truth filter; trigger button + modal proxy clicks here -->
+  <div class="filter-bar" id="filter-bar">
+    <button class="active" data-filter="all">All Lessons</button>
+    <button data-filter="NPI1">Lesson 1</button>
+    <button data-filter="NPI2">Lesson 2</button>
+    <button data-filter="NPI3">Lesson 3</button>
+    <button data-filter="NPI4">Lesson 4</button>
+    <button data-filter="NPI5">Lesson 5</button>
+  </div>
+
+  <div class="toolbar-row">
+    <button class="toggle-btn active" id="toggle-persian">Persian</button>
+    <button class="toggle-btn active" id="toggle-pronunciation">Pronunciation</button>
+    <button class="toggle-btn active" id="toggle-meanings">Meaning</button>
+    <button class="toggle-btn" id="toggle-diacritics">Diacritics</button>
+    <button class="toggle-btn" id="toggle-notes">Notes</button>
+    <span class="toolbar-spacer"></span>
+    <button class="tb-trigger" id="lesson-trigger" title="Filter by lesson">
+      <span class="tb-trigger-label">All Lessons</span>
+      <span class="tb-caret">▾</span>
+    </button>
+    <button class="tb-trigger" id="font-trigger" title="Choose Persian font">
+      <span class="tb-font-sample">فارسی</span>
+      <span class="tb-trigger-label">Parastoo</span>
+      <span class="tb-caret">▾</span>
+    </button>
+    <div class="tb-size-controls" role="group" aria-label="Persian font size">
+      <button class="tb-size-btn" id="font-size-down"  title="Decrease Persian font size">A−</button>
+      <button class="tb-size-btn tb-size-reset" id="font-size-reset" title="Reset Persian font size">A</button>
+      <button class="tb-size-btn" id="font-size-up"    title="Increase Persian font size">A+</button>
+    </div>
+    <button class="reset-btn" id="reset-btn" title="Reset all settings to defaults">Reset</button>
+  </div>
+
+  <div id="char-lookup">
+    <span class="lookup-char"></span>
+    <span class="lookup-name"></span>
+    <span class="lookup-forms"></span>
+    <span class="lookup-note"></span>
+  </div>
+</div>
+
+<!-- ================================ MODALS ================================ -->
+
+<div class="modal-backdrop" id="lesson-modal">
+  <div class="modal-panel">
+    <button class="modal-close" data-modal-close title="Close">×</button>
+    <div class="modal-title">Filter by Lesson</div>
+    <div class="modal-options" id="lesson-modal-options">
+      <button class="modal-option active" data-filter="all">All Lessons</button>
+      <button class="modal-option" data-filter="NPI1">Lesson 1</button>
+      <button class="modal-option" data-filter="NPI2">Lesson 2</button>
+      <button class="modal-option" data-filter="NPI3">Lesson 3</button>
+      <button class="modal-option" data-filter="NPI4">Lesson 4</button>
+      <button class="modal-option" data-filter="NPI5">Lesson 5</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-backdrop" id="font-modal">
+  <div class="modal-panel">
+    <button class="modal-close" data-modal-close title="Close">×</button>
+    <div class="modal-title">Choose Persian Font</div>
+    <div id="font-modal-body">
+      <!-- Populated by JS from FONT_CATALOG -->
+    </div>
+  </div>
+</div>
+
+<!-- ================================ WORDS ================================ -->
+
+<details class="section-h2" id="sec-words">
+<summary><h2>Words</h2></summary>
+
+<details class="section-h3" id="sec-words-people-identity">
+<summary><h3>People & Identity</h3></summary>
+<div class="text-row" data-lesson="NPI1">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">آب</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Ab</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Father</span></span></div>
+</div>
+
+<div class="text-row" data-lesson="NPI2">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">آمریکایی</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Amrīkāī</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">American</span></span></div>
+</div>
+
+<div class="text-row" data-lesson="NPI2">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">بابا</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Bābā</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Father / Dad</span></span></div>
+</div>
+
+<div class="text-row" data-lesson="NPI2">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">اسم</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Ism</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Name</span></span></div>
+</div>
+
+<div class="text-row" data-lesson="NPI4">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">خود</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Khud</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Self</span></span></div>
+</div>
+
+<div class="text-row" data-lesson="NPI2">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">من</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Man</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">I / Me</span></span></div>
+</div>
+
+<div class="text-row" data-lesson="NPI2">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">پاپ</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Pāp</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Pope</span></span></div>
+</div>
+
+<div class="text-row" data-lesson="NPI2">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">شما</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Shumā</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">You</span></span></div>
+  <div class="text-col-notes">Formal</div>
+</div>
+
+<div class="text-row" data-lesson="NPI1">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">ایران</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Īrān</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Iran</span></span></div>
+</div>
+
+<div class="text-row" data-lesson="NPI2">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">ایرانی</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Īrānī</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Iranian</span></span></div>
+</div>
+
+<div class="text-row" data-lesson="NPI1">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">او</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Ū</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">He / She / They</span></span></div>
+  <div class="text-col-notes">Gender-neutral</div>
+</div>
+
+<div class="text-row" data-lesson="NPI3">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">حبیب</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Ḥabīb</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Beloved</span></span></div>
+  <div class="text-col-notes">Also a name</div>
+</div>
+</details>
+
+<details class="section-h3" id="sec-words-nature-places">
+<summary><h3>Nature & Places</h3></summary>
+<div class="text-row" data-lesson="NPI4">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">بحر</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Baḥr</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Sea</span></span></div>
+  <div class="text-col-notes">Arabic-origin</div>
+</div>
+
+<div class="text-row" data-lesson="NPI3">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">چاه</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Chāh</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Pit</span></span></div>
+</div>
+
+<div class="text-row" data-lesson="NPI4">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">دریا</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Daryā</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Sea</span></span></div>
+  <div class="text-col-notes">Persian-origin</div>
+</div>
+
+<div class="text-row" data-lesson="NPI3">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">ده</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Dih</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Village</span></span></div>
+</div>
+
+<div class="text-row" data-lesson="NPI4">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">دور</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Dūr</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Distant / Far</span></span></div>
+</div>
+
+<div class="text-row" data-lesson="NPI5">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">اژدها</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Izhdihā</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Dragon</span></span></div>
+</div>
+
+<div class="text-row" data-lesson="NPI3">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">جهت</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Jihat</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Direction</span></span></div>
+</div>
+
+<div class="text-row" data-lesson="NPI3">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">جا</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Jā</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Place</span></span></div>
+</div>
+
+<div class="text-row" data-lesson="NPI5">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">رَز</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Raz</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Grape</span></span></div>
+</div>
+
+<div class="text-row" data-lesson="NPI4">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">رو</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Rū</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Face</span></span></div>
+</div>
+
+<div class="text-row" data-lesson="NPI5">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">سبز</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Sabz</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Green</span></span></div>
+</div>
+
+<div class="text-row" data-lesson="NPI4">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">سبزه</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Sabze</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Herbs / Nowruz sprouts</span></span></div>
+  <div class="text-col-notes">Haft-Sin table</div>
+</div>
+
+<div class="text-row" data-lesson="NPI5">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">سَر</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Sar</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Head</span></span></div>
+</div>
+
+<div class="text-row" data-lesson="NPI5">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">سیاه</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Siyāh</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Black</span></span></div>
+</div>
+
+<div class="text-row" data-lesson="NPI5">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">سوز</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Sūz</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Burn</span></span></div>
+</div>
+
+<div class="text-row" data-lesson="NPI2">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">وادی</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Wādī</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Valley / Wadi</span></span></div>
+</div>
+
+<div class="text-row" data-lesson="NPI5">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">زَر</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Zar</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Gold</span></span></div>
+</div>
+
+<div class="text-row" data-lesson="NPI1">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">آب</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Āb</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Water</span></span></div>
+</div>
+</details>
+
+<details class="section-h3" id="sec-words-objects-daily-life">
+<summary><h3>Objects & Daily Life</h3></summary>
+<div class="text-row" data-lesson="NPI2">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">بیت</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Bayt</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Home / Couplet of poetry</span></span></div>
+</div>
+
+<div class="text-row" data-lesson="NPI2">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">بیا</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Biyā</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Come!</span></span></div>
+</div>
+
+<div class="text-row" data-lesson="NPI1">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">بو</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Bū</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Smell</span></span></div>
+</div>
+
+<div class="text-row" data-lesson="NPI1">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">چای</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Chāy</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Tea</span></span></div>
+</div>
+
+<div class="text-row" data-lesson="NPI4">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">در</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Dar</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">In / Door</span></span></div>
+</div>
+
+<div class="text-row" data-lesson="NPI2">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">دیبا</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Diybā</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Silk</span></span></div>
+  <div class="text-col-notes">Also a female name</div>
+</div>
+
+<div class="text-row" data-lesson="NPI4">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">جوراب</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Jūrāb</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Sock</span></span></div>
+</div>
+
+<div class="text-row" data-lesson="NPI4">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">خواب</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Khwāb</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Sleep / Dream</span></span></div>
+</div>
+
+<div class="text-row" data-lesson="NPI5">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">پَز</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Paz</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Cook(er)</span></span></div>
+</div>
+
+<div class="text-row" data-lesson="NPI5">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">سَرای</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Sarāy</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Home / Palace</span></span></div>
+</div>
+
+<div class="text-row" data-lesson="NPI5">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">ساز</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Sāz</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Saz</span></span></div>
+  <div class="text-col-notes">String instrument</div>
+</div>
+
+<div class="text-row" data-lesson="NPI3">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">تاج</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Tāj</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Crown</span></span></div>
+  <div class="text-col-notes">Root of <span class="persian-inline">تاجیکی</span></div>
+</div>
+
+<div class="text-row" data-lesson="NPI2">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">توپ</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Tūp</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Ball</span></span></div>
+</div>
+</details>
+
+<details class="section-h3" id="sec-words-qualities-concepts">
+<summary><h3>Qualities & Concepts</h3></summary>
+<div class="text-row" data-lesson="NPI5">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">عذر</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">'Uzr</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Excuse</span></span></div>
+</div>
+
+<div class="text-row" data-lesson="NPI2">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">بد</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Bad</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Bad</span></span></div>
+</div>
+
+<div class="text-row" data-lesson="NPI4">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">بخت</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Bakht</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Luck / Fate</span></span></div>
+</div>
+
+<div class="text-row" data-lesson="NPI5">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">بس</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Bas</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Enough</span></span></div>
+</div>
+
+<div class="text-row" data-lesson="NPI4">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">بی‌چاره</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Be-chāra</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Poor thing / Pitiable</span></span></div>
+</div>
+
+<div class="text-row" data-lesson="NPI5">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">غلط</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Ghalat</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Error / Mistake</span></span></div>
+</div>
+
+<div class="text-row" data-lesson="NPI3">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">هُوَیدا</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Huwaydā</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Visible</span></span></div>
+</div>
+
+<div class="text-row" data-lesson="NPI5">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">إستثناء</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Istiṡnā'</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Exception</span></span></div>
+</div>
+
+<div class="text-row" data-lesson="NPI5">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">احساس</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Iḥsās</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Feeling</span></span></div>
+</div>
+
+<div class="text-row" data-lesson="NPI5">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">احساسات</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Iḥsāsāt</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Feelings</span></span></div>
+  <div class="text-col-notes">Plural</div>
+</div>
+
+<div class="text-row" data-lesson="NPI3">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">جواب</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Jawāb</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Reply</span></span></div>
+</div>
+
+<div class="text-row" data-lesson="NPI3">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">جدّی</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Jiddī</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Serious</span></span></div>
+</div>
+
+<div class="text-row" data-lesson="NPI5">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">جُزء</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Juz'</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Part</span></span></div>
+</div>
+
+<div class="text-row" data-lesson="NPI5">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">معذرت</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Ma'zarat</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Pardon</span></span></div>
+</div>
+
+<div class="text-row" data-lesson="NPI2">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">پیدا</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Paydā</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Visible / Found</span></span></div>
+</div>
+
+<div class="text-row" data-lesson="NPI4">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">پررو</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Pur-rū</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Cheeky / Shameless</span></span></div>
+  <div class="text-col-notes">Lit. "full of face"</div>
+</div>
+
+<div class="text-row" data-lesson="NPI4">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">پاره</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Pāra</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Torn / Tear</span></span></div>
+</div>
+
+<div class="text-row" data-lesson="NPI5">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">پوزش</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Pūzish</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Apology</span></span></div>
+</div>
+
+<div class="text-row" data-lesson="NPI5">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">سخاوت</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Sakhāwat</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Generosity</span></span></div>
+</div>
+
+<div class="text-row" data-lesson="NPI5">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">شرمنده</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Sharmanda</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Shamed</span></span></div>
+</div>
+
+<div class="text-row" data-lesson="NPI5">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">سیرت</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Sīrat</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Conduct / Character</span></span></div>
+</div>
+
+<div class="text-row" data-lesson="NPI2">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">تاب</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Tāb</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Heat / Light / Endurance</span></span></div>
+</div>
+
+<div class="text-row" data-lesson="NPI5">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">تازه</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Tāze</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Fresh / New</span></span></div>
+</div>
+
+<div class="text-row" data-lesson="NPI3">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">حدّ</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Ḥadd</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Limit</span></span></div>
+</div>
+
+<div class="text-row" data-lesson="NPI5">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">حِس</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Ḥiss</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Feeling</span></span></div>
+</div>
+
+<div class="text-row" data-lesson="NPI5">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">ثبت</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Ṡabt</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Recording</span></span></div>
+</div>
+
+<div class="text-row" data-lesson="NPI5">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">ثابت</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Ṡābit</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Established</span></span></div>
+</div>
+</details>
+
+<details class="section-h3" id="sec-words-language-numbers-expressions">
+<summary><h3>Language, Numbers & Expressions</h3></summary>
+<div class="text-row" data-lesson="NPI3">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">چه</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Chi</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">What? / How?</span></span></div>
+</div>
+
+<div class="text-row" data-lesson="NPI4">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">چرا</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Chirā</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Why?</span></span></div>
+</div>
+
+<div class="text-row" data-lesson="NPI3">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">دری</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Darī</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">The Court Language</span></span></div>
+  <div class="text-col-notes">Dari</div>
+</div>
+
+<div class="text-row" data-lesson="NPI2">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">دو</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Du / Do</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Two</span></span></div>
+</div>
+
+<div class="text-row" data-lesson="NPI3">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">پارسی</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Pārsī</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">The Persian Language</span></span></div>
+</div>
+
+<div class="text-row" data-lesson="NPI5">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">سه</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Si</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Three</span></span></div>
+</div>
+
+<div class="text-row" data-lesson="NPI5">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">سی</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Sī</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Thirty</span></span></div>
+</div>
+
+<div class="text-row" data-lesson="NPI3">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">تاجیکی</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Tājīkī</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Language of Tajiks</span></span></div>
+  <div class="text-col-notes">Tajik</div>
+</div>
+
+<div class="text-row" data-lesson="NPI1">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">وای</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Vāy</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Oh my!</span></span></div>
+</div>
+
+<div class="text-row" data-lesson="NPI5">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">ژاژ</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Zhāzh</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Thistle / Idle talk</span></span></div>
+</div>
+
+<div class="text-row" data-lesson="NPI3">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">آه</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Āh</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Lament / Ah</span></span></div>
+</div>
+
+<div class="text-row" data-lesson="NPI5">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">ثانیه</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Ṡāniya</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Second</span></span></div>
+  <div class="text-col-notes">Time</div>
+</div>
+</details>
+
+</details>
+
+<!-- =============================== PHRASES =============================== -->
+
+<details class="section-h2" id="sec-phrases">
+<summary><h2>Phrases</h2></summary>
+
+<details class="section-h3" id="sec-apology">
+<summary><h3>Apology</h3></summary>
+<div class="text-row" data-lesson="NPI5">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">عذر می‌خواهم</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">'Uzr me-khāham</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">I seek your pardon</span></span></div>
+  <div class="text-col-notes">Formal apology</div>
+</div>
+
+<div class="text-row" data-lesson="NPI5">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">ببخشید</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Bibakhshīd</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Please forgive me / Excuse me</span></span></div>
+  <div class="text-col-notes">Polite/formal</div>
+</div>
+
+<div class="text-row" data-lesson="NPI5">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">غلط کردم</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Ghalat kardam</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">I made a mistake / I messed up</span></span></div>
+  <div class="text-col-notes">Informal admission</div>
+</div>
+
+<div class="text-row" data-lesson="NPI5">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">پوزش می‌خواهم</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Pūzish me-khwāham</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">I apologize</span></span></div>
+  <div class="text-col-notes">Formal</div>
+</div>
+
+<div class="text-row" data-lesson="NPI5">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">شرمنده‌ام</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Sharmanda'am</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">I am ashamed</span></span></div>
+  <div class="text-col-notes">Copula suffix <em>-am</em> fused to adjective</div>
+</div>
+</details>
+
+<details class="section-h3" id="sec-greetings">
+<summary><h3>Greetings &amp; Farewells</h3></summary>
+<div class="text-row" data-lesson="NPI2">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">به امید دیدار</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Ba ummed-i Dīdār</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Until we meet again</span></span></div>
+  <div class="text-col-notes">Formal/literary farewell (lit. "With hope of meeting")</div>
+</div>
+
+<div class="text-row" data-lesson="NPI1">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">درود / بدرود</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Durūd / Bidrūd</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Salutations / Farewell</span></span></div>
+  <div class="text-col-notes"><strong>درود</strong> = formal/poetic hello. <strong>بدرود</strong> = farewell; the <em>bi-</em> prefix transforms greeting into parting</div>
+</div>
+
+<div class="text-row" data-lesson="NPI1">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">عید مبارک</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Eid Mubārak</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Happy Eid / Blessed Celebration</span></span></div>
+</div>
+
+<div class="text-row" data-lesson="NPI2">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">خدا نگهدار</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Khudā Nigah-dār</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Goodbye (lit. "May God be your keeper")</span></span></div>
+  <div class="text-col-notes">Classical/Dari register</div>
+</div>
+
+<div class="text-row" data-lesson="NPI1">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">خدا حافظ / خدافظ</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Khudā Ḥāfez / Khudāfez</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Goodbye</span></span></div>
+  <div class="text-col-notes"><strong>Formal:</strong> two words, <span class="persian-inline">خدا حافظ</span> (lit. "God be your guardian"). <strong>Informal:</strong> contracted to <span class="persian-inline">خدافظ</span></div>
+</div>
+
+<div class="text-row" data-lesson="NPI1">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">نوروز پیروز</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Nawroz Peroz</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Happy Nowruz (lit. "Victorious New Day")</span></span></div>
+</div>
+
+<div class="text-row" data-lesson="NPI1">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">سلام</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Salām</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Hello / Peace</span></span></div>
+  <div class="text-col-notes">Used for both hello and goodbye</div>
+</div>
+
+<div class="text-row" data-lesson="NPI1">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">و سلام</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Va Salām</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Goodbye (lit. "And peace")</span></span></div>
+  <div class="text-col-notes">Farewell form of <span class="persian-inline">سلام</span></div>
+</div>
+</details>
+
+<details class="section-h3" id="sec-howareyou">
+<summary><h3>How Are You / I'm Fine</h3></summary>
+<div class="text-row" data-lesson="NPI1">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">چطوری</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Che-torī</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">How are you? / You good?</span></span></div>
+  <div class="text-col-notes">Informal</div>
+</div>
+
+<div class="text-row" data-lesson="NPI1">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">خدا را شکر</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Khudā rā Shukr</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Thank God</span></span></div>
+  <div class="text-col-notes">Expression of gratitude</div>
+</div>
+
+<div class="text-row" data-lesson="NPI1">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">خوبم</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Khūbam</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">I'm good</span></span></div>
+</div>
+
+<div class="text-row" data-lesson="NPI1">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">خوبی</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Khūbī</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Are you good?</span></span></div>
+  <div class="text-col-notes">Informal</div>
+</div>
+</details>
+
+<details class="section-h3" id="sec-introductions">
+<summary><h3>Introductions</h3></summary>
+<div class="text-row" data-lesson="NPI2">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">اسم من محمد است</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Ism-i man Muḥammad ast</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">My name is Muhammad / I am Muhammad</span></span></div>
+  <div class="text-col-notes"><strong>Formal written:</strong> است (ast). <strong>Standard spoken:</strong> هستم (hastam). <strong>Colloquial:</strong> copula fused to noun (محمدم)</div>
+</div>
+
+<div class="text-row" data-lesson="NPI2">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">اسم شما چیست؟</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Ism-i shumā chīst? / Esmet chiye?</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">What is your name?</span></span></div>
+  <div class="text-col-notes"><strong>Formal/Dari:</strong> <span class="persian-inline">اسم شما چیست؟</span> — <strong>Colloquial Iranian:</strong> <span class="persian-inline">اسمت چیه؟</span></div>
+</div>
+
+<div class="text-row" data-lesson="NPI2">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">من آمریکایی هستم</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Man Amrīkāī hastam</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">I am American</span></span></div>
+</div>
+
+<div class="text-row" data-lesson="NPI2">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">من ایرانی نیستم</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Man Īrānī nīstam</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">I am not Iranian</span></span></div>
+  <div class="text-col-notes">Negation with نیستم (nīstam)</div>
+</div>
+
+<div class="text-row" data-lesson="NPI2">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">شما ایرانی هستی</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Shumā Īrānī hastī</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">You are Iranian</span></span></div>
+</div>
+</details>
+
+<details class="section-h3" id="sec-otherphrases">
+<summary><h3>Other Phrases</h3></summary>
+<div class="text-row" data-lesson="NPI2">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">بابا آب داد</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Bābā āb dād</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Dad gave water</span></span></div>
+  <div class="text-col-notes">Classic first-grade reading primer (like "See Spot run")</div>
+</div>
+
+<div class="text-row" data-lesson="NPI2">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">فعلاً می‌بینمت</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Fe'lan mī-bīnamet</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">I'll see you (for now)</span></span></div>
+  <div class="text-col-notes">فعلاً = right now; می‌بینمت = I will see you</div>
+</div>
+
+<div class="text-row" data-lesson="NPI4">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">سیزده بدر</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Sīzdah be-dar</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Thirteenth-out-the-door</span></span></div>
+  <div class="text-col-notes">Nowruz tradition: going outdoors on the 13th day</div>
+</div>
+</details>
+
+<details class="section-h3" id="sec-thankyou">
+<summary><h3>Thank You</h3></summary>
+<div class="text-row" data-lesson="NPI4">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">دمت گرم</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Damet garm</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">May your breath be warm</span></span></div>
+  <div class="text-col-notes">Colloquial appreciation, like "good on you"</div>
+</div>
+
+<div class="text-row" data-lesson="NPI4">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">دست خوش</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Dast khush</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Nice hand</span></span></div>
+  <div class="text-col-notes">Compliment for handwork/cooking/craft</div>
+</div>
+
+<div class="text-row" data-lesson="NPI4">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">دستت درد نکند</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Dastat dard nakunad / Dastet dard nakune</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">May your hand not ache</span></span></div>
+  <div class="text-col-notes">Said to someone who cooked/made/helped. <strong>Formal:</strong> نکند. <strong>Colloquial:</strong> نکنه</div>
+</div>
+
+<div class="text-row" data-lesson="NPI4">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">ممنون</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Mamnūn</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Thank you (lit. "Obliged/favored")</span></span></div>
+  <div class="text-col-notes">Arabic-origin, common</div>
+</div>
+
+<div class="text-row" data-lesson="NPI4">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">متشکرم / مچکرم</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Mutashakkiram / Muchakeram</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">I am grateful/thankful</span></span></div>
+  <div class="text-col-notes"><strong>Formal:</strong> <span class="persian-inline">متشکرم</span> (Arabic-origin). <strong>Colloquial:</strong> <span class="persian-inline">مچکرم</span> (contracted)</div>
+</div>
+
+<div class="text-row" data-lesson="NPI4">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">سپاس / سپاسگزارم</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Sepās / Sepās-guzāram</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Thanks / I am grateful</span></span></div>
+  <div class="text-col-notes"><strong>سپاس</strong> = pure Persian root. <strong>سپاسگزارم</strong> = compound, lit. "I am a thanks-giver"</div>
+</div>
+</details>
+</details>
+
+<!-- ============================= TEXTS ============================== -->
+
+<details class="section-h2" id="sec-texts" data-no-filter>
+<summary><h2>Texts</h2></summary>
+
+<details class="section-h3 text-section" id="sec-text-enhedam">
+<summary><h3>Enhedam — Sajjad Mohammadi</h3></summary>
+
+<div class="text-grid" id="text-enhedam">
+
+<div class="text-row">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">انهدام</span> <span class="tw" data-wi="1">انهدام</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">enhedām</span> <span class="tw" data-wi="1">enhedām</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Destruction,</span> <span class="tw" data-wi="1">destruction</span></span></div>
+</div>
+
+<div class="text-row">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">خیبر</span> <span class="tw" data-wi="1">خیبر</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">kheybar</span> <span class="tw" data-wi="1">kheybar</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Khyber,</span> <span class="tw" data-wi="1">Khyber</span></span></div>
+</div>
+
+<div class="text-row">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">انتقام</span> <span class="tw" data-wi="1">انتقام</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">enteqām</span> <span class="tw" data-wi="1">enteqām</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Revenge,</span> <span class="tw" data-wi="1">revenge</span></span></div>
+</div>
+
+<div class="text-row">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">حیدر</span> <span class="tw" data-wi="1">حیدر</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">heydar</span> <span class="tw" data-wi="1">heydar</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Haider,</span> <span class="tw" data-wi="1">Haider</span></span></div>
+</div>
+
+<div class="text-row">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">با</span> <span class="tw" data-wi="1">اینکه</span> <span class="tw" data-wi="2">علمدار</span> <span class="tw" data-wi="3">رو</span> <span class="tw" data-wi="4">زدن</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">bā</span> <span class="tw" data-wi="1">inke</span> <span class="tw" data-wi="2">alamdār</span> <span class="tw" data-wi="3">ro</span> <span class="tw" data-wi="4">zadan</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Although</span> <span class="tw" data-wi="2">the flag-bearer</span> <span class="tw" data-wi="4">they struck</span></span></div>
+</div>
+
+<div class="text-row">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">علم</span> <span class="tw" data-wi="1">هنوزم</span> <span class="tw" data-wi="2">هست</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">alam</span> <span class="tw" data-wi="1">hanuzam</span> <span class="tw" data-wi="2">hast</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">The flag</span> <span class="tw" data-wi="1">still</span> <span class="tw" data-wi="2">remains</span></span></div>
+</div>
+
+<div class="text-row">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">این</span> <span class="tw" data-wi="1">خاک</span> <span class="tw" data-wi="2">برامون</span> <span class="tw" data-wi="3">حرم</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">in</span> <span class="tw" data-wi="1">khāk</span> <span class="tw" data-wi="2">barāmun</span> <span class="tw" data-wi="3">haram</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">This</span> <span class="tw" data-wi="1">soil</span> <span class="tw" data-wi="2">is our</span> <span class="tw" data-wi="3">sanctuary</span></span></div>
+</div>
+
+<div class="text-row">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">حرم</span> <span class="tw" data-wi="1">هنوزم</span> <span class="tw" data-wi="2">هست</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">haram</span> <span class="tw" data-wi="1">hanuzam</span> <span class="tw" data-wi="2">hast</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">The sanctuary</span> <span class="tw" data-wi="1">still</span> <span class="tw" data-wi="2">remains</span></span></div>
+</div>
+
+<div class="text-row">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">سیدعلی</span> <span class="tw" data-wi="1">خامنه‌ای</span> <span class="tw" data-wi="2">امام</span> <span class="tw" data-wi="3">این</span> <span class="tw" data-wi="4">امت</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">seyyed ali</span> <span class="tw" data-wi="1">khāmene-i</span> <span class="tw" data-wi="2">emām-e</span> <span class="tw" data-wi="3">in</span> <span class="tw" data-wi="4">ommat</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Seyyed Ali</span> <span class="tw" data-wi="1">Khamenei,</span> <span class="tw" data-wi="2">imam of</span> <span class="tw" data-wi="3">this</span> <span class="tw" data-wi="4">nation</span></span></div>
+</div>
+
+<div class="text-row">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">ارثی</span> <span class="tw" data-wi="1">که</span> <span class="tw" data-wi="2">برامون</span> <span class="tw" data-wi="3">گذاشت</span> <span class="tw" data-wi="4">ایران</span> <span class="tw" data-wi="5">پاینده</span> <span class="tw" data-wi="6">است</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">ersi</span> <span class="tw" data-wi="1">ke</span> <span class="tw" data-wi="2">barāmun</span> <span class="tw" data-wi="3">gozāsht,</span> <span class="tw" data-wi="4">irān</span> <span class="tw" data-wi="5">pāyande</span> <span class="tw" data-wi="6">ast</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">The legacy</span> <span class="tw" data-wi="1">that</span> <span class="tw" data-wi="2">for us</span> <span class="tw" data-wi="3">he left,</span> <span class="tw" data-wi="4">Iran</span> <span class="tw" data-wi="5">is everlasting</span></span></div>
+</div>
+
+<!-- Stanza break -->
+<div class="text-row text-stanza-break"></div>
+
+<div class="text-row">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">انهدام</span> <span class="tw" data-wi="1">انهدام</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">enhedām</span> <span class="tw" data-wi="1">enhedām</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Destruction,</span> <span class="tw" data-wi="1">destruction</span></span></div>
+</div>
+
+<div class="text-row">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">خیبر</span> <span class="tw" data-wi="1">خیبر</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">kheybar</span> <span class="tw" data-wi="1">kheybar</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Khyber,</span> <span class="tw" data-wi="1">Khyber</span></span></div>
+</div>
+
+<div class="text-row">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">انتقام</span> <span class="tw" data-wi="1">انتقام</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">enteqām</span> <span class="tw" data-wi="1">enteqām</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Revenge,</span> <span class="tw" data-wi="1">revenge</span></span></div>
+</div>
+
+<div class="text-row">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">حیدر</span> <span class="tw" data-wi="1">حیدر</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">heydar</span> <span class="tw" data-wi="1">heydar</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Haider,</span> <span class="tw" data-wi="1">Haider</span></span></div>
+</div>
+
+<!-- Stanza break -->
+<div class="text-row text-stanza-break"></div>
+
+<div class="text-row">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">برخیزید</span> <span class="tw" data-wi="1">برخیزید</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">barkhizid</span> <span class="tw" data-wi="1">barkhizid</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Rise up,</span> <span class="tw" data-wi="1">rise up</span></span></div>
+</div>
+
+<div class="text-row">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">برادران</span> <span class="tw" data-wi="1">و</span> <span class="tw" data-wi="2">خواهران</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">barādarān</span> <span class="tw" data-wi="1">va</span> <span class="tw" data-wi="2">khāharān</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Brothers</span> <span class="tw" data-wi="1">and</span> <span class="tw" data-wi="2">sisters</span></span></div>
+</div>
+
+<div class="text-row">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">برخیزید</span> <span class="tw" data-wi="1">برخیزید</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">barkhizid</span> <span class="tw" data-wi="1">barkhizid</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Rise up,</span> <span class="tw" data-wi="1">rise up</span></span></div>
+</div>
+
+<div class="text-row">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">آهای</span> <span class="tw" data-wi="1">مردم</span> <span class="tw" data-wi="2">جهان</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">āhāy</span> <span class="tw" data-wi="1">mardom-e</span> <span class="tw" data-wi="2">jahān</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">O</span> <span class="tw" data-wi="1">people of</span> <span class="tw" data-wi="2">the world</span></span></div>
+</div>
+
+<div class="text-row">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">برخیزید</span> <span class="tw" data-wi="1">برخیزید</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">barkhizid</span> <span class="tw" data-wi="1">barkhizid</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Rise up,</span> <span class="tw" data-wi="1">rise up</span></span></div>
+</div>
+
+<div class="text-row">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">خیلی</span> <span class="tw" data-wi="1">نزدیک</span> <span class="tw" data-wi="2">ظهور</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">kheyli</span> <span class="tw" data-wi="1">nazdik-e</span> <span class="tw" data-wi="2">zohur</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Very</span> <span class="tw" data-wi="1">near is</span> <span class="tw" data-wi="2">the advent</span></span></div>
+</div>
+
+<div class="text-row">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">حضرت</span> <span class="tw" data-wi="1">صاحب</span> <span class="tw" data-wi="2">الزمان</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">hazrat-e</span> <span class="tw" data-wi="1">sāheb</span> <span class="tw" data-wi="2">oz-zamān</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Of Hazrat</span> <span class="tw" data-wi="1">Sahib</span> <span class="tw" data-wi="2">al-Zaman</span></span></div>
+</div>
+
+<div class="text-row">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">برخیزید</span> <span class="tw" data-wi="1">برخیزید</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">barkhizid</span> <span class="tw" data-wi="1">barkhizid</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Rise up,</span> <span class="tw" data-wi="1">rise up</span></span></div>
+</div>
+
+<!-- Stanza break -->
+<div class="text-row text-stanza-break"></div>
+
+<div class="text-row">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">بزن</span> <span class="tw" data-wi="1">بزن</span> <span class="tw" data-wi="2">دوباره</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">bezan</span> <span class="tw" data-wi="1">bezan</span> <span class="tw" data-wi="2">dobāre</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Strike,</span> <span class="tw" data-wi="1">strike</span> <span class="tw" data-wi="2">again</span></span></div>
+</div>
+
+<div class="text-row">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">بزن</span> <span class="tw" data-wi="1">پدر</span> <span class="tw" data-wi="2">دراره</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">bezan</span> <span class="tw" data-wi="1">pedar</span> <span class="tw" data-wi="2">darāre</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Strike,</span> <span class="tw" data-wi="1">father,</span> <span class="tw" data-wi="2">it pains them</span></span></div>
+</div>
+
+<div class="text-row">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">بزن</span> <span class="tw" data-wi="1">که</span> <span class="tw" data-wi="2">جرأت</span> <span class="tw" data-wi="3">نکنه</span> <span class="tw" data-wi="4">دیگه</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">bezan</span> <span class="tw" data-wi="1">ke</span> <span class="tw" data-wi="2">jor'at</span> <span class="tw" data-wi="3">nakone</span> <span class="tw" data-wi="4">dige</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Strike</span> <span class="tw" data-wi="1">so</span> <span class="tw" data-wi="2">they dare</span> <span class="tw" data-wi="3">not</span> <span class="tw" data-wi="4">again</span></span></div>
+</div>
+
+<div class="text-row">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">اسم</span> <span class="tw" data-wi="1">ایرانو</span> <span class="tw" data-wi="2">بیاره</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">esm-e</span> <span class="tw" data-wi="1">irāno</span> <span class="tw" data-wi="2">biyāre</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">The name of</span> <span class="tw" data-wi="1">Iran</span> <span class="tw" data-wi="2">to mention</span></span></div>
+</div>
+
+<div class="text-row">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">بزن</span> <span class="tw" data-wi="1">به</span> <span class="tw" data-wi="2">قلب</span> <span class="tw" data-wi="3">هدف</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">bezan</span> <span class="tw" data-wi="1">be</span> <span class="tw" data-wi="2">qalb-e</span> <span class="tw" data-wi="3">hadaf</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Strike</span> <span class="tw" data-wi="1">at</span> <span class="tw" data-wi="2">the heart of</span> <span class="tw" data-wi="3">the target</span></span></div>
+</div>
+
+<div class="text-row">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">بزن</span> <span class="tw" data-wi="1">بزن</span> <span class="tw" data-wi="2">صف</span> <span class="tw" data-wi="3">به</span> <span class="tw" data-wi="4">صف</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">bezan</span> <span class="tw" data-wi="1">bezan</span> <span class="tw" data-wi="2">saf</span> <span class="tw" data-wi="3">be</span> <span class="tw" data-wi="4">saf</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Strike,</span> <span class="tw" data-wi="1">strike,</span> <span class="tw" data-wi="2">row</span> <span class="tw" data-wi="3">by</span> <span class="tw" data-wi="4">row</span></span></div>
+</div>
+
+<div class="text-row">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">بزن</span> <span class="tw" data-wi="1">بزن</span> <span class="tw" data-wi="2">به</span> <span class="tw" data-wi="3">نام</span> <span class="tw" data-wi="4">نامی</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">bezan</span> <span class="tw" data-wi="1">bezan</span> <span class="tw" data-wi="2">be</span> <span class="tw" data-wi="3">nām-e</span> <span class="tw" data-wi="4">nāmi</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Strike,</span> <span class="tw" data-wi="1">strike,</span> <span class="tw" data-wi="2">in</span> <span class="tw" data-wi="3">the name</span> <span class="tw" data-wi="4">renowned</span></span></div>
+</div>
+
+<div class="text-row">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">حضرت</span> <span class="tw" data-wi="1">شاه</span> <span class="tw" data-wi="2">نجف</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">hazrat-e</span> <span class="tw" data-wi="1">shāh-e</span> <span class="tw" data-wi="2">najaf</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Of Hazrat</span> <span class="tw" data-wi="1">Shah of</span> <span class="tw" data-wi="2">Najaf</span></span></div>
+</div>
+
+<div class="text-row">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">انهدام</span> <span class="tw" data-wi="1">انهدام</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">enhedām</span> <span class="tw" data-wi="1">enhedām</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Destruction,</span> <span class="tw" data-wi="1">destruction</span></span></div>
+</div>
+
+<div class="text-row">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">خیبر</span> <span class="tw" data-wi="1">خیبر</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">kheybar</span> <span class="tw" data-wi="1">kheybar</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Khyber,</span> <span class="tw" data-wi="1">Khyber</span></span></div>
+</div>
+
+<!-- Stanza break -->
+<div class="text-row text-stanza-break"></div>
+
+<div class="text-row">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">یا</span> <span class="tw" data-wi="1">ولی‌الله</span> <span class="tw" data-wi="2">یا</span> <span class="tw" data-wi="3">اسدالله</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">yā</span> <span class="tw" data-wi="1">valiyyollāh</span> <span class="tw" data-wi="2">yā</span> <span class="tw" data-wi="3">asadollāh</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">O</span> <span class="tw" data-wi="1">Guardian of God,</span> <span class="tw" data-wi="2">O</span> <span class="tw" data-wi="3">Lion of God</span></span></div>
+</div>
+
+<div class="text-row">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">نصر</span> <span class="tw" data-wi="1">من</span> <span class="tw" data-wi="2">الله</span> <span class="tw" data-wi="3">حیدر</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">nasr-on</span> <span class="tw" data-wi="1">men</span> <span class="tw" data-wi="2">allāh</span> <span class="tw" data-wi="3">heydar</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Victory</span> <span class="tw" data-wi="1">from</span> <span class="tw" data-wi="2">God,</span> <span class="tw" data-wi="3">Haider</span></span></div>
+</div>
+
+<div class="text-row">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">با</span> <span class="tw" data-wi="1">مدد</span> <span class="tw" data-wi="2">از</span> <span class="tw" data-wi="3">یار</span> <span class="tw" data-wi="4">صد</span> <span class="tw" data-wi="5">و</span> <span class="tw" data-wi="6">ده</span> <span class="tw" data-wi="7">بار</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">bā</span> <span class="tw" data-wi="1">madad</span> <span class="tw" data-wi="2">az</span> <span class="tw" data-wi="3">yār-e</span> <span class="tw" data-wi="4">sad</span> <span class="tw" data-wi="5">o</span> <span class="tw" data-wi="6">dah</span> <span class="tw" data-wi="7">bār</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">With</span> <span class="tw" data-wi="1">the aid</span> <span class="tw" data-wi="2">of</span> <span class="tw" data-wi="3">the friend,</span> <span class="tw" data-wi="4">a hundred</span> <span class="tw" data-wi="5">and</span> <span class="tw" data-wi="6">ten</span> <span class="tw" data-wi="7">times</span></span></div>
+</div>
+
+<div class="text-row">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">حیدر</span> <span class="tw" data-wi="1">کرار</span> <span class="tw" data-wi="2">حیدر</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">heydar</span> <span class="tw" data-wi="1">karrār</span> <span class="tw" data-wi="2">heydar</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Haider</span> <span class="tw" data-wi="1">the Relentless,</span> <span class="tw" data-wi="2">Haider</span></span></div>
+</div>
+
+<div class="text-row">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">الفرار</span> <span class="tw" data-wi="1">الفرار</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">alferār</span> <span class="tw" data-wi="1">alferār</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Flee!</span> <span class="tw" data-wi="1">Flee!</span></span></div>
+</div>
+
+<div class="text-row">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">خیبر</span> <span class="tw" data-wi="1">خیبر</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">kheybar</span> <span class="tw" data-wi="1">kheybar</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Khyber,</span> <span class="tw" data-wi="1">Khyber</span></span></div>
+</div>
+
+</div><!-- /text-grid -->
+</details>
+</details>
+
+<!-- ============================= CHARACTERS ============================== -->
+
+<details class="section-h2" id="sec-characters">
+<summary><h2>Characters</h2></summary>
+
+<details class="section-h3" id="sec-diacritics">
+<summary><h3>Diacritics (Ḥarakāt / Tashkīl)</h3></summary>
+<div class="text-row diac-entry" data-lesson="NPI2">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">ـَ</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Fatha / Zebar</span></span><span class="text-sep"> </span><span class="text-col-meaning">Short "a"</span></div>
+  <div class="text-col-notes">Short "a" vowel, written above the letter</div>
+</div>
+<div class="text-row diac-entry" data-lesson="NPI1">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">ء</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Hamza</span></span><span class="text-sep"> </span><span class="text-col-meaning">Glottal stop</span></div>
+  <div class="text-col-notes">Can appear standalone (<span class="persian-inline">ء</span>), on Alef (<span class="persian-inline">أ/إ</span>), on Yā' (<span class="persian-inline">ئ</span>), or on Wāw (<span class="persian-inline">ؤ</span>)</div>
+</div>
+<div class="text-row diac-entry" data-lesson="NPI2">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">ـِ</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Kasra / Zer</span></span><span class="text-sep"> </span><span class="text-col-meaning">Short "i/e"</span></div>
+  <div class="text-col-notes">Short "i/e" vowel, written below the letter</div>
+</div>
+<div class="text-row diac-entry" data-lesson="NPI2">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">ـْ</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Sukūn / Sākin</span></span><span class="text-sep"> </span><span class="text-col-meaning">No vowel</span></div>
+  <div class="text-col-notes">Marks absence of vowel (small circle above)</div>
+</div>
+<div class="text-row diac-entry" data-lesson="NPI2">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">ـّ</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Tashdīd / Shadda</span></span><span class="text-sep"> </span><span class="text-col-meaning">Doubled consonant</span></div>
+  <div class="text-col-notes">Consonant doubling / gemination</div>
+</div>
+<div class="text-row diac-entry" data-lesson="NPI2">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">ـُ</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Żamma / Pesh</span></span><span class="text-sep"> </span><span class="text-col-meaning">Short "u/o"</span></div>
+  <div class="text-col-notes">Short "u/o" vowel, written above the letter</div>
+</div>
+</details>
+
+<details class="section-h3" id="sec-letters">
+<summary><h3>Letters</h3></summary>
+<div class="text-row letter-entry" data-lesson="NPI1">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">ا</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Alef — A / Ā</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="letter-forms">(ا)</span></span></div>
+  <div class="text-col-notes">Standalone; carrier for vowels</div>
+</div>
+
+<div class="text-row letter-entry" data-lesson="NPI1">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">آ</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Alef-Madda — Ā</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="letter-forms">(آ  ـآ)</span></span></div>
+  <div class="text-col-notes">Alef with Madda; long 'ā' at start of word. Non-connector</div>
+</div>
+
+<div class="text-row letter-entry" data-lesson="NPI2">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">ب</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Bā' — B</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="letter-forms">(ب  بـ  ـبـ  ـب)</span></span></div>
+  <div class="text-col-notes">Shape family: <span class="persian-inline">ب/پ/ت</span> (distinguished by dots)</div>
+</div>
+
+<div class="text-row letter-entry" data-lesson="NPI2">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">پ</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Pā' — P</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="letter-forms">(پ  پـ  ـپـ  ـپ)</span></span></div>
+  <div class="text-col-notes">Three dots below</div>
+</div>
+
+<div class="text-row letter-entry" data-lesson="NPI2">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">ت</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Tā' — T</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="letter-forms">(ت  تـ  ـتـ  ـت)</span></span></div>
+  <div class="text-col-notes">Two dots above</div>
+</div>
+
+<div class="text-row letter-entry" data-lesson="NPI5">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">ث</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Ṡā' — Ṡ</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="letter-forms">(ث  ثـ  ـثـ  ـث)</span></span></div>
+  <div class="text-col-notes">Same base as <span class="persian-inline">ب/پ/ت</span> + three dots above</div>
+</div>
+
+<div class="text-row letter-entry" data-lesson="NPI3">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">ج</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Jīm — J</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="letter-forms">(ج  جـ  ـجـ  ـج)</span></span></div>
+  <div class="text-col-notes">Shape family: <span class="persian-inline">ج/چ/ح/خ</span>. One dot below</div>
+</div>
+
+<div class="text-row letter-entry" data-lesson="NPI3">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">چ</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Che — Ch</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="letter-forms">(چ  چـ  ـچـ  ـچ)</span></span></div>
+  <div class="text-col-notes">Three dots below</div>
+</div>
+
+<div class="text-row letter-entry" data-lesson="NPI3">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">ح</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Ḥā' — Ḥ</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="letter-forms">(ح  حـ  ـحـ  ـح)</span></span></div>
+  <div class="text-col-notes">Pharyngeal H (Arabic-origin). No dot</div>
+</div>
+
+<div class="text-row letter-entry" data-lesson="NPI3">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">خ</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Khā' — Kh</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="letter-forms">(خ  خـ  ـخـ  ـخ)</span></span></div>
+  <div class="text-col-notes">Same as <span class="persian-inline">ح</span> + dot above. Like Scottish "loch"</div>
+</div>
+
+<div class="text-row letter-entry" data-lesson="NPI2">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">د</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Dāl — D</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="letter-forms">(د  ـد)</span></span></div>
+  <div class="text-col-notes">Non-connector: only two forms</div>
+</div>
+
+<div class="text-row letter-entry" data-lesson="NPI5">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">ذ</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Dhāl — Dh / Z</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="letter-forms">(ذ  ـذ)</span></span></div>
+  <div class="text-col-notes">Non-connector. Same as <span class="persian-inline">د</span> + dot above</div>
+</div>
+
+<div class="text-row letter-entry" data-lesson="NPI4">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">ر</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Rā' — R</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="letter-forms">(ر  ـر)</span></span></div>
+  <div class="text-col-notes">Non-connector. Shape family: <span class="persian-inline">ر/ز/ژ</span></div>
+</div>
+
+<div class="text-row letter-entry" data-lesson="NPI5">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">ز</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Zā' — Z</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="letter-forms">(ز  ـز)</span></span></div>
+  <div class="text-col-notes">Non-connector. Same as <span class="persian-inline">ر</span> + dot above</div>
+</div>
+
+<div class="text-row letter-entry" data-lesson="NPI5">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">ژ</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Zhā' — Zh</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="letter-forms">(ژ  ـژ)</span></span></div>
+  <div class="text-col-notes">Non-connector. Same as <span class="persian-inline">ز</span> + three dots</div>
+</div>
+
+<div class="text-row letter-entry" data-lesson="NPI5">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">س</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Sīn — S</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="letter-forms">(س  سـ  ـسـ  ـس)</span></span></div>
+  <div class="text-col-notes">Three-toothed baseline letter</div>
+</div>
+
+<div class="text-row letter-entry" data-lesson="NPI2">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">ش</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Shīn — Sh</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="letter-forms">(ش  شـ  ـشـ  ـش)</span></span></div>
+  <div class="text-col-notes">Same as <span class="persian-inline">سین</span> + three dots above</div>
+</div>
+
+<div class="text-row letter-entry" data-lesson="NPI5">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">ص</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Ṣād — Ṣ</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="letter-forms">(ص  صـ  ـصـ  ـص)</span></span></div>
+  <div class="text-col-notes">Emphatic S (Arabic-origin words)</div>
+</div>
+
+<div class="text-row letter-entry" data-lesson="NPI5">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">ض</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Żād — Ż</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="letter-forms">(ض  ضـ  ـضـ  ـض)</span></span></div>
+  <div class="text-col-notes">Emphatic Z (Arabic-origin words). Same as <span class="persian-inline">ص</span> + dot above</div>
+</div>
+
+<div class="text-row letter-entry" data-lesson="NPI2">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">ط</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Ṭā' — Ṭ</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="letter-forms">(ط  طـ  ـطـ  ـط)</span></span></div>
+  <div class="text-col-notes">Emphatic T (Arabic-origin words)</div>
+</div>
+
+<div class="text-row letter-entry" data-lesson="NPI4">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">ظ</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Ẓā' — Ẓ</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="letter-forms">(ظ  ظـ  ـظـ  ـظ)</span></span></div>
+  <div class="text-col-notes">Emphatic Z (Arabic-origin words). Same as <span class="persian-inline">ط</span> + dot above</div>
+</div>
+
+<div class="text-row letter-entry" data-lesson="NPI1">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">ع</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">'Ayn — '</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="letter-forms">(ع  عـ  ـعـ  ـع)</span></span></div>
+  <div class="text-col-notes">Pharyngeal consonant (Arabic-origin). Four distinct forms</div>
+</div>
+
+<div class="text-row letter-entry" data-lesson="NPI4">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">غ</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Ghayn — Gh</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="letter-forms">(غ  غـ  ـغـ  ـغ)</span></span></div>
+  <div class="text-col-notes">Same as <span class="persian-inline">ع</span> + dot above. Uvular G</div>
+</div>
+
+<div class="text-row letter-entry" data-lesson="NPI4">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">ف</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Fā' — F</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="letter-forms">(ف  فـ  ـفـ  ـف)</span></span></div>
+  <div class="text-col-notes">One dot above</div>
+</div>
+
+<div class="text-row letter-entry" data-lesson="NPI4">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">ق</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Qāf — Q</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="letter-forms">(ق  قـ  ـقـ  ـق)</span></span></div>
+  <div class="text-col-notes">Uvular Q (deeper than <span class="persian-inline">ک</span>). Two dots above</div>
+</div>
+
+<div class="text-row letter-entry" data-lesson="NPI2">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">ک</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Kāf — K</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="letter-forms">(ک  کـ  ـکـ  ـک)</span></span></div>
+  <div class="text-col-notes">Persian Kāf (distinct from Arabic <span class="persian-inline">ك</span>)</div>
+</div>
+
+<div class="text-row letter-entry" data-lesson="NPI4">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">گ</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Gāf — G</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="letter-forms">(گ  گـ  ـگـ  ـگ)</span></span></div>
+  <div class="text-col-notes">Persian-only letter. Same as <span class="persian-inline">ک</span> + extra stroke</div>
+</div>
+
+<div class="text-row letter-entry" data-lesson="NPI1">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">ل</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Lām — L</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="letter-forms">(ل  لـ  ـلـ  ـل)</span></span></div>
+  <div class="text-col-notes">Connects on both sides</div>
+</div>
+
+<div class="text-row letter-entry" data-lesson="NPI1">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">م</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Mīm — M</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="letter-forms">(م  مـ  ـمـ  ـم)</span></span></div>
+  <div class="text-col-notes">Connects on both sides</div>
+</div>
+
+<div class="text-row letter-entry" data-lesson="NPI1">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">ن</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Nūn — N</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="letter-forms">(ن  نـ  ـنـ  ـن)</span></span></div>
+  <div class="text-col-notes">One dot above. Connects on both sides</div>
+</div>
+
+<div class="text-row letter-entry" data-lesson="NPI1">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">و</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Wāw — W / V / Ū / Ō</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="letter-forms">(و  ـو)</span></span></div>
+  <div class="text-col-notes">Non-connector. Can represent W, V, or long vowels</div>
+</div>
+
+<div class="text-row letter-entry" data-lesson="NPI2/3">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">ه</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Hā' (He) — H</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="letter-forms">(ه  هـ  ـهـ  ـه)</span></span></div>
+</div>
+
+<div class="text-row letter-entry" data-lesson="NPI1">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">ی</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Yā' — Y / Ī</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="letter-forms">(ی  یـ  ـیـ  ـی)</span></span></div>
+  <div class="text-col-notes">Connects on both sides</div>
+</div>
+</details>
+</details>
+
+<!-- =========================== GRAMMAR & CULTURE ========================= -->
+
+<details class="section-h2" id="sec-grammar-cultural">
+<summary><h2>Grammar &amp; Cultural Notes</h2></summary>
+
+<details class="section-h3" id="sec-grammar">
+<summary><h3>Grammar</h3></summary>
+<dl class="grammar-section">
+  <dt>Copula (to be)</dt>
+  <dd data-lesson="NPI2">Three registers: <strong>Formal written:</strong> <span class="persian-inline">است</span> (ast) — e.g., <span class="persian-inline">اسم من محمد است</span>. <strong>Standard spoken:</strong> <span class="persian-inline">هستم</span> (hastam). <strong>Colloquial:</strong> copula fused to noun — e.g., <span class="persian-inline">من محمدم</span> (man muḥammadam). Negation: <span class="persian-inline">نیستم</span> (nīstam). <span class="src-tag">NPI2</span></dd>
+
+  <dt>Ezafe (-e / -i)</dt>
+  <dd data-lesson="NPI2, NPI3">Linking particle connecting nouns to modifiers; pronounced but often not written. E.g., <span class="persian-inline">گویش ایرانی</span> (gūyish-<strong>e</strong> īrānī) = "the Iranian dialect"; <span class="persian-inline">اسم شما</span> (ism-<strong>i</strong> shumā) = "your name." <span class="src-tag">NPI2, NPI3</span></dd>
+
+  <dt>Pluralization with -hā</dt>
+  <dd data-lesson="NPI5">The suffix <span class="persian-inline">ها</span> (-hā) forms plurals. E.g., <span class="persian-inline">احساسات</span> → <span class="persian-inline">احساساتها</span> (Iḥsāsāt → Iḥsāsāt-hā). <span class="src-tag">NPI5</span></dd>
+
+  <dt>می (me-/mi-) prefix</dt>
+  <dd data-lesson="NPI5">Present-tense imperfective marker before verbs. E.g., <span class="persian-inline">عذر می‌خواهم</span> ('uzr <strong>me</strong>-khāham) = "I seek pardon." <span class="src-tag">NPI5</span></dd>
+
+  <dt>Tashdīd (consonant doubling)</dt>
+  <dd data-lesson="NPI2">The <span class="persian-inline">ـّ</span> mark doubles a consonant. <strong>Correctly doubled:</strong> Muhammad (<span class="persian-inline">مُحَمَّد</span>), Abbas, Muharram. <strong>Incorrectly doubled in English:</strong> Assad, Hussain, Issa — no tashdīd in original. <span class="src-tag">NPI2</span></dd>
+
+  <dt>Non-connector letters</dt>
+  <dd data-lesson="NPI2, NPI4, NPI5">These only connect to the preceding letter: <span class="persian-inline">ا</span> (Alef), <span class="persian-inline">د</span> (Dāl), <span class="persian-inline">ر</span> (Rā'), <span class="persian-inline">ز</span> (Zā'), <span class="persian-inline">ژ</span> (Zhā'), <span class="persian-inline">و</span> (Wāw). Only two positional forms instead of four. <span class="src-tag">NPI2, NPI4, NPI5</span></dd>
+</dl>
+</details>
+
+<details class="section-h3" id="sec-cultural">
+<summary><h3>Cultural Notes</h3></summary>
+<ul class="cultural-list">
+  <li data-lesson="NPI1"><span class="persian-inline">او</span> (Ū) = He / She / They — Persian is <strong>gender-neutral</strong> in the third-person pronoun. <span class="src-tag">NPI1</span></li>
+  <li data-lesson="NPI1"><span class="persian-inline">آب</span> homograph: with long ā = Water; with short a = Father. Same script, different vowel — illustrates why diacritics matter. <span class="src-tag">NPI1</span></li>
+  <li data-lesson="NPI2"><span class="persian-inline">بابا آب داد</span> ("Dad gave water") is the iconic first sentence in Iranian elementary school reading primers, equivalent to "See Spot run." <span class="src-tag">NPI2</span></li>
+  <li data-lesson="NPI3"><strong>Persian language names:</strong> <span class="persian-inline">پارسی</span> (Pārsī) in Iran, <span class="persian-inline">دری</span> (Darī) in Afghanistan, <span class="persian-inline">تاجیکی</span> (Tājīkī) in Tajikistan (Cyrillic script). <span class="src-tag">NPI3</span></li>
+  <li data-lesson="NPI3"><span class="persian-inline">تاج</span> (Tāj, "Crown") is the root of <span class="persian-inline">تاجیکی</span> (Tājīkī) — etymological link to the Tajik people. <span class="src-tag">NPI3</span></li>
+  <li data-lesson="NPI4"><span class="persian-inline">سبزه</span> (Sabze) refers to sprouted herbs placed on the Haft-Sin table for Nowruz. <span class="src-tag">NPI4</span></li>
+  <li data-lesson="NPI4"><span class="persian-inline">سیزده بدر</span> (Sīzdah-be-dar): Nowruz tradition on the 13th day — going outdoors. Literally "thirteen-out-the-door." <span class="src-tag">NPI4</span></li>
+  <li data-lesson="NPI4"><span class="persian-inline">بحر</span> vs. <span class="persian-inline">دریا</span>: Both mean "sea" — <span class="persian-inline">بحر</span> (Baḥr) is Arabic-origin, <span class="persian-inline">دریا</span> (Daryā) is Persian-origin. <span class="src-tag">NPI4</span></li>
+  <li data-lesson="NPI5"><span class="persian-inline">نه صورت، نه سیرت</span> (na ṣūrat, na sīrat): Insult meaning "neither good appearance nor good character." <span class="src-tag">NPI5</span></li>
+  <li data-lesson="NPI2, NPI3, NPI5"><strong>Letter shape families:</strong> <span class="persian-inline">ب/پ/ت/ث</span> share a base shape. <span class="persian-inline">ج/چ/ح/خ</span> share a base shape. <span class="persian-inline">ر/ز/ژ</span> share a base shape. Dot patterns are key. <span class="src-tag">NPI2, NPI3, NPI5</span></li>
+</ul>
+</details>
+</details>
+
+
+<!-- ================================ NOTES ================================ -->
+
+<details class="section-h2" id="sec-notes">
+<summary><h2>Notes</h2></summary>
+<p>Persian text is displayed in one font at a time. Click the font button in the toolbar to open a picker organized by feeling/usage (Workhorse, Traditional Calligraphic, Elegant &amp; Delicate, Modern Clean Display, Decorative, Experimental). Click any Persian word to see color-coded character-to-transliteration alignment.</p>
+</details>
+
+
+<script>
+// ===== Color-coded character-transliteration highlighting =====
+(function() {
+  // Persian letter → transliteration options
+  // Sorted: digraphs/longer matches first within each letter
+  var MAP = {};
+  var pairs = [
+    ['\u0622', ['ā','Ā','â','Â','a','A']],             // آ Alef-Madda
+    ['\u064E', ['a']],                                    // َ  Fatha
+    ['\u0650', ['e','i']],                                // ِ  Kasra
+    ['\u064F', ['o','u']],                                // ُ  Damma
+    ['\u0651', []],                                       // ّ  Tashdid
+    ['\u0652', []],                                       // ْ  Sukun
+    ['\u0627', ['ā','Ā','a','A','ī','Ī','e','o','i','u','U']], // ا Alef
+    ['\u0628', ['b','B']],                                // ب
+    ['\u067E', ['p','P']],                                // پ
+    ['\u062A', ['t','T']],                                // ت
+    ['\u062B', ['th','ṡ','Ṡ','s','S']],                  // ث
+    ['\u062C', ['j','J']],                                // ج
+    ['\u0686', ['ch','Ch']],                              // چ
+    ['\u062D', ['ḥ','Ḥ','h','H']],                       // ح
+    ['\u062E', ['kh','Kh']],                              // خ
+    ['\u062F', ['d','D']],                                // د
+    ['\u0630', ['dh','z','Z']],                           // ذ
+    ['\u0631', ['r','R']],                                // ر
+    ['\u0632', ['z','Z']],                                // ز
+    ['\u0698', ['zh','Zh']],                              // ژ
+    ['\u0633', ['s','S']],                                // س
+    ['\u0634', ['sh','Sh']],                              // ش
+    ['\u0635', ['ṣ','Ṣ','s','S']],                       // ص
+    ['\u0636', ['ż','Ż','z','Z']],                       // ض
+    ['\u0637', ['ṭ','Ṭ','t','T']],                       // ط
+    ['\u0638', ['ẓ','Ẓ','z','Z']],                       // ظ
+    ['\u0639', ["'",'ʿ','']],                             // ع
+    ['\u063A', ['gh','Gh']],                              // غ
+    ['\u0641', ['f','F']],                                // ف
+    ['\u0642', ['q','Q']],                                // ق
+    ['\u06A9', ['k','K']],                                // ک
+    ['\u06AF', ['g','G']],                                // گ
+    ['\u0644', ['l','L']],                                // ل
+    ['\u0645', ['m','M']],                                // م
+    ['\u0646', ['n','N']],                                // ن
+    ['\u0648', ['ū','Ū','ō','Ō','ow','aw','w','v','o','u','W','V']], // و
+    ['\u0647', ['h','H','e','a']],                        // ه
+    ['\u06CC', ['ī','Ī','y','Y','i','á','a']],            // ی
+    ['\u0621', ["'",'']],                                 // ء Hamza
+    ['\u0626', ["'",'']],                                 // ئ
+    ['\u0623', ['a','o','e','u']],                        // أ
+    ['\u0625', ['e','i']],                                // إ
+    ['\u0624', ["'",'']],                                 // ؤ
+    ['\u0629', ['ah','at','a']],                          // ة Ta Marbuta
+  ];
+  pairs.forEach(function(p) { MAP[p[0]] = p[1]; });
+
+  var IMPLICIT_VOWELS = /^[aeiouyāīūōâ]/i;
+  var NUM_COLORS = 12;
+
+  function alignChars(persian, translit) {
+    // Returns array of { p: persianStr, t: translitStr, c: colorIndex }
+    var result = [];
+    var pi = 0, ti = 0;
+    var colorIdx = 0;
+    var pText = persian.replace(/\u200C/g, ''); // strip ZWNJ
+    var tText = translit;
+
+    while (pi < pText.length) {
+      var pChar = pText[pi];
+
+      // Handle spaces
+      if (pChar === ' ') {
+        result.push({ p: ' ', t: ' ', c: -1 });
+        pi++;
+        while (ti < tText.length && (tText[ti] === ' ' || tText[ti] === '-')) ti++;
+        continue;
+      }
+
+      var opts = MAP[pChar];
+      if (!opts) { pi++; continue; } // unknown char
+
+      // Diacritics with no output
+      if (opts.length === 0) {
+        result.push({ p: pChar, t: '', c: colorIdx % NUM_COLORS });
+        pi++;
+        continue;
+      }
+
+      // Try longest match first
+      var bestMatch = '';
+      var bestLen = 0;
+      for (var k = 0; k < opts.length; k++) {
+        var opt = opts[k];
+        if (opt.length === 0) continue;
+        if (opt.length <= bestLen) continue;
+        var slice = tText.substring(ti, ti + opt.length);
+        if (slice.length === opt.length) {
+          // Case-insensitive compare char by char (handles special chars like ā)
+          var match = true;
+          for (var c = 0; c < opt.length; c++) {
+            if (slice[c].toLowerCase() !== opt[c].toLowerCase()) { match = false; break; }
+          }
+          if (match) { bestMatch = slice; bestLen = opt.length; }
+        }
+      }
+
+      if (bestLen > 0) {
+        // Matched! Now absorb any following implicit vowels in translit
+        // that don't correspond to the next Persian char
+        var consumed = bestMatch;
+        var nextTi = ti + bestLen;
+        var nextPChar = pi + 1 < pText.length ? pText[pi + 1] : '';
+
+        // Absorb trailing implicit vowels — but stop if the next Persian
+        // char can match at the current translit position
+        if (nextPChar && nextPChar !== ' ') {
+          while (nextTi < tText.length && IMPLICIT_VOWELS.test(tText[nextTi]) && tText[nextTi] !== ' ') {
+            var nextOpts = MAP[nextPChar];
+            if (nextOpts) {
+              var wouldMatch = false;
+              for (var nm = 0; nm < nextOpts.length; nm++) {
+                if (nextOpts[nm].length > 0) {
+                  var nextSlice = tText.substring(nextTi, nextTi + nextOpts[nm].length);
+                  var nmMatch = true;
+                  for (var nc = 0; nc < nextOpts[nm].length; nc++) {
+                    if (nc >= nextSlice.length || nextSlice[nc].toLowerCase() !== nextOpts[nm][nc].toLowerCase()) {
+                      nmMatch = false; break;
+                    }
+                  }
+                  if (nmMatch) { wouldMatch = true; break; }
+                }
+              }
+              if (wouldMatch) break; // don't absorb — next char needs this
+            }
+            consumed += tText[nextTi];
+            nextTi++;
+          }
+        }
+
+        result.push({ p: pChar, t: consumed, c: colorIdx % NUM_COLORS });
+        pi++;
+        ti = nextTi;
+        colorIdx++;
+      } else if (opts.indexOf('') !== -1) {
+        // Silent letter
+        result.push({ p: pChar, t: '', c: colorIdx % NUM_COLORS });
+        pi++;
+        colorIdx++;
+      } else {
+        // No match — skip hyphens/apostrophes in translit and retry
+        if (ti < tText.length && /[-'\u2019\u2018]/.test(tText[ti])) {
+          ti++;
+          continue;
+        }
+        // Absorb one translit char as best guess
+        if (ti < tText.length) {
+          result.push({ p: pChar, t: tText[ti], c: colorIdx % NUM_COLORS });
+          ti++;
+        } else {
+          result.push({ p: pChar, t: '', c: colorIdx % NUM_COLORS });
+        }
+        pi++;
+        colorIdx++;
+      }
+    }
+
+    // Append any remaining translit text to the last entry
+    if (ti < tText.length && result.length > 0) {
+      var last = result[result.length - 1];
+      if (last.c !== -1) {
+        last.t += tText.substring(ti);
+      } else {
+        result.push({ p: '', t: tText.substring(ti), c: (colorIdx % NUM_COLORS) });
+      }
+    }
+
+    return result;
+  }
+
+  // Expose for reuse by text section
+  window.alignChars = alignChars;
+
+  function buildHighlightHtml(alignment, mode) {
+    // mode: 'persian' or 'translit'
+    var html = '';
+    for (var i = 0; i < alignment.length; i++) {
+      var a = alignment[i];
+      var text = mode === 'persian' ? a.p : a.t;
+      if (!text) continue;
+      if (a.c === -1) {
+        html += text;
+      } else {
+        html += '<span class="hl' + a.c + '">' + text + '</span>';
+      }
+    }
+    return html;
+  }
+
+  // ===== Build diacriticized Persian from alignment =====
+  var FATHA  = '\u064E'; // short a
+  var KASRA  = '\u0650'; // short e/i
+  var DAMMA  = '\u064F'; // short o/u
+  var SUKUN  = '\u0652'; // no vowel
+
+  // Characters that are consonants (not vowel carriers, not diacritics, not space)
+  var VOWEL_CARRIERS = '\u0627\u0622\u0648\u06CC\u0647\u064E\u0650\u064F\u0651\u0652';
+  var DIACRITICS_SET = '\u064E\u0650\u064F\u0651\u0652';
+
+  function isConsonant(ch) {
+    return ch && ch !== ' ' && VOWEL_CARRIERS.indexOf(ch) === -1 && DIACRITICS_SET.indexOf(ch) === -1;
+  }
+
+  function buildDiacriticized(alignment) {
+    var result = '';
+    for (var i = 0; i < alignment.length; i++) {
+      var a = alignment[i];
+      if (!a.p || a.c === -1) { result += a.p || ''; continue; }
+
+      // If it's a diacritic already in the original, just include it
+      if (DIACRITICS_SET.indexOf(a.p) !== -1) { result += a.p; continue; }
+
+      result += a.p;
+
+      // Only add diacritics after consonants
+      if (!isConsonant(a.p)) continue;
+
+      // Look at the absorbed transliteration to determine what vowel follows
+      var tMatch = a.t.toLowerCase();
+      // Strip the consonant match itself from the front
+      // The consonant part is what MAP[a.p] matched; the rest is the implicit vowel
+      var opts = MAP[a.p] || [];
+      var consLen = 0;
+      for (var k = 0; k < opts.length; k++) {
+        if (opts[k].length > consLen && tMatch.substring(0, opts[k].length) === opts[k].toLowerCase()) {
+          consLen = opts[k].length;
+        }
+      }
+      var implicitVowel = a.t.substring(consLen).toLowerCase();
+
+      if (!implicitVowel) {
+        // No vowel after this consonant — check if next char is end/space/consonant
+        var nextA = i + 1 < alignment.length ? alignment[i + 1] : null;
+        if (nextA && nextA.p && nextA.p !== ' ' && isConsonant(nextA.p)) {
+          result += SUKUN;
+        }
+      } else if (/^[aâ]/.test(implicitVowel)) {
+        result += FATHA;
+      } else if (/^[ei]/.test(implicitVowel)) {
+        result += KASRA;
+      } else if (/^[ou]/.test(implicitVowel)) {
+        result += DAMMA;
+      }
+    }
+    return result;
+  }
+
+  window.buildDiacriticized = buildDiacriticized;
+  window.buildHighlightHtml = buildHighlightHtml;
+})();
+
+// ===== Effective column count + grid recompute =====
+function recomputeRowGrid(row) {
+  if (row.classList.contains('text-stanza-break')) return;
+  var hasTranslit = !!row.querySelector('.text-col-translit');
+  var hasMeaning = !!row.querySelector('.text-col-meaning');
+  var globalHideT = row.classList.contains('hide-translit');
+  var globalHideM = row.classList.contains('hide-meaning');
+  var showTOver = row.classList.contains('show-translit-override');
+  var hideTOver = row.classList.contains('hide-translit-override');
+  var showMOver = row.classList.contains('show-meaning-override');
+  var hideMOver = row.classList.contains('hide-meaning-override');
+  // Effective visibility of each piece
+  var tv = hasTranslit && (globalHideT ? showTOver : !hideTOver);
+  var mv = hasMeaning  && (globalHideM ? showMOver : !hideMOver);
+  // Translit + meaning share a single grid column ("latin")
+  var latinV = tv || mv;
+  var nv = row.classList.contains('show-notes');
+  // Persian column visibility. Input mode still occupies the persian track
+  // (the .text-col-input-wrap takes the slot), so the track stays present
+  // even when the persian text itself is hidden.
+  var globalHideP = row.classList.contains('hide-persian');
+  var showPOver = row.classList.contains('show-persian-override');
+  var hidePOver = row.classList.contains('hide-persian-override');
+  var pv = globalHideP ? showPOver : !hidePOver;
+  var inInputMode = row.classList.contains('persian-as-input');
+  var persianTrack = pv || inInputMode;
+  // First track is the per-section-measured Persian width (CSS var). When
+  // the row is Persian-only, it stretches to fill the row.
+  var tracks = [];
+  if (persianTrack) tracks.push('var(--persian-col-w, 1fr)');
+  if (latinV) tracks.push('1fr');
+  if (nv) tracks.push('1fr');
+  if (tracks.length === 0) tracks = ['1fr'];
+  // If only Persian is the visible track, stretch it
+  if (tracks.length === 1 && persianTrack && !latinV && !nv) tracks = ['1fr'];
+  row.style.gridTemplateColumns = tracks.join(' ');
+  var cols = tracks.length;
+  row.classList.remove('cols-1','cols-2','cols-3','cols-4');
+  row.classList.add('cols-' + cols);
+  // Show separator only when BOTH halves are effectively visible
+  row.classList.toggle('row-show-sep', tv && mv);
+  // Hide the whole latin column wrapper when neither half is visible
+  row.classList.toggle('hide-latin', !latinV);
+  // When persian is hidden AND we are not in input mode, also hide the
+  // .text-col-persian element itself (Letters / Diacritics rows).
+  row.classList.toggle('hide-persian-col', !pv && !inInputMode);
+}
+window.recomputeRowGrid = recomputeRowGrid;
+function recomputeAllRows() {
+  document.querySelectorAll('.text-row').forEach(recomputeRowGrid);
+}
+window.recomputeAllRows = recomputeAllRows;
+
+// ===== Writing practice mode =====
+// Strips diacritics, ZWNJ, all whitespace, and normalizes Arabic-form letters
+// to Persian-form (ي→ی, ك→ک, ى→ی, ة→ه). Anything a Persian person sees in
+// daily use should compare equal to the canonical form.
+function normalizePersian(s) {
+  return s
+    .replace(/[\u064B-\u0652\u0670]/g, '')
+    .replace(/\u064A/g, '\u06CC')
+    .replace(/\u0649/g, '\u06CC')
+    .replace(/\u0643/g, '\u06A9')
+    .replace(/\u0629/g, '\u0647')
+    .replace(/\u200C/g, '')
+    .replace(/\s+/g, '');
+}
+window.normalizePersian = normalizePersian;
+
+function _wpEscapeHtml(s) {
+  return String(s).replace(/[&<>"']/g, function(c) {
+    return { '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c];
+  });
+}
+
+// Lazily mount the input + overlay for a row. Re-uses an existing wrap if
+// previously mounted. Restores any previously typed value from row._typedValue.
+function ensureInputWrap(row) {
+  if (row._inputWrap) return row._inputWrap;
+  var persianCol = row.querySelector('.text-col-persian');
+  if (!persianCol) return null;
+  var wrap = document.createElement('div');
+  wrap.className = 'text-col-input-wrap';
+  var overlay = document.createElement('div');
+  overlay.className = 'text-col-input-overlay';
+  // Textarea (not input) so long text wraps to match the overlay layout.
+  var input = document.createElement('textarea');
+  input.rows = 1;
+  input.className = 'text-col-input';
+  input.setAttribute('dir', 'rtl');
+  input.setAttribute('lang', 'fa');
+  input.setAttribute('inputmode', 'text');
+  input.setAttribute('autocomplete', 'off');
+  input.setAttribute('autocorrect', 'off');
+  input.setAttribute('autocapitalize', 'off');
+  input.setAttribute('spellcheck', 'false');
+  wrap.appendChild(overlay);
+  wrap.appendChild(input);
+  // Insert immediately after .text-col-persian so it occupies the same grid slot
+  persianCol.parentNode.insertBefore(wrap, persianCol.nextSibling);
+
+  function autoResize() {
+    input.style.height = 'auto';
+    input.style.height = input.scrollHeight + 'px';
+  }
+
+  input.value = row._typedValue || '';
+  renderOverlay(row, wrap, input, overlay);
+  // Resize once mounted (deferred so layout is ready)
+  requestAnimationFrame(autoResize);
+
+  input.addEventListener('input', function() {
+    row._typedValue = input.value;
+    renderOverlay(row, wrap, input, overlay);
+    autoResize();
+  });
+  input.addEventListener('focus', function() {
+    setTimeout(function() {
+      try { input.scrollIntoView({ block: 'center', behavior: 'smooth' }); } catch (e) {}
+    }, 250);
+  });
+
+  row._inputWrap = wrap;
+  row._inputEl = input;
+  row._overlayEl = overlay;
+  return wrap;
+}
+window.ensureInputWrap = ensureInputWrap;
+
+// Build the colored overlay HTML from the typed value, comparing per-character
+// to the cached normalized expected text.
+function renderOverlay(row, wrap, input, overlay) {
+  wrap = wrap || row._inputWrap;
+  input = input || row._inputEl;
+  overlay = overlay || row._overlayEl;
+  if (!overlay || !input) return;
+  var typed = input.value;
+  var expectedNorm = row._expectedPersianNorm || '';
+
+  var normTyped = '';
+  var origToNormIdx = [];
+  for (var i = 0; i < typed.length; i++) {
+    var n = normalizePersian(typed[i]);
+    if (n.length === 0) {
+      origToNormIdx.push(-1);
+    } else {
+      origToNormIdx.push(normTyped.length);
+      normTyped += n[0];
+    }
+  }
+
+  var html = '';
+  for (var j = 0; j < typed.length; j++) {
+    var ch = typed[j];
+    var ni = origToNormIdx[j];
+    var cls;
+    if (ni === -1) {
+      cls = 'ch-neutral';
+    } else if (ni >= expectedNorm.length) {
+      cls = 'ch-bad';
+    } else if (normTyped[ni] === expectedNorm[ni]) {
+      cls = 'ch-ok';
+    } else {
+      cls = 'ch-bad';
+    }
+    html += '<span class="input-ch ' + cls + '">' + _wpEscapeHtml(ch) + '</span>';
+  }
+  overlay.innerHTML = html;
+
+  var complete = (normTyped === expectedNorm) && normTyped.length > 0;
+  row.classList.toggle('input-complete', complete);
+}
+window.renderOverlay = renderOverlay;
+
+// Decide whether a row should currently be in writing-practice input mode,
+// and mount/unmount accordingly. Only Words / Phrases / Texts rows are eligible.
+function applyPersianMode(row) {
+  if (row.classList.contains('text-stanza-break')) return;
+  var section = row.closest('.section-h2');
+  var sectionId = section ? section.id : '';
+  var inputCapable = (sectionId === 'sec-words' || sectionId === 'sec-phrases' || sectionId === 'sec-texts');
+  var globalHidden = row.classList.contains('hide-persian');
+  var showOverride = row.classList.contains('show-persian-override');
+  var hideOverride = row.classList.contains('hide-persian-override');
+  var effectivelyHidden = globalHidden ? !showOverride : hideOverride;
+
+  if (effectivelyHidden && inputCapable) {
+    ensureInputWrap(row);
+    row.classList.add('persian-as-input');
+    renderOverlay(row);
+  } else {
+    row.classList.remove('persian-as-input');
+    row.classList.remove('input-complete');
+  }
+  recomputeRowGrid(row);
+}
+window.applyPersianMode = applyPersianMode;
+
+// ===== Per-section Persian column auto-fit =====
+// Measures the widest .text-col-persian in each .section-h3, caps it at
+// 50% of the row width, and exposes it as --persian-col-w on the section.
+// recomputeRowGrid uses that variable for the first grid track.
+function fitPersianColumns() {
+  var sections = document.querySelectorAll('.section-h3');
+  // Build one off-screen measurement container shared across sections
+  var box = document.createElement('div');
+  box.style.cssText = 'position:absolute;visibility:hidden;left:-9999px;top:0;pointer-events:none;';
+  document.body.appendChild(box);
+  try {
+    sections.forEach(function(section) {
+      // Skip closed <details> sections — they have no layout
+      if (section.tagName === 'DETAILS' && !section.open) return;
+      var rows = Array.prototype.filter.call(
+        section.querySelectorAll('.text-row'),
+        function(r) {
+          if (r.classList.contains('text-stanza-break')) return false;
+          if (r.offsetParent === null) return false;
+          return true;
+        }
+      );
+      if (!rows.length) {
+        section.style.removeProperty('--persian-col-w');
+        return;
+      }
+      // Clone each visible row's Persian cell, force shrink-to-fit, measure
+      var clones = [];
+      rows.forEach(function(row) {
+        var p = row.querySelector('.text-col-persian');
+        if (!p) return;
+        var c = p.cloneNode(true);
+        c.style.display = 'inline-block';
+        c.style.width = 'auto';
+        c.style.maxWidth = 'none';
+        c.style.whiteSpace = 'nowrap';
+        var wrap = document.createElement('div');
+        wrap.appendChild(c);
+        box.appendChild(wrap);
+        clones.push(c);
+      });
+      if (!clones.length) {
+        section.style.removeProperty('--persian-col-w');
+        return;
+      }
+      var maxW = 0;
+      clones.forEach(function(c) {
+        var w = c.offsetWidth;
+        if (w > maxW) maxW = w;
+      });
+      // Clean up clones for this section before measuring next
+      while (box.firstChild) box.removeChild(box.firstChild);
+      var rowW = rows[0].offsetWidth;
+      if (!rowW) {
+        section.style.removeProperty('--persian-col-w');
+        return;
+      }
+      var capped = Math.min(maxW, Math.floor(rowW * 0.5));
+      section.style.setProperty('--persian-col-w', capped + 'px');
+      rows.forEach(recomputeRowGrid);
+    });
+  } finally {
+    if (box.parentNode) box.parentNode.removeChild(box);
+  }
+}
+window.fitPersianColumns = fitPersianColumns;
+
+// Debounced wrapper, scheduled via rAF so it runs after layout / font change
+var _fitScheduled = false;
+function scheduleFitPersianColumns() {
+  if (_fitScheduled) return;
+  _fitScheduled = true;
+  requestAnimationFrame(function() {
+    _fitScheduled = false;
+    fitPersianColumns();
+  });
+}
+window.scheduleFitPersianColumns = scheduleFitPersianColumns;
+
+// ===== Phrases section: split single-tw multi-word rows into per-word tws =====
+// In the Phrases section each row's Persian + transliteration is authored as a
+// single .tw span wrapping the whole phrase. Click-to-color and hover work
+// per-word, so we split compatible rows here at runtime — sequential data-wi
+// indices on both columns. Rows whose Persian/translit token counts don't
+// match (e.g. fused ezāfe in the translit, alternate forms with "/") are
+// left as a single .tw and continue to color the whole row on click.
+(function() {
+  var section = document.getElementById('sec-phrases');
+  if (!section) return;
+
+  function splitTokens(s) {
+    return s.trim().split(/\s+/).filter(function(t) { return t.length > 0; });
+  }
+  function escapeHTML(s) {
+    return s.replace(/[&<>"']/g, function(c) {
+      return { '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c];
+    });
+  }
+  function buildSpans(tokens) {
+    return tokens.map(function(tok, i) {
+      return '<span class="tw" data-wi="' + i + '">' + escapeHTML(tok) + '</span>';
+    }).join(' ');
+  }
+
+  section.querySelectorAll('.text-row').forEach(function(row) {
+    var pCol = row.querySelector('.text-col-persian');
+    var tCol = row.querySelector('.text-col-translit');
+    if (!pCol || !tCol) return;
+    var pTws = pCol.querySelectorAll('.tw');
+    var tTws = tCol.querySelectorAll('.tw');
+    if (pTws.length !== 1 || tTws.length !== 1) return;
+    var pTokens = splitTokens(pTws[0].textContent);
+    var tTokens = splitTokens(tTws[0].textContent);
+    if (pTokens.length < 2) return;
+    if (pTokens.length !== tTokens.length) return;
+    pCol.innerHTML = buildSpans(pTokens);
+    tCol.innerHTML = buildSpans(tTokens);
+  });
+})();
+
+// ===== Unified row setup: per-row toggle buttons + diacritics data =====
+(function() {
+  window._allRowDiacData = [];
+
+  document.querySelectorAll('.text-row').forEach(function(row) {
+    if (row.classList.contains('text-stanza-break')) return;
+
+    var persianCol = row.querySelector('.text-col-persian');
+    var translitCol = row.querySelector('.text-col-translit');
+    if (!persianCol) return;
+
+    // Cache the expected Persian text BEFORE diacritics are ever applied so
+    // the writing-practice comparison always uses the original source text.
+    row._expectedPersian = persianCol.textContent.trim();
+    row._expectedPersianNorm = window.normalizePersian
+      ? window.normalizePersian(row._expectedPersian)
+      : row._expectedPersian;
+
+    // Determine input-mode capability (only Words / Phrases / Texts).
+    var sectionH2 = row.closest('.section-h2');
+    var sectionH2Id = sectionH2 ? sectionH2.id : '';
+    var inputCapable = (sectionH2Id === 'sec-words' || sectionH2Id === 'sec-phrases' || sectionH2Id === 'sec-texts');
+
+    // Meaning toggle (En)
+    var mBtn = document.createElement('button');
+    mBtn.className = 'row-toggle rt-en';
+    mBtn.textContent = 'En';
+    mBtn.title = 'Toggle meaning for this row';
+    mBtn.addEventListener('click', function() {
+      var globalHidden = row.classList.contains('hide-meaning');
+      if (globalHidden) row.classList.toggle('show-meaning-override');
+      else row.classList.toggle('hide-meaning-override');
+      recomputeRowGrid(row);
+      if (window.scheduleFitPersianColumns) window.scheduleFitPersianColumns();
+    });
+    row.appendChild(mBtn);
+
+    // Pronunciation toggle (Aa)
+    var pBtn = document.createElement('button');
+    pBtn.className = 'row-toggle rt-aa';
+    pBtn.textContent = 'Aa';
+    pBtn.title = 'Toggle pronunciation for this row';
+    pBtn.addEventListener('click', function() {
+      var globalHidden = row.classList.contains('hide-translit');
+      if (globalHidden) row.classList.toggle('show-translit-override');
+      else row.classList.toggle('hide-translit-override');
+      recomputeRowGrid(row);
+      if (window.scheduleFitPersianColumns) window.scheduleFitPersianColumns();
+    });
+    row.appendChild(pBtn);
+
+    // Writing-practice toggle (Fa) — only on input-capable rows
+    if (inputCapable) {
+      var faBtn = document.createElement('button');
+      faBtn.className = 'row-toggle rt-fa';
+      faBtn.textContent = 'Fa';
+      faBtn.title = 'Toggle Persian writing input for this row';
+      faBtn.addEventListener('click', function() {
+        var globalHidden = row.classList.contains('hide-persian');
+        if (globalHidden) row.classList.toggle('show-persian-override');
+        else row.classList.toggle('hide-persian-override');
+        if (window.applyPersianMode) window.applyPersianMode(row);
+        if (window.scheduleFitPersianColumns) window.scheduleFitPersianColumns();
+        // Auto-focus the newly mounted input so the user can start typing
+        if (row.classList.contains('persian-as-input') && row._inputEl) {
+          row._inputEl.focus();
+        }
+      });
+      row.appendChild(faBtn);
+    }
+
+    // Build diacritics data for this row
+    var twSpans = persianCol.querySelectorAll('.tw');
+    var origTexts = [];
+    var diacTexts = [];
+    twSpans.forEach(function(tw, idx) {
+      origTexts[idx] = tw.textContent;
+      var wi = tw.getAttribute('data-wi');
+      var trTw = translitCol ? translitCol.querySelector('.tw[data-wi="' + wi + '"]') : null;
+      var trText = trTw ? trTw.textContent : '';
+      if (origTexts[idx] && trText && window.alignChars && window.buildDiacriticized) {
+        var alignment = window.alignChars(origTexts[idx], trText);
+        diacTexts[idx] = window.buildDiacriticized(alignment);
+      } else {
+        diacTexts[idx] = origTexts[idx];
+      }
+    });
+
+    var rowDiac = { row: row, twSpans: twSpans, origTexts: origTexts, diacTexts: diacTexts, active: false };
+    window._allRowDiacData.push(rowDiac);
+
+    function applyDiac(state) {
+      rowDiac.active = state;
+      twSpans.forEach(function(tw, idx) {
+        tw.textContent = state ? diacTexts[idx] : origTexts[idx];
+      });
+    }
+    rowDiac.applyDiac = applyDiac;
+
+    // Per-row diacritics toggle button
+    var dBtn = document.createElement('button');
+    dBtn.className = 'row-toggle rt-di';
+    dBtn.textContent = '\u25CC\u064E'; // ◌َ
+    dBtn.title = 'Toggle diacritics for this row';
+    dBtn.addEventListener('click', function() {
+      applyDiac(!rowDiac.active);
+    });
+    row.appendChild(dBtn);
+  });
+})();
+
+// ===== Unified toolbar controls =====
+(function() {
+  var filterBar = document.getElementById('filter-bar');
+  var textsSection = document.getElementById('sec-texts');
+
+  // Helper: propagate class to all text-rows (globally)
+  function syncAllRows(cls, add) {
+    document.querySelectorAll('.text-row:not(.text-stanza-break)').forEach(function(row) {
+      if (add) row.classList.add(cls);
+      else row.classList.remove(cls);
+      // Clear per-row overrides
+      if (cls === 'hide-translit') row.classList.remove('show-translit-override', 'hide-translit-override');
+      if (cls === 'hide-meaning') row.classList.remove('show-meaning-override', 'hide-meaning-override');
+      if (cls === 'hide-persian') row.classList.remove('show-persian-override', 'hide-persian-override');
+      // For the persian toggle, refresh input mode before recomputing the grid
+      if (cls === 'hide-persian' && window.applyPersianMode) window.applyPersianMode(row);
+      recomputeRowGrid(row);
+    });
+    if (window.scheduleFitPersianColumns) window.scheduleFitPersianColumns();
+  }
+  window._syncAllRows = syncAllRows;
+
+  // Toggle pronunciation — active = visible
+  document.getElementById('toggle-pronunciation').addEventListener('click', function() {
+    this.classList.toggle('active');
+    syncAllRows('hide-translit', !this.classList.contains('active'));
+  });
+
+  // Toggle meanings — active = visible
+  document.getElementById('toggle-meanings').addEventListener('click', function() {
+    this.classList.toggle('active');
+    syncAllRows('hide-meaning', !this.classList.contains('active'));
+  });
+
+  // Toggle Persian — active = visible. When off, eligible rows swap to a
+  // writing-practice input via applyPersianMode (called from syncAllRows).
+  document.getElementById('toggle-persian').addEventListener('click', function() {
+    this.classList.toggle('active');
+    syncAllRows('hide-persian', !this.classList.contains('active'));
+  });
+
+  // Toggle diacritics
+  document.getElementById('toggle-diacritics').addEventListener('click', function() {
+    this.classList.toggle('active');
+    var turnOn = this.classList.contains('active');
+    window._allRowDiacData.forEach(function(rd) { rd.applyDiac(turnOn); });
+    if (window.scheduleFitPersianColumns) window.scheduleFitPersianColumns();
+  });
+
+  // Toggle notes — active = visible (applies to ALL rows for consistent column alignment)
+  document.getElementById('toggle-notes').addEventListener('click', function() {
+    this.classList.toggle('active');
+    syncAllRows('show-notes', this.classList.contains('active'));
+  });
+
+  // Font is now handled by the font modal — see FONT_CATALOG / applyFont below.
+
+  // Toolbar context: hide lesson filter when Texts is open
+  // Measure toolbar height and set CSS variable for sticky section headers
+  function updateToolbarHeight() {
+    var toolbar = document.querySelector('.toolbar');
+    if (toolbar) document.documentElement.style.setProperty('--toolbar-h', toolbar.offsetHeight + 'px');
+  }
+
+  function updateFilterBarVisibility() {
+    var showFilter = !(textsSection && textsSection.open);
+    var trigger = document.getElementById('lesson-trigger');
+    if (trigger) trigger.style.display = showFilter ? '' : 'none';
+    updateToolbarHeight();
+  }
+  document.querySelectorAll('.section-h2').forEach(function(det) {
+    det.addEventListener('toggle', function() {
+      updateFilterBarVisibility();
+      if (window.scheduleFitPersianColumns) window.scheduleFitPersianColumns();
+    });
+  });
+  document.querySelectorAll('.section-h3').forEach(function(det) {
+    det.addEventListener('toggle', function() {
+      if (window.scheduleFitPersianColumns) window.scheduleFitPersianColumns();
+    });
+  });
+  updateFilterBarVisibility();
+  window.addEventListener('resize', function() {
+    updateToolbarHeight();
+    if (window.scheduleFitPersianColumns) window.scheduleFitPersianColumns();
+  });
+})();
+
+// ===== Font catalog + font + lesson modals =====
+(function() {
+  // Persian font catalog — grouped by feeling/usage. 'family' is the CSS font-family
+  // string (must match the system-installed family name). 'size' is in pt.
+  // 'lh' is line-height (default 1.6). 'sample' is a single Persian character/word
+  // shown on the trigger button when this font is active.
+  // Per-font fields:
+  //   alwaysAvailable: loaded via <head><link>, present on every device
+  //   url:             self-hosted webfont URL — same family is also declared
+  //                    via @font-face above so the browser uses local() first
+  //   (neither):       system font — detected on load, greyed out if missing
+  var FONT_CATALOG = [
+    { id: 'workhorse', label: 'Workhorse — Text, UI, Body', fonts: [
+      { id: 'vazirmatn', name: 'Vazirmatn',         family: "'Vazirmatn', sans-serif",            size: 24, sample: 'و', alwaysAvailable: true },
+      { id: 'parastoo',  name: 'Parastoo',          family: "'Parastoo', serif",                  size: 28, sample: 'پ', alwaysAvailable: true },
+      { id: 'sf-arabic', name: 'SF Arabic',         family: "'.SF Arabic', sans-serif",           size: 24, sample: 'ا' },
+      { id: 'sf-arabic-r', name: 'SF Arabic Rounded', family: "'.SF Arabic Rounded', sans-serif", size: 24, sample: 'ا' },
+      { id: 'geeza-pro', name: 'Geeza Pro',         family: "'Geeza Pro', serif",                 size: 24, sample: 'ج' },
+      { id: 'tahoma',    name: 'Tahoma',            family: "'Tahoma', sans-serif",               size: 22, sample: 'ت' },
+      { id: 'arial',     name: 'Arial',             family: "'Arial', sans-serif",                size: 22, sample: 'ا' },
+      { id: 'ms-sans',   name: 'Microsoft Sans Serif', family: "'Microsoft Sans Serif', sans-serif", size: 22, sample: 'م' },
+      { id: 'times',     name: 'Times New Roman',   family: "'Times New Roman', serif",           size: 22, sample: 'ت' },
+      { id: 'courier',   name: 'Courier New',       family: "'Courier New', monospace",           size: 20, sample: 'ک' },
+    ]},
+    { id: 'traditional', label: 'Traditional Calligraphic', subgroups: [
+      { label: 'Nastaliq (نستعلیق)', fonts: [
+        { id: 'noto-nastaliq',     name: 'Noto Nastaliq Urdu',         family: "'Noto Nastaliq Urdu', serif",        size: 22, lh: 2.4, sample: 'ن', alwaysAvailable: true },
+        { id: 'noto-nastaliq-ui',  name: 'Noto Nastaliq Urdu UI',      family: "'.Noto Nastaliq Urdu UI', serif",    size: 22, lh: 2.4, sample: 'ن' },
+        { id: 'decotype-nastaleeq',name: 'DecoType Nastaleeq Urdu UI', family: "'.DecoType Nastaleeq Urdu UI', serif", size: 22, lh: 2.4, sample: 'د' },
+      ]},
+      { label: 'Naskh (نسخ)', fonts: [
+        { id: 'decotype-naskh', name: 'DecoType Naskh', family: "'DecoType Naskh', serif", size: 24, sample: 'د' },
+        { id: 'al-bayan',       name: 'Al Bayan',       family: "'Al Bayan', serif",       size: 24, sample: 'ب' },
+        { id: 'baghdad',        name: 'Baghdad',        family: "'Baghdad', serif",        size: 24, sample: 'ب' },
+        { id: 'nadeem',         name: 'Nadeem',         family: "'Nadeem', serif",         size: 24, sample: 'ن' },
+        { id: 'damascus',       name: 'Damascus',       family: "'Damascus', serif",       size: 24, sample: 'د' },
+      ]},
+      { label: 'Kufi (کوفی)', fonts: [
+        { id: 'kufi', name: 'KufiStandardGK', family: "'KufiStandardGK', serif", size: 22, sample: 'ک' },
+      ]},
+      { label: 'Modern interpretations', fonts: [
+        { id: 'nikasha', name: 'nikasha', family: "'nikasha', serif", size: 26, sample: 'ن', url: 'fonts/nikasha.woff2' },
+        { id: 'nisha',   name: 'nisha',   family: "'nisha', serif",   size: 26, sample: 'ن', url: 'fonts/nisha.woff2' },
+      ]},
+    ]},
+    { id: 'elegant', label: 'Elegant & Delicate (Thin)', fonts: [
+      { id: 'ghasedak',   name: 'ghasedak',   family: "'ghasedak', serif",   size: 26, sample: 'غ', url: 'fonts/ghasedak.woff2' },
+      { id: 'ghasedakan', name: 'ghasedakan', family: "'ghasedakan', serif", size: 26, sample: 'غ', url: 'fonts/ghasedakan.woff2' },
+      { id: 'tenha',      name: 'tenha',      family: "'tenha', serif",      size: 26, sample: 'ت', url: 'fonts/tenha.woff2' },
+      { id: 'tenhayee',   name: 'tenhayee',   family: "'tenhayee', serif",   size: 26, sample: 'ت', url: 'fonts/tenhayee.woff2' },
+    ]},
+    { id: 'modern-display', label: 'Modern Clean Display', fonts: [
+      { id: 'kamangir', name: 'kamangir', family: "'kamangir', sans-serif", size: 24, sample: 'ک', url: 'fonts/kamangir.woff2' },
+      { id: 'narm',     name: 'narm',     family: "'narm', sans-serif",     size: 24, sample: 'ن', url: 'fonts/narm.woff2' },
+      { id: 'narma',    name: 'narma',    family: "'narma', sans-serif",    size: 24, sample: 'ن', url: 'fonts/narma.woff2' },
+      { id: 'zan',      name: 'zan',      family: "'zan', sans-serif",      size: 24, sample: 'ز', url: 'fonts/zan.woff2' },
+      { id: 'zendegi',  name: 'zendegi',  family: "'zendegi', sans-serif",  size: 24, sample: 'ز', url: 'fonts/zendegi.woff2' },
+    ]},
+    { id: 'decorative', label: 'Decorative / Poster Display', fonts: [
+      { id: 'lalezar',  name: 'Lalezar',  family: "'Lalezar', cursive",  size: 22, sample: 'ل', alwaysAvailable: true },
+      { id: 'baz',      name: 'baz',      family: "'baz', cursive",      size: 24, sample: 'ب', url: 'fonts/baz.woff2' },
+      { id: 'bazbaran', name: 'bazbaran', family: "'bazbaran', cursive", size: 24, sample: 'ب', url: 'fonts/bazbaran.woff2' },
+      { id: 'zanjir',   name: 'zanjir',   family: "'zanjir', cursive",   size: 24, sample: 'ز', url: 'fonts/zanjir.woff2' },
+    ]},
+    { id: 'experimental', label: 'Experimental & Poetic', fonts: [
+      { id: 'zhin',  name: 'zhin',  family: "'zhin', cursive",  size: 24, sample: 'ژ', url: 'fonts/zhin.woff2' },
+      { id: 'zhina', name: 'zhina', family: "'zhina', cursive", size: 24, sample: 'ژ', url: 'fonts/zhina.woff2' },
+    ]},
+  ];
+
+  // Sort each fonts array alphabetically by Latin name (case-insensitive)
+  function sortFonts(group) {
+    if (group.fonts) {
+      group.fonts.sort(function(a, b) {
+        return a.name.toLowerCase().localeCompare(b.name.toLowerCase());
+      });
+    }
+    if (group.subgroups) group.subgroups.forEach(sortFonts);
+  }
+  FONT_CATALOG.forEach(sortFonts);
+
+  // Build a flat lookup: id -> font definition
+  var FONT_BY_ID = {};
+  function indexFonts(group) {
+    if (group.fonts) group.fonts.forEach(function(f) { FONT_BY_ID[f.id] = f; });
+    if (group.subgroups) group.subgroups.forEach(indexFonts);
+  }
+  FONT_CATALOG.forEach(indexFonts);
+  window.FONT_CATALOG = FONT_CATALOG;
+  window.FONT_BY_ID = FONT_BY_ID;
+
+  var DEFAULT_FONT_ID = 'parastoo';
+  var SAMPLE_TEXT = 'فارسی'; // shared preview text — short but exercises connecting letters, dots, and descenders
+
+  // ----- Font availability detection -----
+  // Three states per font id:
+  //   'available'   — usable now (CDN, system font present, or already loaded webfont)
+  //   'unavailable' — not usable on this device, click is suppressed in modal
+  //   'optimistic'  — Bucket 4 self-hosted webfont, assumed usable; verified lazily
+  //                   on first selection via document.fonts.load()
+  var FONT_AVAILABILITY = {};
+
+  // Extract the bare family name from a CSS font-family string like "'Geeza Pro', serif"
+  function bareFamily(f) {
+    var m = f.family.match(/^\s*['"]?([^'",]+?)['"]?\s*(?:,|$)/);
+    return m ? m[1] : f.family;
+  }
+
+  // Canvas-measurement font detection. Returns true if the named family
+  // produces a width different from the baseline generic, meaning it's
+  // installed (or otherwise resolvable) on this device.
+  var _detectCanvas, _detectCtx;
+  function detectFont(family) {
+    if (!_detectCanvas) {
+      _detectCanvas = document.createElement('canvas');
+      _detectCtx = _detectCanvas.getContext('2d');
+    }
+    var ctx = _detectCtx;
+    var test = 'mmmmmmmmmmlliWWWWفارسی';
+    var size = '72px';
+    var bases = ['monospace', 'serif', 'sans-serif'];
+    for (var i = 0; i < bases.length; i++) {
+      ctx.font = size + ' ' + bases[i];
+      var baseW = ctx.measureText(test).width;
+      ctx.font = size + ' "' + family + '", ' + bases[i];
+      if (ctx.measureText(test).width !== baseW) return true;
+    }
+    return false;
+  }
+
+  // Run detection across the catalog. Bucket 1 is trusted, Bucket 4 is
+  // optimistic, Bucket 2/3 system fonts are canvas-measured.
+  function detectAllFonts() {
+    Object.keys(FONT_BY_ID).forEach(function(id) {
+      var f = FONT_BY_ID[id];
+      if (f.alwaysAvailable) {
+        FONT_AVAILABILITY[id] = 'available';
+      } else if (f.url) {
+        // Bucket 4: leave existing state alone if already verified, otherwise optimistic
+        if (FONT_AVAILABILITY[id] !== 'available' && FONT_AVAILABILITY[id] !== 'unavailable') {
+          FONT_AVAILABILITY[id] = 'optimistic';
+        }
+      } else {
+        FONT_AVAILABILITY[id] = detectFont(bareFamily(f)) ? 'available' : 'unavailable';
+      }
+    });
+  }
+  window.FONT_AVAILABILITY = FONT_AVAILABILITY;
+
+  // ----- Toast (used for font load failures) -----
+  var _toastTimer;
+  function showToast(msg) {
+    var t = document.getElementById('toast');
+    if (!t) {
+      t = document.createElement('div');
+      t.id = 'toast';
+      t.className = 'toast';
+      document.body.appendChild(t);
+    }
+    t.textContent = msg;
+    // Force reflow so the transition replays if a toast is already visible
+    void t.offsetWidth;
+    t.classList.add('toast-visible');
+    clearTimeout(_toastTimer);
+    _toastTimer = setTimeout(function() {
+      t.classList.remove('toast-visible');
+    }, 4000);
+  }
+  window.showToast = showToast;
+
+  // Persian font-size bounds (in pt) and step for the A−/A+ buttons
+  var SIZE_MIN = 16;
+  var SIZE_MAX = 44;
+  var SIZE_STEP = 2;
+
+  // Apply just the font size (in pt) to :root and refresh button enabled state
+  function applySize(pt) {
+    pt = Math.max(SIZE_MIN, Math.min(SIZE_MAX, Math.round(pt)));
+    document.documentElement.style.setProperty('--persian-font-size', pt + 'pt');
+    window._currentSizePt = pt;
+    var down = document.getElementById('font-size-down');
+    var up   = document.getElementById('font-size-up');
+    if (down) down.disabled = pt <= SIZE_MIN;
+    if (up)   up.disabled   = pt >= SIZE_MAX;
+    if (window.scheduleFitPersianColumns) window.scheduleFitPersianColumns();
+  }
+  window.applySize = applySize;
+
+  // Apply a font globally via CSS variables on :root.
+  // forceSize (optional, in pt): override the font's default size.
+  // If the requested font is unavailable, falls back to DEFAULT_FONT_ID and toasts.
+  // For Bucket 4 fonts ('optimistic' state) the application is immediate, but
+  // we then verify via document.fonts.load() and fall back retroactively on failure.
+  function applyFont(fontId, forceSize) {
+    var f = FONT_BY_ID[fontId];
+    if (!f || FONT_AVAILABILITY[fontId] === 'unavailable') {
+      // Requested font is unknown or known-bad — fall back silently here
+      // (the toast/disabled state was set when it became unavailable).
+      f = FONT_BY_ID[DEFAULT_FONT_ID];
+      fontId = DEFAULT_FONT_ID;
+    }
+    _applyFontUnchecked(f, forceSize);
+
+    // Lazy verification for Bucket 4 self-hosted fonts
+    if (FONT_AVAILABILITY[fontId] === 'optimistic' && document.fonts && document.fonts.load) {
+      var family = bareFamily(f);
+      var name = f.name;
+      document.fonts.load('16px "' + family + '"').then(function(faces) {
+        var ok = faces && faces.length > 0 &&
+                 !faces.some(function(face) { return face.status === 'error'; });
+        if (!ok) throw new Error('font not loaded');
+        FONT_AVAILABILITY[fontId] = 'available';
+      }).catch(function() {
+        FONT_AVAILABILITY[fontId] = 'unavailable';
+        renderFontModal();
+        showToast(name + " isn't available on this device — using Parastoo instead.");
+        // Fall back only if this font is still the active one
+        if (window._currentFontId === fontId) {
+          applyFont(DEFAULT_FONT_ID);
+        }
+      });
+    }
+  }
+
+  function _applyFontUnchecked(f, forceSize) {
+    var root = document.documentElement;
+    root.style.setProperty('--persian-font', f.family);
+    root.style.setProperty('--persian-line-height', f.lh || 1.6);
+    var size = (typeof forceSize === 'number') ? forceSize : f.size;
+    applySize(size);
+    // Update trigger button
+    var trigger = document.getElementById('font-trigger');
+    if (trigger) {
+      trigger.querySelector('.tb-trigger-label').textContent = f.name;
+      var sample = trigger.querySelector('.tb-font-sample');
+      sample.textContent = SAMPLE_TEXT;
+      sample.style.fontFamily = f.family;
+    }
+    // Mark active in modal options (if rendered)
+    document.querySelectorAll('#font-modal-body .font-option').forEach(function(btn) {
+      btn.classList.toggle('active', btn.getAttribute('data-font-id') === f.id);
+    });
+    window._currentFontId = f.id;
+  }
+  window.applyFont = applyFont;
+  window._currentFontId = DEFAULT_FONT_ID;
+  window._currentSizePt = FONT_BY_ID[DEFAULT_FONT_ID].size;
+
+  // Helper: current font's default size (in pt)
+  window.currentFontDefaultSize = function() {
+    var id = window._currentFontId || DEFAULT_FONT_ID;
+    return (FONT_BY_ID[id] || FONT_BY_ID[DEFAULT_FONT_ID]).size;
+  };
+
+  // ----- Font size A− / A / A+ buttons -----
+  document.getElementById('font-size-down').addEventListener('click', function() {
+    applySize((window._currentSizePt || 24) - SIZE_STEP);
+  });
+  document.getElementById('font-size-up').addEventListener('click', function() {
+    applySize((window._currentSizePt || 24) + SIZE_STEP);
+  });
+  // Reset to the current font's default size
+  document.getElementById('font-size-reset').addEventListener('click', function() {
+    applySize(window.currentFontDefaultSize());
+  });
+
+  // ----- Build the font modal body from FONT_CATALOG -----
+  function renderFontModal() {
+    var body = document.getElementById('font-modal-body');
+    if (!body) return;
+    var html = '';
+    FONT_CATALOG.forEach(function(group) {
+      html += '<div class="modal-section">';
+      html += '<div class="modal-section-title">' + escapeHtml(group.label) + '</div>';
+      if (group.subgroups) {
+        group.subgroups.forEach(function(sub) {
+          html += '<div class="modal-subgroup-title">' + escapeHtml(sub.label) + '</div>';
+          html += '<div class="modal-options">' + renderFontButtons(sub.fonts) + '</div>';
+        });
+      } else {
+        html += '<div class="modal-options">' + renderFontButtons(group.fonts) + '</div>';
+      }
+      html += '</div>';
+    });
+    body.innerHTML = html;
+    // Mark current active
+    document.querySelectorAll('#font-modal-body .font-option').forEach(function(btn) {
+      btn.classList.toggle('active', btn.getAttribute('data-font-id') === window._currentFontId);
+    });
+  }
+  function renderFontButtons(fonts) {
+    return fonts.map(function(f) {
+      var disabled = FONT_AVAILABILITY[f.id] === 'unavailable';
+      var cls = 'modal-option font-option' + (disabled ? ' font-disabled' : '');
+      var title = disabled
+        ? f.name + " isn't available on this device"
+        : f.name;
+      return '<button class="' + cls + '" data-font-id="' + f.id + '" title="' + escapeHtml(title) + '"' +
+             (disabled ? ' aria-disabled="true"' : '') + '>' +
+             '<span class="font-sample" style="font-family:' + f.family.replace(/"/g, '&quot;') + '">' + escapeHtml(SAMPLE_TEXT) + '</span>' +
+             '<span class="font-name">' + escapeHtml(f.name) + '</span>' +
+             '</button>';
+    }).join('');
+  }
+  function escapeHtml(s) {
+    return String(s).replace(/[&<>"']/g, function(c) {
+      return { '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c];
+    });
+  }
+
+  // ----- Generic modal open/close -----
+  function openModal(id) {
+    var m = document.getElementById(id);
+    if (!m) return;
+    m.classList.add('visible');
+  }
+  function closeModal(id) {
+    var m = document.getElementById(id);
+    if (!m) return;
+    m.classList.remove('visible');
+  }
+  window.openModal = openModal;
+  window.closeModal = closeModal;
+
+  // Click outside or close button or Esc
+  document.querySelectorAll('.modal-backdrop').forEach(function(m) {
+    m.addEventListener('click', function(e) {
+      if (e.target === m || e.target.hasAttribute('data-modal-close')) {
+        m.classList.remove('visible');
+      }
+    });
+  });
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+      document.querySelectorAll('.modal-backdrop.visible').forEach(function(m) {
+        m.classList.remove('visible');
+      });
+    }
+  });
+
+  // ----- Lesson trigger + modal -----
+  document.getElementById('lesson-trigger').addEventListener('click', function() {
+    // Sync modal active state from filter-bar
+    var activeFilter = (document.querySelector('#filter-bar button.active') || {}).getAttribute
+      ? document.querySelector('#filter-bar button.active').getAttribute('data-filter') : 'all';
+    document.querySelectorAll('#lesson-modal-options .modal-option').forEach(function(b) {
+      b.classList.toggle('active', b.getAttribute('data-filter') === activeFilter);
+    });
+    openModal('lesson-modal');
+  });
+
+  document.getElementById('lesson-modal-options').addEventListener('click', function(e) {
+    var btn = e.target.closest('.modal-option');
+    if (!btn) return;
+    var filter = btn.getAttribute('data-filter');
+    // Proxy to the hidden #filter-bar so existing filter logic runs
+    var hiddenBtn = document.querySelector('#filter-bar button[data-filter="' + filter + '"]');
+    if (hiddenBtn) hiddenBtn.click();
+    // Update lesson trigger label
+    var trigger = document.getElementById('lesson-trigger');
+    trigger.querySelector('.tb-trigger-label').textContent = btn.textContent;
+    closeModal('lesson-modal');
+  });
+
+  // ----- Font trigger + modal -----
+  // Detect availability before first render so the modal greys out missing fonts
+  detectAllFonts();
+  renderFontModal();
+  // Re-detect after webfonts have loaded (in case a CDN font now measures
+  // as available where it didn't before — Bucket 1 is hardcoded but a
+  // future tweak might add fonts that need this).
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function() {
+      detectAllFonts();
+      renderFontModal();
+    });
+  }
+  document.getElementById('font-trigger').addEventListener('click', function() {
+    openModal('font-modal');
+  });
+  document.getElementById('font-modal-body').addEventListener('click', function(e) {
+    var btn = e.target.closest('.font-option');
+    if (!btn) return;
+    if (btn.classList.contains('font-disabled')) return;
+    var fontId = btn.getAttribute('data-font-id');
+    applyFont(fontId);
+    closeModal('font-modal');
+  });
+
+  // Apply default font on load
+  applyFont(DEFAULT_FONT_ID);
+})();
+
+// ===== Lesson filter =====
+document.getElementById('filter-bar').addEventListener('click', function(e) {
+  if (e.target.tagName !== 'BUTTON') return;
+  var filter = e.target.getAttribute('data-filter');
+
+  this.querySelectorAll('button').forEach(function(btn) { btn.classList.remove('active'); });
+  e.target.classList.add('active');
+
+  var showAll = filter === 'all';
+
+  // Filter text-row entries
+  document.querySelectorAll('.text-row[data-lesson]').forEach(function(el) {
+    var lessons = el.getAttribute('data-lesson');
+    el.style.display = (showAll || lessons.indexOf(filter) !== -1) ? '' : 'none';
+  });
+
+  // Filter grammar dd items
+  document.querySelectorAll('dd[data-lesson]').forEach(function(dd) {
+    var lessons = dd.getAttribute('data-lesson');
+    var show = showAll || lessons.indexOf(filter) !== -1;
+    dd.style.display = show ? '' : 'none';
+    var dt = dd.previousElementSibling;
+    if (dt && dt.tagName === 'DT') dt.style.display = show ? '' : 'none';
+  });
+
+  // Filter cultural list items
+  document.querySelectorAll('.cultural-list li[data-lesson]').forEach(function(li) {
+    var lessons = li.getAttribute('data-lesson');
+    li.style.display = (showAll || lessons.indexOf(filter) !== -1) ? '' : 'none';
+  });
+
+  // Hide h3-level sections that have no visible content
+  document.querySelectorAll('.section-h3').forEach(function(det) {
+    if (det.closest('[data-no-filter]')) return;
+    var anyVisible = false;
+    det.querySelectorAll('.text-row[data-lesson]').forEach(function(e) {
+      if (e.style.display !== 'none') anyVisible = true;
+    });
+    if (!anyVisible) {
+      det.querySelectorAll('dd[data-lesson]').forEach(function(dd) {
+        if (dd.style.display !== 'none') anyVisible = true;
+      });
+    }
+    if (!anyVisible) {
+      det.querySelectorAll('.cultural-list li[data-lesson]').forEach(function(li) {
+        if (li.style.display !== 'none') anyVisible = true;
+      });
+    }
+    det.style.display = (showAll || anyVisible) ? '' : 'none';
+  });
+
+  // Hide h2-level sections with no visible content
+  document.querySelectorAll('.section-h2').forEach(function(det) {
+    if (det.hasAttribute('data-no-filter')) return;
+    var anyVisible = false;
+    det.querySelectorAll('.text-row[data-lesson]').forEach(function(e) {
+      if (e.style.display !== 'none') anyVisible = true;
+    });
+    if (!anyVisible) {
+      det.querySelectorAll('dd[data-lesson]').forEach(function(dd) {
+        if (dd.style.display !== 'none') anyVisible = true;
+      });
+    }
+    if (!anyVisible) {
+      det.querySelectorAll('.cultural-list li[data-lesson]').forEach(function(li) {
+        if (li.style.display !== 'none') anyVisible = true;
+      });
+    }
+    det.style.display = (showAll || anyVisible) ? '' : 'none';
+  });
+
+  if (window.scheduleFitPersianColumns) window.scheduleFitPersianColumns();
+});
+
+// ===== Accordion: only one top-level section open at a time =====
+(function() {
+  var sections = document.querySelectorAll('.section-h2');
+  sections.forEach(function(det) {
+    det.addEventListener('toggle', function() {
+      if (!det.open) return;
+      sections.forEach(function(other) {
+        if (other !== det && other.open) other.open = false;
+      });
+    });
+  });
+})();
+
+// ===== Word hover cross-highlighting (all sections) =====
+(function() {
+  document.addEventListener('mouseover', function(e) {
+    var tw = e.target.closest('.tw');
+    if (!tw) return;
+    var row = tw.closest('.text-row');
+    if (!row) return;
+    var wi = tw.getAttribute('data-wi');
+    row.querySelectorAll('.tw[data-wi="' + wi + '"]').forEach(function(w) {
+      w.classList.add('tw-hover');
+    });
+  });
+  document.addEventListener('mouseout', function(e) {
+    var tw = e.target.closest('.tw');
+    if (!tw) return;
+    var row = tw.closest('.text-row');
+    if (!row) return;
+    row.querySelectorAll('.tw.tw-hover').forEach(function(w) {
+      w.classList.remove('tw-hover');
+    });
+  });
+})();
+
+// ===== Word click-to-color character alignment (all sections) =====
+(function() {
+  var activeColorTws = [];
+
+  function clearActiveColor() {
+    activeColorTws.forEach(function(item) {
+      if (item.origHTML !== undefined) item.el.innerHTML = item.origHTML;
+      item.el.classList.remove('tw-color-active');
+    });
+    activeColorTws = [];
+  }
+
+  document.addEventListener('click', function(e) {
+    var tw = e.target.closest('.tw');
+    if (!tw) {
+      if (activeColorTws.length > 0 && !e.target.closest('.text-row')) clearActiveColor();
+      return;
+    }
+
+    // Don't fire if user is selecting text
+    var sel = window.getSelection();
+    if (sel && sel.toString().length > 0) return;
+
+    // Don't fire if clicking a toggle button
+    if (e.target.closest('.row-toggle')) return;
+
+    var row = tw.closest('.text-row');
+    if (!row) return;
+    var wi = tw.getAttribute('data-wi');
+
+    // If clicking same word, deactivate
+    var isSame = activeColorTws.some(function(item) { return item.el === tw; });
+    if (isSame) { clearActiveColor(); return; }
+
+    clearActiveColor();
+
+    var persianCol = row.querySelector('.text-col-persian');
+    var translitCol = row.querySelector('.text-col-translit');
+    if (!persianCol || !translitCol) return;
+
+    var persianTw = persianCol.querySelector('.tw[data-wi="' + wi + '"]');
+    var translitTw = translitCol.querySelector('.tw[data-wi="' + wi + '"]');
+
+    var persianText = persianTw ? persianTw.textContent : '';
+    var translitText = translitTw ? translitTw.textContent : '';
+
+    if (!persianText || !translitText || !window.alignChars) return;
+
+    var alignment = window.alignChars(persianText, translitText);
+    var persianHtml = window.buildHighlightHtml(alignment, 'persian');
+    var translitHtml = window.buildHighlightHtml(alignment, 'translit');
+
+    if (persianTw) {
+      activeColorTws.push({ el: persianTw, origHTML: persianTw.innerHTML });
+      persianTw.innerHTML = persianHtml;
+      persianTw.classList.add('tw-color-active');
+    }
+    if (translitTw) {
+      activeColorTws.push({ el: translitTw, origHTML: translitTw.innerHTML });
+      translitTw.innerHTML = translitHtml;
+      translitTw.classList.add('tw-color-active');
+    }
+  });
+})();
+
+// ===== Single-character selection → lookup bar =====
+(function() {
+  var lookup = document.getElementById('char-lookup');
+  var lookupChar = lookup.querySelector('.lookup-char');
+  var lookupName = lookup.querySelector('.lookup-name');
+  var lookupForms = lookup.querySelector('.lookup-forms');
+  var lookupNote = lookup.querySelector('.lookup-note');
+  var debounceTimer = null;
+  var charMap = {};
+
+  // Scan letter entries
+  document.querySelectorAll('.letter-entry').forEach(function(row) {
+    var persianTw = row.querySelector('.text-col-persian .tw');
+    if (!persianTw) return;
+    var ch = persianTw.textContent.trim();
+    var translitTw = row.querySelector('.text-col-translit .tw');
+    var formsEl = row.querySelector('.letter-forms');
+    var notesEl = row.querySelector('.text-col-notes');
+    charMap[ch] = {
+      name: translitTw ? translitTw.textContent.trim() : '',
+      forms: formsEl ? formsEl.textContent.trim() : '',
+      note: notesEl ? notesEl.textContent.trim() : ''
+    };
+  });
+
+  // Scan diacritic entries
+  document.querySelectorAll('.diac-entry').forEach(function(row) {
+    var persianTw = row.querySelector('.text-col-persian .tw');
+    if (!persianTw) return;
+    var ch = persianTw.textContent.trim();
+    var bare = ch.replace(/\u0640/g, '');
+    var translitTw = row.querySelector('.text-col-translit .tw');
+    var notesEl = row.querySelector('.text-col-notes');
+    var info = {
+      name: translitTw ? translitTw.textContent.trim() : '',
+      forms: '',
+      note: notesEl ? notesEl.textContent.trim() : ''
+    };
+    charMap[ch] = info;
+    if (bare && bare !== ch) charMap[bare] = info;
+  });
+
+  function isPersianChar(ch) {
+    var code = ch.charCodeAt(0);
+    return (code >= 0x0600 && code <= 0x06FF) ||
+           (code >= 0xFB50 && code <= 0xFDFF) ||
+           (code >= 0xFE70 && code <= 0xFEFF);
+  }
+
+  function showLookup(ch) {
+    var info = charMap[ch];
+    if (!info) { var bare = ch.replace(/\u0640/g, ''); info = charMap[bare]; }
+    if (!info) return false;
+    lookupChar.textContent = ch;
+    lookupName.textContent = info.name;
+    lookupForms.textContent = info.forms;
+    lookupNote.textContent = info.note;
+    lookup.classList.add('visible');
+    return true;
+  }
+
+  function hideLookup() { lookup.classList.remove('visible'); }
+
+  function stripHarakat(s) {
+    return s.replace(/[\u064B-\u065F\u0670\u06D6-\u06ED]/g, '');
+  }
+
+  document.addEventListener('selectionchange', function() {
+    var sel = window.getSelection();
+    var text = sel ? sel.toString().trim() : '';
+    var base = stripHarakat(text);
+    if (!(base.length === 1 && isPersianChar(base))) {
+      clearTimeout(debounceTimer);
+      hideLookup();
+      return;
+    }
+    clearTimeout(debounceTimer);
+    debounceTimer = setTimeout(function() {
+      if (!showLookup(base)) hideLookup();
+    }, 1000);
+  });
+})();
+
+// ===== URL state persistence =====
+(function() {
+  var updatingFromURL = false;
+
+  function getState() {
+    var meanings = document.getElementById('toggle-meanings').classList.contains('active');
+    var pronunciation = document.getElementById('toggle-pronunciation').classList.contains('active');
+    var persian = document.getElementById('toggle-persian').classList.contains('active');
+    var diacritics = document.getElementById('toggle-diacritics').classList.contains('active');
+    var font = window._currentFontId || 'parastoo';
+    var size = window._currentSizePt || null;
+    var filterBtn = document.querySelector('#filter-bar button.active');
+    var filter = filterBtn ? filterBtn.getAttribute('data-filter') : 'all';
+    var open = [];
+    document.querySelectorAll('details[id]').forEach(function(det) {
+      if (det.open) open.push(det.id);
+    });
+    var notes = document.getElementById('toggle-notes').classList.contains('active');
+    return { m: meanings, p: pronunciation, pe: persian, d: diacritics, n: notes, font: font, size: size, filter: filter, open: open };
+  }
+
+  function stateToHash(s) {
+    var parts = [];
+    if (!s.m) parts.push('m=0');
+    if (!s.p) parts.push('p=0');
+    if (!s.pe) parts.push('pe=0');
+    if (s.d) parts.push('d=1');
+    if (s.n) parts.push('n=1');
+    if (s.font !== 'parastoo') parts.push('fn=' + s.font);
+    // Only encode size if it differs from the current font's default
+    if (s.size && window.FONT_BY_ID && window.FONT_BY_ID[s.font] && s.size !== window.FONT_BY_ID[s.font].size) {
+      parts.push('s=' + s.size);
+    }
+    if (s.filter !== 'all') parts.push('f=' + s.filter);
+    if (s.open.length > 0) parts.push('o=' + s.open.join(','));
+    return parts.length > 0 ? '#' + parts.join('&') : '';
+  }
+
+  function parseHash() {
+    var hash = window.location.hash.replace(/^#/, '');
+    if (!hash) return null;
+    var params = {};
+    hash.split('&').forEach(function(pair) {
+      var kv = pair.split('=');
+      params[kv[0]] = kv[1] || '';
+    });
+    return params;
+  }
+
+  function applyState(params) {
+    updatingFromURL = true;
+
+    var mBtn = document.getElementById('toggle-meanings');
+    var pBtn = document.getElementById('toggle-pronunciation');
+    var peBtn = document.getElementById('toggle-persian');
+    var dBtn = document.getElementById('toggle-diacritics');
+
+    // m, p, pe default to ON (active); m=0 / p=0 / pe=0 means explicitly off
+    if (params.m === '0' && mBtn.classList.contains('active')) mBtn.click();
+    if (params.m !== '0' && !mBtn.classList.contains('active')) mBtn.click();
+    if (params.p === '0' && pBtn.classList.contains('active')) pBtn.click();
+    if (params.p !== '0' && !pBtn.classList.contains('active')) pBtn.click();
+    if (params.pe === '0' && peBtn.classList.contains('active')) peBtn.click();
+    if (params.pe !== '0' && !peBtn.classList.contains('active')) peBtn.click();
+    if (params.d === '1' && !dBtn.classList.contains('active')) dBtn.click();
+    if (!params.d && dBtn.classList.contains('active')) dBtn.click();
+
+    var nBtn = document.getElementById('toggle-notes');
+    if (params.n === '1' && !nBtn.classList.contains('active')) nBtn.click();
+    if (!params.n && nBtn.classList.contains('active')) nBtn.click();
+
+    // Font (apply first, then optionally override the size)
+    if (params.fn && window.applyFont) {
+      // Back-compat: old single-letter encoding (p/v/n/l)
+      var legacyMap = { p: 'parastoo', v: 'vazirmatn', n: 'noto-nastaliq', l: 'lalezar' };
+      var fontId = legacyMap[params.fn] || params.fn;
+      if (window.FONT_BY_ID && window.FONT_BY_ID[fontId]) window.applyFont(fontId);
+    }
+    // Font size override
+    if (params.s && window.applySize) {
+      var pt = parseInt(params.s, 10);
+      if (!isNaN(pt)) window.applySize(pt);
+    }
+
+    // Filter — proxy through the lesson modal so the trigger label stays in sync
+    var filterVal = params.f || 'all';
+    var filterBtn = document.querySelector('#filter-bar button[data-filter="' + filterVal + '"]');
+    if (filterBtn && !filterBtn.classList.contains('active')) filterBtn.click();
+    // Update lesson trigger label
+    var lessonTrigger = document.getElementById('lesson-trigger');
+    var lessonModalBtn = document.querySelector('#lesson-modal-options .modal-option[data-filter="' + filterVal + '"]');
+    if (lessonTrigger && lessonModalBtn) {
+      lessonTrigger.querySelector('.tb-trigger-label').textContent = lessonModalBtn.textContent;
+    }
+
+    // Open sections
+    document.querySelectorAll('details[id]').forEach(function(det) { det.open = false; });
+    if (params.o) {
+      params.o.split(',').forEach(function(id) {
+        var det = document.getElementById(id);
+        if (det) det.open = true;
+      });
+    }
+
+    updatingFromURL = false;
+  }
+
+  function syncURL() {
+    if (updatingFromURL) return;
+    var newHash = stateToHash(getState());
+    if (newHash !== window.location.hash && !(newHash === '' && window.location.hash === '')) {
+      history.replaceState(null, '', newHash || window.location.pathname);
+    }
+  }
+
+  // Hook into toggles, filters, font selection, sections
+  ['toggle-meanings', 'toggle-pronunciation', 'toggle-persian', 'toggle-diacritics', 'toggle-notes'].forEach(function(id) {
+    document.getElementById(id).addEventListener('click', function() { setTimeout(syncURL, 0); });
+  });
+  document.getElementById('filter-bar').addEventListener('click', function(e) {
+    if (e.target.tagName === 'BUTTON') setTimeout(syncURL, 0);
+  });
+  // Font selection happens through the modal — sync after a font option click
+  var fontModalBody = document.getElementById('font-modal-body');
+  if (fontModalBody) {
+    fontModalBody.addEventListener('click', function(e) {
+      if (e.target.closest('.font-option')) setTimeout(syncURL, 0);
+    });
+  }
+  // Font size A− / A / A+ sync
+  ['font-size-down', 'font-size-reset', 'font-size-up'].forEach(function(id) {
+    var b = document.getElementById(id);
+    if (b) b.addEventListener('click', function() { setTimeout(syncURL, 0); });
+  });
+  document.querySelectorAll('details[id]').forEach(function(det) {
+    det.addEventListener('toggle', function() { syncURL(); });
+  });
+
+  // Reset button
+  document.getElementById('reset-btn').addEventListener('click', function() {
+    history.replaceState(null, '', window.location.pathname);
+
+    var mBtn = document.getElementById('toggle-meanings');
+    var pBtn = document.getElementById('toggle-pronunciation');
+    var peBtn = document.getElementById('toggle-persian');
+    var dBtn = document.getElementById('toggle-diacritics');
+    var nBtn = document.getElementById('toggle-notes');
+    if (!mBtn.classList.contains('active')) mBtn.click();
+    if (!pBtn.classList.contains('active')) pBtn.click();
+    if (!peBtn.classList.contains('active')) peBtn.click();
+    if (dBtn.classList.contains('active')) dBtn.click();
+    if (nBtn.classList.contains('active')) nBtn.click();
+
+    // Reset font (and size) to default
+    if (window.applyFont) window.applyFont('parastoo');
+
+    // Reset filter (proxy through hidden filter-bar so existing logic runs)
+    var allBtn = document.querySelector('#filter-bar button[data-filter="all"]');
+    if (allBtn && !allBtn.classList.contains('active')) allBtn.click();
+    var lessonTrigger = document.getElementById('lesson-trigger');
+    if (lessonTrigger) lessonTrigger.querySelector('.tb-trigger-label').textContent = 'All Lessons';
+
+    // Collapse all sections
+    document.querySelectorAll('details[id]').forEach(function(det) { det.open = false; });
+
+    // Clear per-row overrides
+    document.querySelectorAll('.text-row').forEach(function(row) {
+      row.classList.remove('show-translit-override', 'hide-translit-override',
+                           'show-meaning-override', 'hide-meaning-override',
+                           'show-persian-override', 'hide-persian-override',
+                           'show-notes',
+                           'persian-as-input', 'input-complete');
+      // Clear writing-practice typed value + unmount input wrap if present
+      row._typedValue = '';
+      if (row._inputEl) row._inputEl.value = '';
+      if (row._inputWrap && row._inputWrap.parentNode) {
+        row._inputWrap.parentNode.removeChild(row._inputWrap);
+      }
+      row._inputWrap = null;
+      row._inputEl = null;
+      row._overlayEl = null;
+      recomputeRowGrid(row);
+    });
+
+    // Reset diacritics
+    window._allRowDiacData.forEach(function(rd) { rd.applyDiac(false); });
+  });
+
+  // Restore state from URL on page load
+  var params = parseHash();
+  if (params) applyState(params);
+
+  // Initial grid computation for all rows
+  recomputeAllRows();
+  // Initial Persian column auto-fit (after fonts have rendered)
+  if (window.scheduleFitPersianColumns) window.scheduleFitPersianColumns();
+  // Re-fit once webfonts have actually loaded — Parastoo / Vazirmatn change
+  // measured widths after the FOUT swap.
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function() {
+      if (window.scheduleFitPersianColumns) window.scheduleFitPersianColumns();
+    });
+  }
+})();
+</script>
+
+</body>
+</html>
