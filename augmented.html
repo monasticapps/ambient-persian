@@ -7067,6 +7067,11 @@ document.getElementById('filter-bar').addEventListener('click', function(e) {
     det.style.display = (showAll || anyVisible) ? '' : 'none';
   });
 
+  // Hide sections that opt out of filtering when a lesson filter is active
+  document.querySelectorAll('.section-h2[data-no-filter]').forEach(function(det) {
+    det.style.display = showAll ? '' : 'none';
+  });
+
   // Hide h2-level sections with no visible content
   document.querySelectorAll('.section-h2').forEach(function(det) {
     if (det.hasAttribute('data-no-filter')) return;
