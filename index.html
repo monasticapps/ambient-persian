@@ -22,8 +22,6 @@
   @font-face { font-family: 'narma';      src: local('narma'),      url('fonts/narma.woff2')      format('woff2'); font-display: swap; }
   @font-face { font-family: 'nikasha';    src: local('nikasha'),    url('fonts/nikasha.woff2')    format('woff2'); font-display: swap; }
   @font-face { font-family: 'nisha';      src: local('nisha'),      url('fonts/nisha.woff2')      format('woff2'); font-display: swap; }
-  @font-face { font-family: 'tenha';      src: local('tenha'),      url('fonts/tenha.woff2')      format('woff2'); font-display: swap; }
-  @font-face { font-family: 'tenhayee';   src: local('tenhayee'),   url('fonts/tenhayee.woff2')   format('woff2'); font-display: swap; }
   @font-face { font-family: 'zan';        src: local('zan'),        url('fonts/zan.woff2')        format('woff2'); font-display: swap; }
   @font-face { font-family: 'zanjir';     src: local('zanjir'),     url('fonts/zanjir.woff2')     format('woff2'); font-display: swap; }
   @font-face { font-family: 'zendegi';    src: local('zendegi'),    url('fonts/zendegi.woff2')    format('woff2'); font-display: swap; }
@@ -38,7 +36,7 @@
     font-size: 13pt;
     line-height: 1.5;
     color: #1a1a1a;
-    max-width: 11in;
+    max-width: 1600px;
     margin: 0 auto;
     padding: 0 0.5in 0.5in;
   }
@@ -73,6 +71,15 @@
   }
   details[open] > summary::before { transform: rotate(90deg); }
   .section-h2 > summary > h2 { display: inline; }
+  /* A section summary that hosts a toggle button on its right edge.
+     Flex so the button can be margin-left:auto'd; h2 margin reset to 0
+     because flex-item blockification would otherwise pull in h2's 20pt/10pt
+     block margins (which are normally suppressed by its `display: inline`). */
+  .toggle-summary { display: flex; align-items: center; }
+  .toggle-summary > h2 { margin: 0; }
+  .toggle-summary > .toggle-btn { margin-left: auto; }
+  /* Section-specific toggles only make sense when their section is open. */
+  details:not([open]) > .toggle-summary > .toggle-btn { display: none; }
   /* All open section summaries are sticky; JS sets their top offset */
   .section-h2[open] > summary {
     position: sticky;
@@ -204,7 +211,7 @@
 
   /* Shared sizing for ALL toolbar buttons (so heights match) */
   .tb-trigger,
-  .toolbar .toggle-btn,
+  .toggle-btn,
   .toolbar .reset-btn {
     font-family: 'Georgia', serif;
     font-size: 11pt;
@@ -267,12 +274,12 @@
   .tb-size-btn.tb-size-reset { color: #666; padding: 0 7px; }
   .tb-size-btn.tb-size-reset:hover { color: #1a6db5; }
 
-  .toolbar .toggle-btn {
+  .toggle-btn {
     border: 1.5px solid #333;
     color: #333;
   }
-  .toolbar .toggle-btn:hover { background: #f0f0f0; }
-  .toolbar .toggle-btn.active {
+  .toggle-btn:hover { background: #f0f0f0; }
+  .toggle-btn.active {
     background: #333;
     color: #fff;
   }
@@ -531,6 +538,20 @@
     display: block;
   }
 
+  /* Natural-English line — lives inside .text-col-latin as a block sibling
+     of .text-col-meaning, so it sits directly under the meaning text on
+     every layout (desktop grid + mobile stacked). Hidden unless the global
+     "Flow" toolbar toggle is active. */
+  .text-col-natural {
+    display: none;
+    color: #666;
+    font-style: italic;
+    font-size: 13pt;
+    line-height: 1.5;
+    margin-top: 4pt;
+  }
+  body.show-natural .text-col-natural { display: block; }
+
   /* Per-row toggle buttons — right-aligned */
   .row-toggle {
     position: absolute;
@@ -690,17 +711,20 @@
     .row-toggle.rt-di { right: 4px; }
     .text-col-input-wrap { padding: 4pt 6pt; text-align: center; }
     .text-col-input-overlay { inset: 4pt 6pt; }
+
+    /* Natural text stacks with the rest of the latin column, centered */
+    .text-col-natural { font-size: 12pt; }
   }
 
   @media (max-width: 480px) {
     body { padding: 0 6px 20px; }
     h2 { font-size: 14pt; padding-bottom: 3pt; }
     .text-col-latin { font-size: 12pt; }
-    .toolbar .toggle-btn,
+    .toggle-btn,
     .tb-trigger,
     .toolbar .reset-btn,
     .tb-size-btn { font-size: 10pt; height: 28px; }
-    .toolbar .toggle-btn { padding: 0 8px; }
+    .toggle-btn { padding: 0 8px; }
     .tb-trigger { padding: 0 6px; gap: 4px; }
     .tb-size-btn { padding: 0 7px; }
     .tb-size-controls { height: 28px; }
@@ -725,7 +749,6 @@
   <div class="toolbar-row">
     <button class="toggle-btn active" id="toggle-persian">Persian</button>
     <button class="toggle-btn active" id="toggle-pronunciation">Transliteration</button>
-    <button class="toggle-btn" id="toggle-ipa">IPA</button>
     <button class="toggle-btn active" id="toggle-meanings">Meaning</button>
     <button class="toggle-btn" id="toggle-diacritics">Diacritics</button>
     <button class="toggle-btn" id="toggle-notes">Notes</button>
@@ -787,7 +810,7 @@
 <!-- ================================ WORDS ================================ -->
 
 <details class="section-h2" id="sec-words">
-<summary><h2>Words</h2></summary>
+<summary class="toggle-summary"><h2>Words</h2><button class="toggle-btn ipa-toggle" title="Show IPA pronunciation alongside the transliteration">IPA</button></summary>
 
 <details class="section-h3" id="sec-words-people-identity">
 <summary><h3>People & Identity</h3></summary>
@@ -1526,7 +1549,7 @@
 <!-- =============================== PHRASES =============================== -->
 
 <details class="section-h2" id="sec-phrases">
-<summary><h2>Phrases</h2></summary>
+<summary class="toggle-summary"><h2>Phrases</h2><button class="toggle-btn ipa-toggle" title="Show IPA pronunciation alongside the transliteration">IPA</button></summary>
 
 <details class="section-h3" id="sec-apology">
 <summary><h3>Apology</h3></summary>
@@ -2508,8 +2531,13 @@ function recomputeRowGrid(row) {
   // IPA is inline within translit — when IPA toggle is on, the translit
   // container stays visible (even if transliteration text is hidden)
   var ipaV = hasTranslit && document.body.classList.contains('show-ipa');
-  // Translit + meaning share a single grid column ("latin")
-  var latinV = tv || mv || ipaV;
+  // Natural-English ("Flow") — a block sibling of meaning inside text-col-latin.
+  // When Flow is on, the latin wrapper must remain visible even if translit
+  // and meaning are both off.
+  var hasNatural = !!row.querySelector('.text-col-natural');
+  var naV = hasNatural && document.body.classList.contains('show-natural');
+  // Translit + meaning + natural all live inside a single "latin" grid column
+  var latinV = tv || mv || ipaV || naV;
   var nv = row.classList.contains('show-notes');
   // Persian column visibility. Input mode still occupies the persian track
   // (the .text-col-input-wrap takes the slot), so the track stays present
@@ -2520,10 +2548,11 @@ function recomputeRowGrid(row) {
   var pv = globalHideP ? showPOver : !hidePOver;
   var inInputMode = row.classList.contains('persian-as-input');
   var persianTrack = pv || inInputMode;
-  // Both columns are equal width (1fr each). When a column is the only
-  // visible track, it stretches to fill the row.
+  // Persian track uses its measured width (fitPersianColumns writes
+  // --persian-col-w on the section; fallback 1fr if absent). Latin and
+  // Notes each get 1fr so they share any remaining horizontal space.
   var tracks = [];
-  if (persianTrack) tracks.push('1fr');
+  if (persianTrack) tracks.push('var(--persian-col-w, 1fr)');
   if (latinV) tracks.push('1fr');
   if (nv) tracks.push('1fr');
   if (tracks.length === 0) tracks = ['1fr'];
@@ -2696,6 +2725,12 @@ window.applyPersianMode = applyPersianMode;
 // Measures the widest .text-col-persian in each .section-h3, caps it at
 // 50% of the row width, and exposes it as --persian-col-w on the section.
 // recomputeRowGrid uses that variable for the first grid track.
+//
+// Words / Phrases / Stories skip this fitting: their Persian entries are
+// short (single words / short phrases), so content-fit would leave the
+// latin column floating next to a tiny Persian column. Instead we remove
+// the variable and let recomputeRowGrid's `1fr` fallback produce a clean
+// 50/50 split — matching Texts.
 function fitPersianColumns() {
   var sections = document.querySelectorAll('.section-h3');
   // Build one off-screen measurement container shared across sections
@@ -2706,6 +2741,12 @@ function fitPersianColumns() {
     sections.forEach(function(section) {
       // Skip closed <details> sections — they have no layout
       if (section.tagName === 'DETAILS' && !section.open) return;
+      // Force 50/50 for Words / Phrases / Stories by unsetting the variable
+      if (section.closest('#sec-words, #sec-phrases, #sec-stories')) {
+        section.style.removeProperty('--persian-col-w');
+        section.querySelectorAll('.text-row').forEach(recomputeRowGrid);
+        return;
+      }
       var rows = Array.prototype.filter.call(
         section.querySelectorAll('.text-row'),
         function(r) {
@@ -2954,13 +2995,22 @@ window.scheduleFitPersianColumns = scheduleFitPersianColumns;
     syncAllRows('hide-translit', !this.classList.contains('active'));
   });
 
-  // Toggle IPA — active = visible (body-level class since IPA is inline within translit)
-  document.getElementById('toggle-ipa').addEventListener('click', function() {
-    this.classList.toggle('active');
-    document.body.classList.toggle('show-ipa', this.classList.contains('active'));
-    // IPA visibility affects grid layout (latin column may appear/disappear)
-    recomputeAllRows();
-    if (window.scheduleFitPersianColumns) window.scheduleFitPersianColumns();
+  // Toggle IPA — lives in both Words and Phrases summaries (two buttons, kept
+  // in sync). Active = visible; body-level class since IPA is inline within translit.
+  document.querySelectorAll('.ipa-toggle').forEach(function(btn) {
+    btn.addEventListener('click', function(e) {
+      // Button is inside a <summary> — don't let the click toggle the section.
+      e.stopPropagation();
+      e.preventDefault();
+      var turnOn = !this.classList.contains('active');
+      document.querySelectorAll('.ipa-toggle').forEach(function(b) {
+        b.classList.toggle('active', turnOn);
+      });
+      document.body.classList.toggle('show-ipa', turnOn);
+      // IPA visibility affects grid layout (latin column may appear/disappear)
+      recomputeAllRows();
+      if (window.scheduleFitPersianColumns) window.scheduleFitPersianColumns();
+    });
   });
 
   // Toggle meanings — active = visible
@@ -2988,6 +3038,19 @@ window.scheduleFitPersianColumns = scheduleFitPersianColumns;
   document.getElementById('toggle-notes').addEventListener('click', function() {
     this.classList.toggle('active');
     syncAllRows('show-notes', this.classList.contains('active'));
+  });
+
+  // Toggle natural-English ("Flow") — active = show the per-line natural
+  // translation below each .text-row in the Texts section.
+  document.getElementById('toggle-natural').addEventListener('click', function(e) {
+    // Button lives inside the Texts <summary>; stop the click from toggling it closed.
+    e.stopPropagation();
+    e.preventDefault();
+    this.classList.toggle('active');
+    document.body.classList.toggle('show-natural', this.classList.contains('active'));
+    // Flow lives inside .text-col-latin; recompute so the latin column stays
+    // visible when Flow is on but translit+meaning are both off.
+    recomputeAllRows();
   });
 
   // Font is now handled by the font modal — see FONT_CATALOG / applyFont below.
@@ -3065,61 +3128,29 @@ window.scheduleFitPersianColumns = scheduleFitPersianColumns;
   //                    via @font-face above so the browser uses local() first
   //   (neither):       system font — detected on load, greyed out if missing
   var FONT_CATALOG = [
-    { id: 'workhorse', label: 'Workhorse — Text, UI, Body', fonts: [
-      { id: 'vazirmatn', name: 'Vazirmatn',         family: "'Vazirmatn', sans-serif",            size: 24, sample: 'و', alwaysAvailable: true },
-      { id: 'parastoo',  name: 'Parastoo',          family: "'Parastoo', serif",                  size: 28, sample: 'پ', alwaysAvailable: true },
-      { id: 'sf-arabic', name: 'SF Arabic',         family: "'.SF Arabic', sans-serif",           size: 24, sample: 'ا' },
-      { id: 'sf-arabic-r', name: 'SF Arabic Rounded', family: "'.SF Arabic Rounded', sans-serif", size: 24, sample: 'ا' },
-      { id: 'geeza-pro', name: 'Geeza Pro',         family: "'Geeza Pro', serif",                 size: 24, sample: 'ج' },
-      { id: 'tahoma',    name: 'Tahoma',            family: "'Tahoma', sans-serif",               size: 22, sample: 'ت' },
-      { id: 'arial',     name: 'Arial',             family: "'Arial', sans-serif",                size: 22, sample: 'ا' },
-      { id: 'ms-sans',   name: 'Microsoft Sans Serif', family: "'Microsoft Sans Serif', sans-serif", size: 22, sample: 'م' },
-      { id: 'times',     name: 'Times New Roman',   family: "'Times New Roman', serif",           size: 22, sample: 'ت' },
-      { id: 'courier',   name: 'Courier New',       family: "'Courier New', monospace",           size: 20, sample: 'ک' },
-    ]},
-    { id: 'traditional', label: 'Traditional Calligraphic', subgroups: [
-      { label: 'Nastaliq (نستعلیق)', fonts: [
-        { id: 'noto-nastaliq',     name: 'Noto Nastaliq Urdu',         family: "'Noto Nastaliq Urdu', serif",        size: 22, lh: 2.4, sample: 'ن', alwaysAvailable: true },
-        { id: 'noto-nastaliq-ui',  name: 'Noto Nastaliq Urdu UI',      family: "'.Noto Nastaliq Urdu UI', serif",    size: 22, lh: 2.4, sample: 'ن' },
-        { id: 'decotype-nastaleeq',name: 'DecoType Nastaleeq Urdu UI', family: "'.DecoType Nastaleeq Urdu UI', serif", size: 22, lh: 2.4, sample: 'د' },
-      ]},
-      { label: 'Naskh (نسخ)', fonts: [
-        { id: 'decotype-naskh', name: 'DecoType Naskh', family: "'DecoType Naskh', serif", size: 24, sample: 'د' },
-        { id: 'al-bayan',       name: 'Al Bayan',       family: "'Al Bayan', serif",       size: 24, sample: 'ب' },
-        { id: 'baghdad',        name: 'Baghdad',        family: "'Baghdad', serif",        size: 24, sample: 'ب' },
-        { id: 'nadeem',         name: 'Nadeem',         family: "'Nadeem', serif",         size: 24, sample: 'ن' },
-        { id: 'damascus',       name: 'Damascus',       family: "'Damascus', serif",       size: 24, sample: 'د' },
-      ]},
-      { label: 'Kufi (کوفی)', fonts: [
-        { id: 'kufi', name: 'KufiStandardGK', family: "'KufiStandardGK', serif", size: 22, sample: 'ک' },
-      ]},
-      { label: 'Modern interpretations', fonts: [
-        { id: 'nikasha', name: 'nikasha', family: "'nikasha', serif", size: 26, sample: 'ن', url: 'fonts/nikasha.woff2' },
-        { id: 'nisha',   name: 'nisha',   family: "'nisha', serif",   size: 26, sample: 'ن', url: 'fonts/nisha.woff2' },
-      ]},
-    ]},
-    { id: 'elegant', label: 'Elegant & Delicate (Thin)', fonts: [
-      { id: 'ghasedak',   name: 'ghasedak',   family: "'ghasedak', serif",   size: 26, sample: 'غ', url: 'fonts/ghasedak.woff2' },
-      { id: 'ghasedakan', name: 'ghasedakan', family: "'ghasedakan', serif", size: 26, sample: 'غ', url: 'fonts/ghasedakan.woff2' },
-      { id: 'tenha',      name: 'tenha',      family: "'tenha', serif",      size: 26, sample: 'ت', url: 'fonts/tenha.woff2' },
-      { id: 'tenhayee',   name: 'tenhayee',   family: "'tenhayee', serif",   size: 26, sample: 'ت', url: 'fonts/tenhayee.woff2' },
+    { id: 'essentials', label: 'Essentials', fonts: [
+      { id: 'vazirmatn',     name: 'Vazirmatn',         family: "'Vazirmatn', sans-serif",      size: 24, sample: 'و', alwaysAvailable: true },
+      { id: 'parastoo',      name: 'Parastoo',          family: "'Parastoo', serif",            size: 28, sample: 'پ', alwaysAvailable: true },
+      { id: 'noto-nastaliq', name: 'Noto Nastaliq Urdu', family: "'Noto Nastaliq Urdu', serif", size: 22, lh: 2.4, sample: 'ن', alwaysAvailable: true },
     ]},
     { id: 'modern-display', label: 'Modern Clean Display', fonts: [
-      { id: 'kamangir', name: 'kamangir', family: "'kamangir', sans-serif", size: 24, sample: 'ک', url: 'fonts/kamangir.woff2' },
       { id: 'narm',     name: 'narm',     family: "'narm', sans-serif",     size: 24, sample: 'ن', url: 'fonts/narm.woff2' },
       { id: 'narma',    name: 'narma',    family: "'narma', sans-serif",    size: 24, sample: 'ن', url: 'fonts/narma.woff2' },
-      { id: 'zan',      name: 'zan',      family: "'zan', sans-serif",      size: 24, sample: 'ز', url: 'fonts/zan.woff2' },
-      { id: 'zendegi',  name: 'zendegi',  family: "'zendegi', sans-serif",  size: 24, sample: 'ز', url: 'fonts/zendegi.woff2' },
+      { id: 'lalezar',  name: 'Lalezar',  family: "'Lalezar', cursive",     size: 22, sample: 'ل', alwaysAvailable: true },
+      { id: 'baz',      name: 'baz',      family: "'baz', cursive",         size: 24, sample: 'ب', url: 'fonts/baz.woff2' },
+      { id: 'bazbaran', name: 'bazbaran', family: "'bazbaran', cursive",    size: 24, sample: 'ب', url: 'fonts/bazbaran.woff2' },
+      { id: 'zanjir',   name: 'zanjir',   family: "'zanjir', cursive",      size: 24, sample: 'ز', url: 'fonts/zanjir.woff2' },
     ]},
     { id: 'decorative', label: 'Decorative / Poster Display', fonts: [
-      { id: 'lalezar',  name: 'Lalezar',  family: "'Lalezar', cursive",  size: 22, sample: 'ل', alwaysAvailable: true },
-      { id: 'baz',      name: 'baz',      family: "'baz', cursive",      size: 24, sample: 'ب', url: 'fonts/baz.woff2' },
-      { id: 'bazbaran', name: 'bazbaran', family: "'bazbaran', cursive", size: 24, sample: 'ب', url: 'fonts/bazbaran.woff2' },
-      { id: 'zanjir',   name: 'zanjir',   family: "'zanjir', cursive",   size: 24, sample: 'ز', url: 'fonts/zanjir.woff2' },
-    ]},
-    { id: 'experimental', label: 'Experimental & Poetic', fonts: [
-      { id: 'zhin',  name: 'zhin',  family: "'zhin', cursive",  size: 24, sample: 'ژ', url: 'fonts/zhin.woff2' },
-      { id: 'zhina', name: 'zhina', family: "'zhina', cursive", size: 24, sample: 'ژ', url: 'fonts/zhina.woff2' },
+      { id: 'kamangir',   name: 'kamangir',   family: "'kamangir', sans-serif", size: 24, sample: 'ک', url: 'fonts/kamangir.woff2' },
+      { id: 'zan',        name: 'zan',        family: "'zan', sans-serif",      size: 24, sample: 'ز', url: 'fonts/zan.woff2' },
+      { id: 'zendegi',    name: 'zendegi',    family: "'zendegi', sans-serif",  size: 24, sample: 'ز', url: 'fonts/zendegi.woff2' },
+      { id: 'ghasedak',   name: 'ghasedak',   family: "'ghasedak', serif",      size: 26, sample: 'غ', url: 'fonts/ghasedak.woff2' },
+      { id: 'ghasedakan', name: 'ghasedakan', family: "'ghasedakan', serif",    size: 26, sample: 'غ', url: 'fonts/ghasedakan.woff2' },
+      { id: 'nikasha',    name: 'nikasha',    family: "'nikasha', serif",       size: 26, sample: 'ن', url: 'fonts/nikasha.woff2' },
+      { id: 'nisha',      name: 'nisha',      family: "'nisha', serif",         size: 26, sample: 'ن', url: 'fonts/nisha.woff2' },
+      { id: 'zhin',       name: 'zhin',       family: "'zhin', cursive",        size: 24, sample: 'ژ', url: 'fonts/zhin.woff2' },
+      { id: 'zhina',      name: 'zhina',      family: "'zhina', cursive",       size: 24, sample: 'ژ', url: 'fonts/zhina.woff2' },
     ]},
   ];
 
@@ -3727,7 +3758,8 @@ document.getElementById('filter-bar').addEventListener('click', function(e) {
       if (det.open) open.push(det.id);
     });
     var notes = document.getElementById('toggle-notes').classList.contains('active');
-    return { m: meanings, p: pronunciation, pe: persian, d: diacritics, n: notes, font: font, size: size, filter: filter, open: open };
+    var natural = document.getElementById('toggle-natural').classList.contains('active');
+    return { m: meanings, p: pronunciation, pe: persian, d: diacritics, n: notes, na: natural, font: font, size: size, filter: filter, open: open };
   }
 
   function stateToHash(s) {
@@ -3737,6 +3769,7 @@ document.getElementById('filter-bar').addEventListener('click', function(e) {
     if (!s.pe) parts.push('pe=0');
     if (s.d) parts.push('d=1');
     if (s.n) parts.push('n=1');
+    if (s.na) parts.push('na=1');
     if (s.font !== 'parastoo') parts.push('fn=' + s.font);
     // Only encode size if it differs from the current font's default
     if (s.size && window.FONT_BY_ID && window.FONT_BY_ID[s.font] && s.size !== window.FONT_BY_ID[s.font].size) {
@@ -3779,6 +3812,10 @@ document.getElementById('filter-bar').addEventListener('click', function(e) {
     var nBtn = document.getElementById('toggle-notes');
     if (params.n === '1' && !nBtn.classList.contains('active')) nBtn.click();
     if (!params.n && nBtn.classList.contains('active')) nBtn.click();
+
+    var naBtn = document.getElementById('toggle-natural');
+    if (params.na === '1' && !naBtn.classList.contains('active')) naBtn.click();
+    if (!params.na && naBtn.classList.contains('active')) naBtn.click();
 
     // Font (apply first, then optionally override the size)
     if (params.fn && window.applyFont) {
@@ -3825,7 +3862,7 @@ document.getElementById('filter-bar').addEventListener('click', function(e) {
   }
 
   // Hook into toggles, filters, font selection, sections
-  ['toggle-meanings', 'toggle-pronunciation', 'toggle-persian', 'toggle-diacritics', 'toggle-notes'].forEach(function(id) {
+  ['toggle-meanings', 'toggle-pronunciation', 'toggle-persian', 'toggle-diacritics', 'toggle-notes', 'toggle-natural'].forEach(function(id) {
     document.getElementById(id).addEventListener('click', function() { setTimeout(syncURL, 0); });
   });
   document.getElementById('filter-bar').addEventListener('click', function(e) {
@@ -3856,11 +3893,13 @@ document.getElementById('filter-bar').addEventListener('click', function(e) {
     var peBtn = document.getElementById('toggle-persian');
     var dBtn = document.getElementById('toggle-diacritics');
     var nBtn = document.getElementById('toggle-notes');
+    var naBtn = document.getElementById('toggle-natural');
     if (!mBtn.classList.contains('active')) mBtn.click();
     if (!pBtn.classList.contains('active')) pBtn.click();
     if (!peBtn.classList.contains('active')) peBtn.click();
     if (dBtn.classList.contains('active')) dBtn.click();
     if (nBtn.classList.contains('active')) nBtn.click();
+    if (naBtn.classList.contains('active')) naBtn.click();
 
     // Reset font (and size) to default
     if (window.applyFont) window.applyFont('parastoo');

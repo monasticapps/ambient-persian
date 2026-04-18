@@ -22,8 +22,6 @@
   @font-face { font-family: 'narma';      src: local('narma'),      url('fonts/narma.woff2')      format('woff2'); font-display: swap; }
   @font-face { font-family: 'nikasha';    src: local('nikasha'),    url('fonts/nikasha.woff2')    format('woff2'); font-display: swap; }
   @font-face { font-family: 'nisha';      src: local('nisha'),      url('fonts/nisha.woff2')      format('woff2'); font-display: swap; }
-  @font-face { font-family: 'tenha';      src: local('tenha'),      url('fonts/tenha.woff2')      format('woff2'); font-display: swap; }
-  @font-face { font-family: 'tenhayee';   src: local('tenhayee'),   url('fonts/tenhayee.woff2')   format('woff2'); font-display: swap; }
   @font-face { font-family: 'zan';        src: local('zan'),        url('fonts/zan.woff2')        format('woff2'); font-display: swap; }
   @font-face { font-family: 'zanjir';     src: local('zanjir'),     url('fonts/zanjir.woff2')     format('woff2'); font-display: swap; }
   @font-face { font-family: 'zendegi';    src: local('zendegi'),    url('fonts/zendegi.woff2')    format('woff2'); font-display: swap; }
@@ -38,7 +36,7 @@
     font-size: 13pt;
     line-height: 1.5;
     color: #1a1a1a;
-    max-width: 11in;
+    max-width: 1600px;
     margin: 0 auto;
     padding: 0 0.5in 0.5in;
   }
@@ -73,6 +71,15 @@
   }
   details[open] > summary::before { transform: rotate(90deg); }
   .section-h2 > summary > h2 { display: inline; }
+  /* A section summary that hosts a toggle button on its right edge.
+     Flex so the button can be margin-left:auto'd; h2 margin reset to 0
+     because flex-item blockification would otherwise pull in h2's 20pt/10pt
+     block margins (which are normally suppressed by its `display: inline`). */
+  .toggle-summary { display: flex; align-items: center; }
+  .toggle-summary > h2 { margin: 0; }
+  .toggle-summary > .toggle-btn { margin-left: auto; }
+  /* Section-specific toggles only make sense when their section is open. */
+  details:not([open]) > .toggle-summary > .toggle-btn { display: none; }
   /* All open section summaries are sticky; JS sets their top offset */
   .section-h2[open] > summary {
     position: sticky;
@@ -204,7 +211,7 @@
 
   /* Shared sizing for ALL toolbar buttons (so heights match) */
   .tb-trigger,
-  .toolbar .toggle-btn,
+  .toggle-btn,
   .toolbar .reset-btn {
     font-family: 'Georgia', serif;
     font-size: 11pt;
@@ -267,12 +274,12 @@
   .tb-size-btn.tb-size-reset { color: #666; padding: 0 7px; }
   .tb-size-btn.tb-size-reset:hover { color: #1a6db5; }
 
-  .toolbar .toggle-btn {
+  .toggle-btn {
     border: 1.5px solid #333;
     color: #333;
   }
-  .toolbar .toggle-btn:hover { background: #f0f0f0; }
-  .toolbar .toggle-btn.active {
+  .toggle-btn:hover { background: #f0f0f0; }
+  .toggle-btn.active {
     background: #333;
     color: #fff;
   }
@@ -531,6 +538,20 @@
     display: block;
   }
 
+  /* Natural-English line — lives inside .text-col-latin as a block sibling
+     of .text-col-meaning, so it sits directly under the meaning text on
+     every layout (desktop grid + mobile stacked). Hidden unless the global
+     "Flow" toolbar toggle is active. */
+  .text-col-natural {
+    display: none;
+    color: #666;
+    font-style: italic;
+    font-size: 13pt;
+    line-height: 1.5;
+    margin-top: 4pt;
+  }
+  body.show-natural .text-col-natural { display: block; }
+
   /* Per-row toggle buttons — right-aligned */
   .row-toggle {
     position: absolute;
@@ -690,17 +711,20 @@
     .row-toggle.rt-di { right: 4px; }
     .text-col-input-wrap { padding: 4pt 6pt; text-align: center; }
     .text-col-input-overlay { inset: 4pt 6pt; }
+
+    /* Natural text stacks with the rest of the latin column, centered */
+    .text-col-natural { font-size: 12pt; }
   }
 
   @media (max-width: 480px) {
     body { padding: 0 6px 20px; }
     h2 { font-size: 14pt; padding-bottom: 3pt; }
     .text-col-latin { font-size: 12pt; }
-    .toolbar .toggle-btn,
+    .toggle-btn,
     .tb-trigger,
     .toolbar .reset-btn,
     .tb-size-btn { font-size: 10pt; height: 28px; }
-    .toolbar .toggle-btn { padding: 0 8px; }
+    .toggle-btn { padding: 0 8px; }
     .tb-trigger { padding: 0 6px; gap: 4px; }
     .tb-size-btn { padding: 0 7px; }
     .tb-size-controls { height: 28px; }
@@ -725,7 +749,6 @@
   <div class="toolbar-row">
     <button class="toggle-btn active" id="toggle-persian">Persian</button>
     <button class="toggle-btn active" id="toggle-pronunciation">Transliteration</button>
-    <button class="toggle-btn" id="toggle-ipa">IPA</button>
     <button class="toggle-btn active" id="toggle-meanings">Meaning</button>
     <button class="toggle-btn" id="toggle-diacritics">Diacritics</button>
     <button class="toggle-btn" id="toggle-notes">Notes</button>
@@ -787,7 +810,7 @@
 <!-- ================================ WORDS ================================ -->
 
 <details class="section-h2" id="sec-words">
-<summary><h2>Words</h2></summary>
+<summary class="toggle-summary"><h2>Words</h2><button class="toggle-btn ipa-toggle" title="Show IPA pronunciation alongside the transliteration">IPA</button></summary>
 
 <details class="section-h3" id="sec-words-people-identity">
 <summary><h3>People & Identity</h3></summary>
@@ -1526,7 +1549,7 @@
 <!-- =============================== PHRASES =============================== -->
 
 <details class="section-h2" id="sec-phrases">
-<summary><h2>Phrases</h2></summary>
+<summary class="toggle-summary"><h2>Phrases</h2><button class="toggle-btn ipa-toggle" title="Show IPA pronunciation alongside the transliteration">IPA</button></summary>
 
 <details class="section-h3" id="sec-apology">
 <summary><h3>Apology</h3></summary>
@@ -1937,7 +1960,7 @@
 <!-- ============================= TEXTS ============================== -->
 
 <details class="section-h2" id="sec-texts" data-no-filter>
-<summary><h2>Texts</h2></summary>
+<summary class="toggle-summary"><h2>Texts</h2><button class="toggle-btn" id="toggle-natural" title="Show a natural, flowing English translation below each line">Flow</button></summary>
 
 <details class="section-h3" id="sec-texts-classical">
 <summary><h3>Classical Poetry (She'r)</h3></summary>
@@ -5720,22 +5743,22 @@
 <!-- Stanza 1 -->
 <div class="text-row">
   <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">شکوه</span> <span class="tw" data-wi="1">از</span> <span class="tw" data-wi="2">تو</span> <span class="tw" data-wi="3">غرور</span> <span class="tw" data-wi="4">از</span> <span class="tw" data-wi="5">تو</span> <span class="tw" data-wi="6">غم</span> <span class="tw" data-wi="7">دنیا</span> <span class="tw" data-wi="8">به</span> <span class="tw" data-wi="9">دور</span> <span class="tw" data-wi="10">از</span> <span class="tw" data-wi="11">تو</span></div>
-  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">shokuh</span> <span class="tw" data-wi="1">az</span> <span class="tw" data-wi="2">to</span> <span class="tw" data-wi="3">ghorur</span> <span class="tw" data-wi="4">az</span> <span class="tw" data-wi="5">to</span> <span class="tw" data-wi="6">gham-e</span> <span class="tw" data-wi="7">donyā</span> <span class="tw" data-wi="8">be</span> <span class="tw" data-wi="9">dur</span> <span class="tw" data-wi="10">az</span> <span class="tw" data-wi="11">to</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Grandeur</span> <span class="tw" data-wi="1">from</span> <span class="tw" data-wi="2">you,</span> <span class="tw" data-wi="3">pride</span> <span class="tw" data-wi="4">from</span> <span class="tw" data-wi="5">you,</span> <span class="tw" data-wi="6">the sorrow of</span> <span class="tw" data-wi="7">the world,</span> <span class="tw" data-wi="8">[is]</span> <span class="tw" data-wi="9">far</span> <span class="tw" data-wi="10">from</span> <span class="tw" data-wi="11">you</span></span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">shokuh</span> <span class="tw" data-wi="1">az</span> <span class="tw" data-wi="2">to</span> <span class="tw" data-wi="3">ghorur</span> <span class="tw" data-wi="4">az</span> <span class="tw" data-wi="5">to</span> <span class="tw" data-wi="6">gham-e</span> <span class="tw" data-wi="7">donyā</span> <span class="tw" data-wi="8">be</span> <span class="tw" data-wi="9">dur</span> <span class="tw" data-wi="10">az</span> <span class="tw" data-wi="11">to</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Grandeur</span> <span class="tw" data-wi="1">from</span> <span class="tw" data-wi="2">you,</span> <span class="tw" data-wi="3">pride</span> <span class="tw" data-wi="4">from</span> <span class="tw" data-wi="5">you,</span> <span class="tw" data-wi="6">the sorrow of</span> <span class="tw" data-wi="7">the world,</span> <span class="tw" data-wi="8">[is]</span> <span class="tw" data-wi="9">far</span> <span class="tw" data-wi="10">from</span> <span class="tw" data-wi="11">you</span></span><div class="text-col-natural">Glory comes from you, pride comes from you — the world's sorrows are kept far away by you</div></div>
 </div>
 
 <div class="text-row">
   <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">تو</span> <span class="tw" data-wi="1">شوق</span> <span class="tw" data-wi="2">تماشایی</span> <span class="tw" data-wi="3">تو</span> <span class="tw" data-wi="4">بی</span> <span class="tw" data-wi="5">پروا</span> <span class="tw" data-wi="6">و</span> <span class="tw" data-wi="7">زیبایی</span></div>
-  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">to</span> <span class="tw" data-wi="1">shouq-e</span> <span class="tw" data-wi="2">tamāshā-i</span> <span class="tw" data-wi="3">to</span> <span class="tw" data-wi="4">bi</span> <span class="tw" data-wi="5">parvā</span> <span class="tw" data-wi="6">o</span> <span class="tw" data-wi="7">zibā-i</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">You</span> <span class="tw" data-wi="1">are the longing of</span> <span class="tw" data-wi="2">beholding,</span> <span class="tw" data-wi="3">you</span> <span class="tw" data-wi="4">[are] without</span> <span class="tw" data-wi="5">fear</span> <span class="tw" data-wi="6">and</span> <span class="tw" data-wi="7">beautiful</span></span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">to</span> <span class="tw" data-wi="1">shouq-e</span> <span class="tw" data-wi="2">tamāshā-i</span> <span class="tw" data-wi="3">to</span> <span class="tw" data-wi="4">bi</span> <span class="tw" data-wi="5">parvā</span> <span class="tw" data-wi="6">o</span> <span class="tw" data-wi="7">zibā-i</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">You</span> <span class="tw" data-wi="1">are the longing of</span> <span class="tw" data-wi="2">beholding,</span> <span class="tw" data-wi="3">you</span> <span class="tw" data-wi="4">[are] without</span> <span class="tw" data-wi="5">fear</span> <span class="tw" data-wi="6">and</span> <span class="tw" data-wi="7">beautiful</span></span><div class="text-col-natural">You're a sight to behold — fearless, and beautiful</div></div>
 </div>
 
 <div class="text-row">
   <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">دلت</span> <span class="tw" data-wi="1">دریا</span> <span class="tw" data-wi="2">شبت</span> <span class="tw" data-wi="3">روشن</span> <span class="tw" data-wi="4">به</span> <span class="tw" data-wi="5">نام</span> <span class="tw" data-wi="6">توست</span> <span class="tw" data-wi="7">نام</span> <span class="tw" data-wi="8">من</span></div>
-  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">delat</span> <span class="tw" data-wi="1">daryā</span> <span class="tw" data-wi="2">shabat</span> <span class="tw" data-wi="3">roushan</span> <span class="tw" data-wi="4">be</span> <span class="tw" data-wi="5">nām-e</span> <span class="tw" data-wi="6">tost</span> <span class="tw" data-wi="7">nām-e</span> <span class="tw" data-wi="8">man</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Your heart</span> <span class="tw" data-wi="1">[is] a sea,</span> <span class="tw" data-wi="2">your night</span> <span class="tw" data-wi="3">[is] bright,</span> <span class="tw" data-wi="4">by</span> <span class="tw" data-wi="5">the name of</span> <span class="tw" data-wi="6">you is</span> <span class="tw" data-wi="7">the name of</span> <span class="tw" data-wi="8">me</span></span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">delat</span> <span class="tw" data-wi="1">daryā</span> <span class="tw" data-wi="2">shabat</span> <span class="tw" data-wi="3">roushan</span> <span class="tw" data-wi="4">be</span> <span class="tw" data-wi="5">nām-e</span> <span class="tw" data-wi="6">tost</span> <span class="tw" data-wi="7">nām-e</span> <span class="tw" data-wi="8">man</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Your heart</span> <span class="tw" data-wi="1">[is] a sea,</span> <span class="tw" data-wi="2">your night</span> <span class="tw" data-wi="3">[is] bright,</span> <span class="tw" data-wi="4">by</span> <span class="tw" data-wi="5">the name of</span> <span class="tw" data-wi="6">you is</span> <span class="tw" data-wi="7">the name of</span> <span class="tw" data-wi="8">me</span></span><div class="text-col-natural">Your heart is an ocean, your night shines bright — my name lives through yours</div></div>
 </div>
 
 <div class="text-row">
   <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">دیدنی‌ترین</span> <span class="tw" data-wi="1">آسمان</span> <span class="tw" data-wi="2">ای</span> <span class="tw" data-wi="3">ستاره</span> <span class="tw" data-wi="4">باران</span></div>
-  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">didani-tarin</span> <span class="tw" data-wi="1">āsemān</span> <span class="tw" data-wi="2">ey</span> <span class="tw" data-wi="3">setāre</span> <span class="tw" data-wi="4">bārān</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Most-worthy-to-see</span> <span class="tw" data-wi="1">sky,</span> <span class="tw" data-wi="2">O</span> <span class="tw" data-wi="3">star-</span> <span class="tw" data-wi="4">rain</span></span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">didani-tarin</span> <span class="tw" data-wi="1">āsemān</span> <span class="tw" data-wi="2">ey</span> <span class="tw" data-wi="3">setāre</span> <span class="tw" data-wi="4">bārān</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Most-worthy-to-see</span> <span class="tw" data-wi="1">sky,</span> <span class="tw" data-wi="2">O</span> <span class="tw" data-wi="3">star-</span> <span class="tw" data-wi="4">rain</span></span><div class="text-col-natural">The most beautiful sky to behold — O rain of stars</div></div>
 </div>
 
 <!-- Stanza break -->
@@ -5744,22 +5767,22 @@
 <!-- Refrain A -->
 <div class="text-row">
   <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">زخمی</span> <span class="tw" data-wi="1">عشقی</span> <span class="tw" data-wi="2">وطنم</span> <span class="tw" data-wi="3">باید</span> <span class="tw" data-wi="4">صدایت</span> <span class="tw" data-wi="5">بزنم</span></div>
-  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">zakhmi-ye</span> <span class="tw" data-wi="1">eshq-i</span> <span class="tw" data-wi="2">vatanam</span> <span class="tw" data-wi="3">bāyad</span> <span class="tw" data-wi="4">sedāyat</span> <span class="tw" data-wi="5">bezanam</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Wounded of</span> <span class="tw" data-wi="1">love you are,</span> <span class="tw" data-wi="2">my homeland,</span> <span class="tw" data-wi="3">I must</span> <span class="tw" data-wi="4">call out</span> <span class="tw" data-wi="5">to you</span></span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">zakhmi-ye</span> <span class="tw" data-wi="1">eshq-i</span> <span class="tw" data-wi="2">vatanam</span> <span class="tw" data-wi="3">bāyad</span> <span class="tw" data-wi="4">sedāyat</span> <span class="tw" data-wi="5">bezanam</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Wounded of</span> <span class="tw" data-wi="1">love you are,</span> <span class="tw" data-wi="2">my homeland,</span> <span class="tw" data-wi="3">I must</span> <span class="tw" data-wi="4">call out</span> <span class="tw" data-wi="5">to you</span></span><div class="text-col-natural">You're wounded by love, my homeland — I have to call out to you</div></div>
 </div>
 
 <div class="text-row">
   <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">باید</span> <span class="tw" data-wi="1">کنارت</span> <span class="tw" data-wi="2">بمانم</span></div>
-  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">bāyad</span> <span class="tw" data-wi="1">kenārat</span> <span class="tw" data-wi="2">bemānam</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">I must</span> <span class="tw" data-wi="1">beside you</span> <span class="tw" data-wi="2">remain</span></span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">bāyad</span> <span class="tw" data-wi="1">kenārat</span> <span class="tw" data-wi="2">bemānam</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">I must</span> <span class="tw" data-wi="1">beside you</span> <span class="tw" data-wi="2">remain</span></span><div class="text-col-natural">I have to stay by your side</div></div>
 </div>
 
 <div class="text-row">
   <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">شعری</span> <span class="tw" data-wi="1">و</span> <span class="tw" data-wi="2">شوری</span> <span class="tw" data-wi="3">وطنم</span> <span class="tw" data-wi="4">وقتی</span> <span class="tw" data-wi="5">صدای</span> <span class="tw" data-wi="6">تو</span> <span class="tw" data-wi="7">منم</span></div>
-  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">she'r-i</span> <span class="tw" data-wi="1">o</span> <span class="tw" data-wi="2">shur-i</span> <span class="tw" data-wi="3">vatanam</span> <span class="tw" data-wi="4">vaqti</span> <span class="tw" data-wi="5">sedā-ye</span> <span class="tw" data-wi="6">to</span> <span class="tw" data-wi="7">manam</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">A poem you are</span> <span class="tw" data-wi="1">and</span> <span class="tw" data-wi="2">a fervor,</span> <span class="tw" data-wi="3">my homeland,</span> <span class="tw" data-wi="4">when</span> <span class="tw" data-wi="5">the voice of</span> <span class="tw" data-wi="6">you</span> <span class="tw" data-wi="7">I am</span></span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">she'r-i</span> <span class="tw" data-wi="1">o</span> <span class="tw" data-wi="2">shur-i</span> <span class="tw" data-wi="3">vatanam</span> <span class="tw" data-wi="4">vaqti</span> <span class="tw" data-wi="5">sedā-ye</span> <span class="tw" data-wi="6">to</span> <span class="tw" data-wi="7">manam</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">A poem you are</span> <span class="tw" data-wi="1">and</span> <span class="tw" data-wi="2">a fervor,</span> <span class="tw" data-wi="3">my homeland,</span> <span class="tw" data-wi="4">when</span> <span class="tw" data-wi="5">the voice of</span> <span class="tw" data-wi="6">you</span> <span class="tw" data-wi="7">I am</span></span><div class="text-col-natural">You are a poem, you are passion, my homeland — when I am your voice</div></div>
 </div>
 
 <div class="text-row">
   <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">باید</span> <span class="tw" data-wi="1">که</span> <span class="tw" data-wi="2">از</span> <span class="tw" data-wi="3">تو</span> <span class="tw" data-wi="4">بخوانم</span></div>
-  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">bāyad</span> <span class="tw" data-wi="1">ke</span> <span class="tw" data-wi="2">az</span> <span class="tw" data-wi="3">to</span> <span class="tw" data-wi="4">bekhānam</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">I must</span> <span class="tw" data-wi="1">that</span> <span class="tw" data-wi="2">of</span> <span class="tw" data-wi="3">you</span> <span class="tw" data-wi="4">I sing</span></span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">bāyad</span> <span class="tw" data-wi="1">ke</span> <span class="tw" data-wi="2">az</span> <span class="tw" data-wi="3">to</span> <span class="tw" data-wi="4">bekhānam</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">I must</span> <span class="tw" data-wi="1">that</span> <span class="tw" data-wi="2">of</span> <span class="tw" data-wi="3">you</span> <span class="tw" data-wi="4">I sing</span></span><div class="text-col-natural">I have to sing of you</div></div>
 </div>
 
 <!-- Stanza break -->
@@ -5768,22 +5791,22 @@
 <!-- Refrain A (repeat) -->
 <div class="text-row">
   <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">زخمی</span> <span class="tw" data-wi="1">عشقی</span> <span class="tw" data-wi="2">وطنم</span> <span class="tw" data-wi="3">باید</span> <span class="tw" data-wi="4">صدایت</span> <span class="tw" data-wi="5">بزنم</span></div>
-  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">zakhmi-ye</span> <span class="tw" data-wi="1">eshq-i</span> <span class="tw" data-wi="2">vatanam</span> <span class="tw" data-wi="3">bāyad</span> <span class="tw" data-wi="4">sedāyat</span> <span class="tw" data-wi="5">bezanam</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Wounded of</span> <span class="tw" data-wi="1">love you are,</span> <span class="tw" data-wi="2">my homeland,</span> <span class="tw" data-wi="3">I must</span> <span class="tw" data-wi="4">call out</span> <span class="tw" data-wi="5">to you</span></span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">zakhmi-ye</span> <span class="tw" data-wi="1">eshq-i</span> <span class="tw" data-wi="2">vatanam</span> <span class="tw" data-wi="3">bāyad</span> <span class="tw" data-wi="4">sedāyat</span> <span class="tw" data-wi="5">bezanam</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Wounded of</span> <span class="tw" data-wi="1">love you are,</span> <span class="tw" data-wi="2">my homeland,</span> <span class="tw" data-wi="3">I must</span> <span class="tw" data-wi="4">call out</span> <span class="tw" data-wi="5">to you</span></span><div class="text-col-natural">You're wounded by love, my homeland — I have to call out to you</div></div>
 </div>
 
 <div class="text-row">
   <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">باید</span> <span class="tw" data-wi="1">کنارت</span> <span class="tw" data-wi="2">بمانم</span></div>
-  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">bāyad</span> <span class="tw" data-wi="1">kenārat</span> <span class="tw" data-wi="2">bemānam</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">I must</span> <span class="tw" data-wi="1">beside you</span> <span class="tw" data-wi="2">remain</span></span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">bāyad</span> <span class="tw" data-wi="1">kenārat</span> <span class="tw" data-wi="2">bemānam</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">I must</span> <span class="tw" data-wi="1">beside you</span> <span class="tw" data-wi="2">remain</span></span><div class="text-col-natural">I have to stay by your side</div></div>
 </div>
 
 <div class="text-row">
   <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">شعری</span> <span class="tw" data-wi="1">و</span> <span class="tw" data-wi="2">شوری</span> <span class="tw" data-wi="3">وطنم</span> <span class="tw" data-wi="4">وقتی</span> <span class="tw" data-wi="5">صدای</span> <span class="tw" data-wi="6">تو</span> <span class="tw" data-wi="7">منم</span></div>
-  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">she'r-i</span> <span class="tw" data-wi="1">o</span> <span class="tw" data-wi="2">shur-i</span> <span class="tw" data-wi="3">vatanam</span> <span class="tw" data-wi="4">vaqti</span> <span class="tw" data-wi="5">sedā-ye</span> <span class="tw" data-wi="6">to</span> <span class="tw" data-wi="7">manam</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">A poem you are</span> <span class="tw" data-wi="1">and</span> <span class="tw" data-wi="2">a fervor,</span> <span class="tw" data-wi="3">my homeland,</span> <span class="tw" data-wi="4">when</span> <span class="tw" data-wi="5">the voice of</span> <span class="tw" data-wi="6">you</span> <span class="tw" data-wi="7">I am</span></span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">she'r-i</span> <span class="tw" data-wi="1">o</span> <span class="tw" data-wi="2">shur-i</span> <span class="tw" data-wi="3">vatanam</span> <span class="tw" data-wi="4">vaqti</span> <span class="tw" data-wi="5">sedā-ye</span> <span class="tw" data-wi="6">to</span> <span class="tw" data-wi="7">manam</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">A poem you are</span> <span class="tw" data-wi="1">and</span> <span class="tw" data-wi="2">a fervor,</span> <span class="tw" data-wi="3">my homeland,</span> <span class="tw" data-wi="4">when</span> <span class="tw" data-wi="5">the voice of</span> <span class="tw" data-wi="6">you</span> <span class="tw" data-wi="7">I am</span></span><div class="text-col-natural">You are a poem, you are passion, my homeland — when I am your voice</div></div>
 </div>
 
 <div class="text-row">
   <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">باید</span> <span class="tw" data-wi="1">که</span> <span class="tw" data-wi="2">از</span> <span class="tw" data-wi="3">تو</span> <span class="tw" data-wi="4">بخوانم</span></div>
-  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">bāyad</span> <span class="tw" data-wi="1">ke</span> <span class="tw" data-wi="2">az</span> <span class="tw" data-wi="3">to</span> <span class="tw" data-wi="4">bekhānam</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">I must</span> <span class="tw" data-wi="1">that</span> <span class="tw" data-wi="2">of</span> <span class="tw" data-wi="3">you</span> <span class="tw" data-wi="4">I sing</span></span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">bāyad</span> <span class="tw" data-wi="1">ke</span> <span class="tw" data-wi="2">az</span> <span class="tw" data-wi="3">to</span> <span class="tw" data-wi="4">bekhānam</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">I must</span> <span class="tw" data-wi="1">that</span> <span class="tw" data-wi="2">of</span> <span class="tw" data-wi="3">you</span> <span class="tw" data-wi="4">I sing</span></span><div class="text-col-natural">I have to sing of you</div></div>
 </div>
 
 <!-- Stanza break -->
@@ -5792,22 +5815,22 @@
 <!-- Stanza 2 -->
 <div class="text-row">
   <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">مرا</span> <span class="tw" data-wi="1">با</span> <span class="tw" data-wi="2">خود</span> <span class="tw" data-wi="3">ببر</span> <span class="tw" data-wi="4">آرام</span> <span class="tw" data-wi="5">به</span> <span class="tw" data-wi="6">بغض</span> <span class="tw" data-wi="7">آخرین</span> <span class="tw" data-wi="8">سنگر</span></div>
-  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">marā</span> <span class="tw" data-wi="1">bā</span> <span class="tw" data-wi="2">khod</span> <span class="tw" data-wi="3">bebar</span> <span class="tw" data-wi="4">ārām</span> <span class="tw" data-wi="5">be</span> <span class="tw" data-wi="6">boghz-e</span> <span class="tw" data-wi="7">ākharin</span> <span class="tw" data-wi="8">sangar</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Me</span> <span class="tw" data-wi="1">with</span> <span class="tw" data-wi="2">yourself</span> <span class="tw" data-wi="3">take</span> <span class="tw" data-wi="4">gently,</span> <span class="tw" data-wi="5">to</span> <span class="tw" data-wi="6">the lump-in-throat of</span> <span class="tw" data-wi="7">the last</span> <span class="tw" data-wi="8">trench</span></span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">marā</span> <span class="tw" data-wi="1">bā</span> <span class="tw" data-wi="2">khod</span> <span class="tw" data-wi="3">bebar</span> <span class="tw" data-wi="4">ārām</span> <span class="tw" data-wi="5">be</span> <span class="tw" data-wi="6">boghz-e</span> <span class="tw" data-wi="7">ākharin</span> <span class="tw" data-wi="8">sangar</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Me</span> <span class="tw" data-wi="1">with</span> <span class="tw" data-wi="2">yourself</span> <span class="tw" data-wi="3">take</span> <span class="tw" data-wi="4">gently,</span> <span class="tw" data-wi="5">to</span> <span class="tw" data-wi="6">the lump-in-throat of</span> <span class="tw" data-wi="7">the last</span> <span class="tw" data-wi="8">trench</span></span><div class="text-col-natural">Take me with you, gently — to the choked breath of the last trench</div></div>
 </div>
 
 <div class="text-row">
   <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">به</span> <span class="tw" data-wi="1">خواب</span> <span class="tw" data-wi="2">کوچه‌ی</span> <span class="tw" data-wi="3">عاشق</span> <span class="tw" data-wi="4">به</span> <span class="tw" data-wi="5">عطر</span> <span class="tw" data-wi="6">لاله‌ی</span> <span class="tw" data-wi="7">پرپر</span></div>
-  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">be</span> <span class="tw" data-wi="1">khāb-e</span> <span class="tw" data-wi="2">kuche-ye</span> <span class="tw" data-wi="3">āsheq</span> <span class="tw" data-wi="4">be</span> <span class="tw" data-wi="5">atr-e</span> <span class="tw" data-wi="6">lāle-ye</span> <span class="tw" data-wi="7">parpar</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">To</span> <span class="tw" data-wi="1">the sleep of</span> <span class="tw" data-wi="2">the alley of</span> <span class="tw" data-wi="3">the lover,</span> <span class="tw" data-wi="4">to</span> <span class="tw" data-wi="5">the scent of</span> <span class="tw" data-wi="6">the tulip</span> <span class="tw" data-wi="7">scattered</span></span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">be</span> <span class="tw" data-wi="1">khāb-e</span> <span class="tw" data-wi="2">kuche-ye</span> <span class="tw" data-wi="3">āsheq</span> <span class="tw" data-wi="4">be</span> <span class="tw" data-wi="5">atr-e</span> <span class="tw" data-wi="6">lāle-ye</span> <span class="tw" data-wi="7">parpar</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">To</span> <span class="tw" data-wi="1">the sleep of</span> <span class="tw" data-wi="2">the alley of</span> <span class="tw" data-wi="3">the lover,</span> <span class="tw" data-wi="4">to</span> <span class="tw" data-wi="5">the scent of</span> <span class="tw" data-wi="6">the tulip</span> <span class="tw" data-wi="7">scattered</span></span><div class="text-col-natural">To the sleep of the lover's alley, to the scent of the scattered tulip</div></div>
 </div>
 
 <div class="text-row">
   <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">تو</span> <span class="tw" data-wi="1">حس</span> <span class="tw" data-wi="2">خوب</span> <span class="tw" data-wi="3">بارانی</span> <span class="tw" data-wi="4">تو</span> <span class="tw" data-wi="5">فریاد</span> <span class="tw" data-wi="6">دلیرانی</span></div>
-  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">to</span> <span class="tw" data-wi="1">hess-e</span> <span class="tw" data-wi="2">khub-e</span> <span class="tw" data-wi="3">bārān-i</span> <span class="tw" data-wi="4">to</span> <span class="tw" data-wi="5">faryād-e</span> <span class="tw" data-wi="6">dalirān-i</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">You</span> <span class="tw" data-wi="1">[are] the feeling</span> <span class="tw" data-wi="2">good</span> <span class="tw" data-wi="3">of rain,</span> <span class="tw" data-wi="4">you</span> <span class="tw" data-wi="5">[are] the cry</span> <span class="tw" data-wi="6">of the brave</span></span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">to</span> <span class="tw" data-wi="1">hess-e</span> <span class="tw" data-wi="2">khub-e</span> <span class="tw" data-wi="3">bārān-i</span> <span class="tw" data-wi="4">to</span> <span class="tw" data-wi="5">faryād-e</span> <span class="tw" data-wi="6">dalirān-i</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">You</span> <span class="tw" data-wi="1">[are] the feeling</span> <span class="tw" data-wi="2">good</span> <span class="tw" data-wi="3">of rain,</span> <span class="tw" data-wi="4">you</span> <span class="tw" data-wi="5">[are] the cry</span> <span class="tw" data-wi="6">of the brave</span></span><div class="text-col-natural">You're the warmth of rain, the cry of the brave</div></div>
 </div>
 
 <div class="text-row">
   <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">حریم</span> <span class="tw" data-wi="1">امن</span> <span class="tw" data-wi="2">دورانی</span> <span class="tw" data-wi="3">تو</span> <span class="tw" data-wi="4">ایرانی</span> <span class="tw" data-wi="5">تو</span> <span class="tw" data-wi="6">ایرانی</span></div>
-  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">harim-e</span> <span class="tw" data-wi="1">amn-e</span> <span class="tw" data-wi="2">dourān-i</span> <span class="tw" data-wi="3">to</span> <span class="tw" data-wi="4">irān-i</span> <span class="tw" data-wi="5">to</span> <span class="tw" data-wi="6">irān-i</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">The sanctuary</span> <span class="tw" data-wi="1">safe</span> <span class="tw" data-wi="2">of eras you are,</span> <span class="tw" data-wi="3">you</span> <span class="tw" data-wi="4">are Iran,</span> <span class="tw" data-wi="5">you</span> <span class="tw" data-wi="6">are Iran</span></span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">harim-e</span> <span class="tw" data-wi="1">amn-e</span> <span class="tw" data-wi="2">dourān-i</span> <span class="tw" data-wi="3">to</span> <span class="tw" data-wi="4">irān-i</span> <span class="tw" data-wi="5">to</span> <span class="tw" data-wi="6">irān-i</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">The sanctuary</span> <span class="tw" data-wi="1">safe</span> <span class="tw" data-wi="2">of eras you are,</span> <span class="tw" data-wi="3">you</span> <span class="tw" data-wi="4">are Iran,</span> <span class="tw" data-wi="5">you</span> <span class="tw" data-wi="6">are Iran</span></span><div class="text-col-natural">You are the safe haven across the ages — you are Iran, you are Iran</div></div>
 </div>
 
 <!-- Stanza break -->
@@ -5816,22 +5839,22 @@
 <!-- Refrain A (repeat) -->
 <div class="text-row">
   <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">زخمی</span> <span class="tw" data-wi="1">عشقی</span> <span class="tw" data-wi="2">وطنم</span> <span class="tw" data-wi="3">باید</span> <span class="tw" data-wi="4">صدایت</span> <span class="tw" data-wi="5">بزنم</span></div>
-  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">zakhmi-ye</span> <span class="tw" data-wi="1">eshq-i</span> <span class="tw" data-wi="2">vatanam</span> <span class="tw" data-wi="3">bāyad</span> <span class="tw" data-wi="4">sedāyat</span> <span class="tw" data-wi="5">bezanam</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Wounded of</span> <span class="tw" data-wi="1">love you are,</span> <span class="tw" data-wi="2">my homeland,</span> <span class="tw" data-wi="3">I must</span> <span class="tw" data-wi="4">call out</span> <span class="tw" data-wi="5">to you</span></span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">zakhmi-ye</span> <span class="tw" data-wi="1">eshq-i</span> <span class="tw" data-wi="2">vatanam</span> <span class="tw" data-wi="3">bāyad</span> <span class="tw" data-wi="4">sedāyat</span> <span class="tw" data-wi="5">bezanam</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Wounded of</span> <span class="tw" data-wi="1">love you are,</span> <span class="tw" data-wi="2">my homeland,</span> <span class="tw" data-wi="3">I must</span> <span class="tw" data-wi="4">call out</span> <span class="tw" data-wi="5">to you</span></span><div class="text-col-natural">You're wounded by love, my homeland — I have to call out to you</div></div>
 </div>
 
 <div class="text-row">
   <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">باید</span> <span class="tw" data-wi="1">کنارت</span> <span class="tw" data-wi="2">بمانم</span></div>
-  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">bāyad</span> <span class="tw" data-wi="1">kenārat</span> <span class="tw" data-wi="2">bemānam</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">I must</span> <span class="tw" data-wi="1">beside you</span> <span class="tw" data-wi="2">remain</span></span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">bāyad</span> <span class="tw" data-wi="1">kenārat</span> <span class="tw" data-wi="2">bemānam</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">I must</span> <span class="tw" data-wi="1">beside you</span> <span class="tw" data-wi="2">remain</span></span><div class="text-col-natural">I have to stay by your side</div></div>
 </div>
 
 <div class="text-row">
   <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">شعری</span> <span class="tw" data-wi="1">و</span> <span class="tw" data-wi="2">شوری</span> <span class="tw" data-wi="3">وطنم</span> <span class="tw" data-wi="4">وقتی</span> <span class="tw" data-wi="5">صدای</span> <span class="tw" data-wi="6">تو</span> <span class="tw" data-wi="7">منم</span></div>
-  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">she'r-i</span> <span class="tw" data-wi="1">o</span> <span class="tw" data-wi="2">shur-i</span> <span class="tw" data-wi="3">vatanam</span> <span class="tw" data-wi="4">vaqti</span> <span class="tw" data-wi="5">sedā-ye</span> <span class="tw" data-wi="6">to</span> <span class="tw" data-wi="7">manam</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">A poem you are</span> <span class="tw" data-wi="1">and</span> <span class="tw" data-wi="2">a fervor,</span> <span class="tw" data-wi="3">my homeland,</span> <span class="tw" data-wi="4">when</span> <span class="tw" data-wi="5">the voice of</span> <span class="tw" data-wi="6">you</span> <span class="tw" data-wi="7">I am</span></span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">she'r-i</span> <span class="tw" data-wi="1">o</span> <span class="tw" data-wi="2">shur-i</span> <span class="tw" data-wi="3">vatanam</span> <span class="tw" data-wi="4">vaqti</span> <span class="tw" data-wi="5">sedā-ye</span> <span class="tw" data-wi="6">to</span> <span class="tw" data-wi="7">manam</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">A poem you are</span> <span class="tw" data-wi="1">and</span> <span class="tw" data-wi="2">a fervor,</span> <span class="tw" data-wi="3">my homeland,</span> <span class="tw" data-wi="4">when</span> <span class="tw" data-wi="5">the voice of</span> <span class="tw" data-wi="6">you</span> <span class="tw" data-wi="7">I am</span></span><div class="text-col-natural">You are a poem, you are passion, my homeland — when I am your voice</div></div>
 </div>
 
 <div class="text-row">
   <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">باید</span> <span class="tw" data-wi="1">که</span> <span class="tw" data-wi="2">از</span> <span class="tw" data-wi="3">تو</span> <span class="tw" data-wi="4">بخوانم</span></div>
-  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">bāyad</span> <span class="tw" data-wi="1">ke</span> <span class="tw" data-wi="2">az</span> <span class="tw" data-wi="3">to</span> <span class="tw" data-wi="4">bekhānam</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">I must</span> <span class="tw" data-wi="1">that</span> <span class="tw" data-wi="2">of</span> <span class="tw" data-wi="3">you</span> <span class="tw" data-wi="4">I sing</span></span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">bāyad</span> <span class="tw" data-wi="1">ke</span> <span class="tw" data-wi="2">az</span> <span class="tw" data-wi="3">to</span> <span class="tw" data-wi="4">bekhānam</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">I must</span> <span class="tw" data-wi="1">that</span> <span class="tw" data-wi="2">of</span> <span class="tw" data-wi="3">you</span> <span class="tw" data-wi="4">I sing</span></span><div class="text-col-natural">I have to sing of you</div></div>
 </div>
 
 <!-- Stanza break -->
@@ -5840,22 +5863,22 @@
 <!-- Refrain A (repeat) -->
 <div class="text-row">
   <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">زخمی</span> <span class="tw" data-wi="1">عشقی</span> <span class="tw" data-wi="2">وطنم</span> <span class="tw" data-wi="3">باید</span> <span class="tw" data-wi="4">صدایت</span> <span class="tw" data-wi="5">بزنم</span></div>
-  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">zakhmi-ye</span> <span class="tw" data-wi="1">eshq-i</span> <span class="tw" data-wi="2">vatanam</span> <span class="tw" data-wi="3">bāyad</span> <span class="tw" data-wi="4">sedāyat</span> <span class="tw" data-wi="5">bezanam</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Wounded of</span> <span class="tw" data-wi="1">love you are,</span> <span class="tw" data-wi="2">my homeland,</span> <span class="tw" data-wi="3">I must</span> <span class="tw" data-wi="4">call out</span> <span class="tw" data-wi="5">to you</span></span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">zakhmi-ye</span> <span class="tw" data-wi="1">eshq-i</span> <span class="tw" data-wi="2">vatanam</span> <span class="tw" data-wi="3">bāyad</span> <span class="tw" data-wi="4">sedāyat</span> <span class="tw" data-wi="5">bezanam</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Wounded of</span> <span class="tw" data-wi="1">love you are,</span> <span class="tw" data-wi="2">my homeland,</span> <span class="tw" data-wi="3">I must</span> <span class="tw" data-wi="4">call out</span> <span class="tw" data-wi="5">to you</span></span><div class="text-col-natural">You're wounded by love, my homeland — I have to call out to you</div></div>
 </div>
 
 <div class="text-row">
   <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">باید</span> <span class="tw" data-wi="1">کنارت</span> <span class="tw" data-wi="2">بمانم</span></div>
-  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">bāyad</span> <span class="tw" data-wi="1">kenārat</span> <span class="tw" data-wi="2">bemānam</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">I must</span> <span class="tw" data-wi="1">beside you</span> <span class="tw" data-wi="2">remain</span></span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">bāyad</span> <span class="tw" data-wi="1">kenārat</span> <span class="tw" data-wi="2">bemānam</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">I must</span> <span class="tw" data-wi="1">beside you</span> <span class="tw" data-wi="2">remain</span></span><div class="text-col-natural">I have to stay by your side</div></div>
 </div>
 
 <div class="text-row">
   <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">شعری</span> <span class="tw" data-wi="1">و</span> <span class="tw" data-wi="2">شوری</span> <span class="tw" data-wi="3">وطنم</span> <span class="tw" data-wi="4">وقتی</span> <span class="tw" data-wi="5">صدای</span> <span class="tw" data-wi="6">تو</span> <span class="tw" data-wi="7">منم</span></div>
-  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">she'r-i</span> <span class="tw" data-wi="1">o</span> <span class="tw" data-wi="2">shur-i</span> <span class="tw" data-wi="3">vatanam</span> <span class="tw" data-wi="4">vaqti</span> <span class="tw" data-wi="5">sedā-ye</span> <span class="tw" data-wi="6">to</span> <span class="tw" data-wi="7">manam</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">A poem you are</span> <span class="tw" data-wi="1">and</span> <span class="tw" data-wi="2">a fervor,</span> <span class="tw" data-wi="3">my homeland,</span> <span class="tw" data-wi="4">when</span> <span class="tw" data-wi="5">the voice of</span> <span class="tw" data-wi="6">you</span> <span class="tw" data-wi="7">I am</span></span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">she'r-i</span> <span class="tw" data-wi="1">o</span> <span class="tw" data-wi="2">shur-i</span> <span class="tw" data-wi="3">vatanam</span> <span class="tw" data-wi="4">vaqti</span> <span class="tw" data-wi="5">sedā-ye</span> <span class="tw" data-wi="6">to</span> <span class="tw" data-wi="7">manam</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">A poem you are</span> <span class="tw" data-wi="1">and</span> <span class="tw" data-wi="2">a fervor,</span> <span class="tw" data-wi="3">my homeland,</span> <span class="tw" data-wi="4">when</span> <span class="tw" data-wi="5">the voice of</span> <span class="tw" data-wi="6">you</span> <span class="tw" data-wi="7">I am</span></span><div class="text-col-natural">You are a poem, you are passion, my homeland — when I am your voice</div></div>
 </div>
 
 <div class="text-row">
   <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">باید</span> <span class="tw" data-wi="1">که</span> <span class="tw" data-wi="2">از</span> <span class="tw" data-wi="3">تو</span> <span class="tw" data-wi="4">بخوانم</span></div>
-  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">bāyad</span> <span class="tw" data-wi="1">ke</span> <span class="tw" data-wi="2">az</span> <span class="tw" data-wi="3">to</span> <span class="tw" data-wi="4">bekhānam</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">I must</span> <span class="tw" data-wi="1">that</span> <span class="tw" data-wi="2">of</span> <span class="tw" data-wi="3">you</span> <span class="tw" data-wi="4">I sing</span></span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">bāyad</span> <span class="tw" data-wi="1">ke</span> <span class="tw" data-wi="2">az</span> <span class="tw" data-wi="3">to</span> <span class="tw" data-wi="4">bekhānam</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">I must</span> <span class="tw" data-wi="1">that</span> <span class="tw" data-wi="2">of</span> <span class="tw" data-wi="3">you</span> <span class="tw" data-wi="4">I sing</span></span><div class="text-col-natural">I have to sing of you</div></div>
 </div>
 
 <!-- Stanza break -->
@@ -5864,17 +5887,17 @@
 <!-- Outro short refrain -->
 <div class="text-row">
   <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">زخمی</span> <span class="tw" data-wi="1">عشقی</span> <span class="tw" data-wi="2">وطنم</span></div>
-  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">zakhmi-ye</span> <span class="tw" data-wi="1">eshq-i</span> <span class="tw" data-wi="2">vatanam</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Wounded of</span> <span class="tw" data-wi="1">love you are,</span> <span class="tw" data-wi="2">my homeland</span></span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">zakhmi-ye</span> <span class="tw" data-wi="1">eshq-i</span> <span class="tw" data-wi="2">vatanam</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Wounded of</span> <span class="tw" data-wi="1">love you are,</span> <span class="tw" data-wi="2">my homeland</span></span><div class="text-col-natural">You're wounded by love, my homeland</div></div>
 </div>
 
 <div class="text-row">
   <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">شعری</span> <span class="tw" data-wi="1">و</span> <span class="tw" data-wi="2">شوری</span> <span class="tw" data-wi="3">وطنم</span></div>
-  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">she'r-i</span> <span class="tw" data-wi="1">o</span> <span class="tw" data-wi="2">shur-i</span> <span class="tw" data-wi="3">vatanam</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">A poem you are</span> <span class="tw" data-wi="1">and</span> <span class="tw" data-wi="2">a fervor,</span> <span class="tw" data-wi="3">my homeland</span></span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">she'r-i</span> <span class="tw" data-wi="1">o</span> <span class="tw" data-wi="2">shur-i</span> <span class="tw" data-wi="3">vatanam</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">A poem you are</span> <span class="tw" data-wi="1">and</span> <span class="tw" data-wi="2">a fervor,</span> <span class="tw" data-wi="3">my homeland</span></span><div class="text-col-natural">You are a poem, you are passion, my homeland</div></div>
 </div>
 
 <div class="text-row">
   <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">باید</span> <span class="tw" data-wi="1">که</span> <span class="tw" data-wi="2">از</span> <span class="tw" data-wi="3">تو</span> <span class="tw" data-wi="4">بخوانم</span></div>
-  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">bāyad</span> <span class="tw" data-wi="1">ke</span> <span class="tw" data-wi="2">az</span> <span class="tw" data-wi="3">to</span> <span class="tw" data-wi="4">bekhānam</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">I must</span> <span class="tw" data-wi="1">that</span> <span class="tw" data-wi="2">of</span> <span class="tw" data-wi="3">you</span> <span class="tw" data-wi="4">I sing</span></span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">bāyad</span> <span class="tw" data-wi="1">ke</span> <span class="tw" data-wi="2">az</span> <span class="tw" data-wi="3">to</span> <span class="tw" data-wi="4">bekhānam</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">I must</span> <span class="tw" data-wi="1">that</span> <span class="tw" data-wi="2">of</span> <span class="tw" data-wi="3">you</span> <span class="tw" data-wi="4">I sing</span></span><div class="text-col-natural">I have to sing of you</div></div>
 </div>
 
 </div><!-- /text-grid -->
@@ -6456,8 +6479,13 @@ function recomputeRowGrid(row) {
   // IPA is inline within translit — when IPA toggle is on, the translit
   // container stays visible (even if transliteration text is hidden)
   var ipaV = hasTranslit && document.body.classList.contains('show-ipa');
-  // Translit + meaning share a single grid column ("latin")
-  var latinV = tv || mv || ipaV;
+  // Natural-English ("Flow") — a block sibling of meaning inside text-col-latin.
+  // When Flow is on, the latin wrapper must remain visible even if translit
+  // and meaning are both off.
+  var hasNatural = !!row.querySelector('.text-col-natural');
+  var naV = hasNatural && document.body.classList.contains('show-natural');
+  // Translit + meaning + natural all live inside a single "latin" grid column
+  var latinV = tv || mv || ipaV || naV;
   var nv = row.classList.contains('show-notes');
   // Persian column visibility. Input mode still occupies the persian track
   // (the .text-col-input-wrap takes the slot), so the track stays present
@@ -6468,10 +6496,11 @@ function recomputeRowGrid(row) {
   var pv = globalHideP ? showPOver : !hidePOver;
   var inInputMode = row.classList.contains('persian-as-input');
   var persianTrack = pv || inInputMode;
-  // Both columns are equal width (1fr each). When a column is the only
-  // visible track, it stretches to fill the row.
+  // Persian track uses its measured width (fitPersianColumns writes
+  // --persian-col-w on the section; fallback 1fr if absent). Latin and
+  // Notes each get 1fr so they share any remaining horizontal space.
   var tracks = [];
-  if (persianTrack) tracks.push('1fr');
+  if (persianTrack) tracks.push('var(--persian-col-w, 1fr)');
   if (latinV) tracks.push('1fr');
   if (nv) tracks.push('1fr');
   if (tracks.length === 0) tracks = ['1fr'];
@@ -6644,6 +6673,12 @@ window.applyPersianMode = applyPersianMode;
 // Measures the widest .text-col-persian in each .section-h3, caps it at
 // 50% of the row width, and exposes it as --persian-col-w on the section.
 // recomputeRowGrid uses that variable for the first grid track.
+//
+// Words / Phrases / Stories skip this fitting: their Persian entries are
+// short (single words / short phrases), so content-fit would leave the
+// latin column floating next to a tiny Persian column. Instead we remove
+// the variable and let recomputeRowGrid's `1fr` fallback produce a clean
+// 50/50 split — matching Texts.
 function fitPersianColumns() {
   var sections = document.querySelectorAll('.section-h3');
   // Build one off-screen measurement container shared across sections
@@ -6654,6 +6689,12 @@ function fitPersianColumns() {
     sections.forEach(function(section) {
       // Skip closed <details> sections — they have no layout
       if (section.tagName === 'DETAILS' && !section.open) return;
+      // Force 50/50 for Words / Phrases / Stories by unsetting the variable
+      if (section.closest('#sec-words, #sec-phrases, #sec-stories')) {
+        section.style.removeProperty('--persian-col-w');
+        section.querySelectorAll('.text-row').forEach(recomputeRowGrid);
+        return;
+      }
       var rows = Array.prototype.filter.call(
         section.querySelectorAll('.text-row'),
         function(r) {
@@ -6902,13 +6943,22 @@ window.scheduleFitPersianColumns = scheduleFitPersianColumns;
     syncAllRows('hide-translit', !this.classList.contains('active'));
   });
 
-  // Toggle IPA — active = visible (body-level class since IPA is inline within translit)
-  document.getElementById('toggle-ipa').addEventListener('click', function() {
-    this.classList.toggle('active');
-    document.body.classList.toggle('show-ipa', this.classList.contains('active'));
-    // IPA visibility affects grid layout (latin column may appear/disappear)
-    recomputeAllRows();
-    if (window.scheduleFitPersianColumns) window.scheduleFitPersianColumns();
+  // Toggle IPA — lives in both Words and Phrases summaries (two buttons, kept
+  // in sync). Active = visible; body-level class since IPA is inline within translit.
+  document.querySelectorAll('.ipa-toggle').forEach(function(btn) {
+    btn.addEventListener('click', function(e) {
+      // Button is inside a <summary> — don't let the click toggle the section.
+      e.stopPropagation();
+      e.preventDefault();
+      var turnOn = !this.classList.contains('active');
+      document.querySelectorAll('.ipa-toggle').forEach(function(b) {
+        b.classList.toggle('active', turnOn);
+      });
+      document.body.classList.toggle('show-ipa', turnOn);
+      // IPA visibility affects grid layout (latin column may appear/disappear)
+      recomputeAllRows();
+      if (window.scheduleFitPersianColumns) window.scheduleFitPersianColumns();
+    });
   });
 
   // Toggle meanings — active = visible
@@ -6936,6 +6986,19 @@ window.scheduleFitPersianColumns = scheduleFitPersianColumns;
   document.getElementById('toggle-notes').addEventListener('click', function() {
     this.classList.toggle('active');
     syncAllRows('show-notes', this.classList.contains('active'));
+  });
+
+  // Toggle natural-English ("Flow") — active = show the per-line natural
+  // translation below each .text-row in the Texts section.
+  document.getElementById('toggle-natural').addEventListener('click', function(e) {
+    // Button lives inside the Texts <summary>; stop the click from toggling it closed.
+    e.stopPropagation();
+    e.preventDefault();
+    this.classList.toggle('active');
+    document.body.classList.toggle('show-natural', this.classList.contains('active'));
+    // Flow lives inside .text-col-latin; recompute so the latin column stays
+    // visible when Flow is on but translit+meaning are both off.
+    recomputeAllRows();
   });
 
   // Font is now handled by the font modal — see FONT_CATALOG / applyFont below.
@@ -7013,61 +7076,29 @@ window.scheduleFitPersianColumns = scheduleFitPersianColumns;
   //                    via @font-face above so the browser uses local() first
   //   (neither):       system font — detected on load, greyed out if missing
   var FONT_CATALOG = [
-    { id: 'workhorse', label: 'Workhorse — Text, UI, Body', fonts: [
-      { id: 'vazirmatn', name: 'Vazirmatn',         family: "'Vazirmatn', sans-serif",            size: 24, sample: 'و', alwaysAvailable: true },
-      { id: 'parastoo',  name: 'Parastoo',          family: "'Parastoo', serif",                  size: 28, sample: 'پ', alwaysAvailable: true },
-      { id: 'sf-arabic', name: 'SF Arabic',         family: "'.SF Arabic', sans-serif",           size: 24, sample: 'ا' },
-      { id: 'sf-arabic-r', name: 'SF Arabic Rounded', family: "'.SF Arabic Rounded', sans-serif", size: 24, sample: 'ا' },
-      { id: 'geeza-pro', name: 'Geeza Pro',         family: "'Geeza Pro', serif",                 size: 24, sample: 'ج' },
-      { id: 'tahoma',    name: 'Tahoma',            family: "'Tahoma', sans-serif",               size: 22, sample: 'ت' },
-      { id: 'arial',     name: 'Arial',             family: "'Arial', sans-serif",                size: 22, sample: 'ا' },
-      { id: 'ms-sans',   name: 'Microsoft Sans Serif', family: "'Microsoft Sans Serif', sans-serif", size: 22, sample: 'م' },
-      { id: 'times',     name: 'Times New Roman',   family: "'Times New Roman', serif",           size: 22, sample: 'ت' },
-      { id: 'courier',   name: 'Courier New',       family: "'Courier New', monospace",           size: 20, sample: 'ک' },
-    ]},
-    { id: 'traditional', label: 'Traditional Calligraphic', subgroups: [
-      { label: 'Nastaliq (نستعلیق)', fonts: [
-        { id: 'noto-nastaliq',     name: 'Noto Nastaliq Urdu',         family: "'Noto Nastaliq Urdu', serif",        size: 22, lh: 2.4, sample: 'ن', alwaysAvailable: true },
-        { id: 'noto-nastaliq-ui',  name: 'Noto Nastaliq Urdu UI',      family: "'.Noto Nastaliq Urdu UI', serif",    size: 22, lh: 2.4, sample: 'ن' },
-        { id: 'decotype-nastaleeq',name: 'DecoType Nastaleeq Urdu UI', family: "'.DecoType Nastaleeq Urdu UI', serif", size: 22, lh: 2.4, sample: 'د' },
-      ]},
-      { label: 'Naskh (نسخ)', fonts: [
-        { id: 'decotype-naskh', name: 'DecoType Naskh', family: "'DecoType Naskh', serif", size: 24, sample: 'د' },
-        { id: 'al-bayan',       name: 'Al Bayan',       family: "'Al Bayan', serif",       size: 24, sample: 'ب' },
-        { id: 'baghdad',        name: 'Baghdad',        family: "'Baghdad', serif",        size: 24, sample: 'ب' },
-        { id: 'nadeem',         name: 'Nadeem',         family: "'Nadeem', serif",         size: 24, sample: 'ن' },
-        { id: 'damascus',       name: 'Damascus',       family: "'Damascus', serif",       size: 24, sample: 'د' },
-      ]},
-      { label: 'Kufi (کوفی)', fonts: [
-        { id: 'kufi', name: 'KufiStandardGK', family: "'KufiStandardGK', serif", size: 22, sample: 'ک' },
-      ]},
-      { label: 'Modern interpretations', fonts: [
-        { id: 'nikasha', name: 'nikasha', family: "'nikasha', serif", size: 26, sample: 'ن', url: 'fonts/nikasha.woff2' },
-        { id: 'nisha',   name: 'nisha',   family: "'nisha', serif",   size: 26, sample: 'ن', url: 'fonts/nisha.woff2' },
-      ]},
-    ]},
-    { id: 'elegant', label: 'Elegant & Delicate (Thin)', fonts: [
-      { id: 'ghasedak',   name: 'ghasedak',   family: "'ghasedak', serif",   size: 26, sample: 'غ', url: 'fonts/ghasedak.woff2' },
-      { id: 'ghasedakan', name: 'ghasedakan', family: "'ghasedakan', serif", size: 26, sample: 'غ', url: 'fonts/ghasedakan.woff2' },
-      { id: 'tenha',      name: 'tenha',      family: "'tenha', serif",      size: 26, sample: 'ت', url: 'fonts/tenha.woff2' },
-      { id: 'tenhayee',   name: 'tenhayee',   family: "'tenhayee', serif",   size: 26, sample: 'ت', url: 'fonts/tenhayee.woff2' },
+    { id: 'essentials', label: 'Essentials', fonts: [
+      { id: 'vazirmatn',     name: 'Vazirmatn',         family: "'Vazirmatn', sans-serif",      size: 24, sample: 'و', alwaysAvailable: true },
+      { id: 'parastoo',      name: 'Parastoo',          family: "'Parastoo', serif",            size: 28, sample: 'پ', alwaysAvailable: true },
+      { id: 'noto-nastaliq', name: 'Noto Nastaliq Urdu', family: "'Noto Nastaliq Urdu', serif", size: 22, lh: 2.4, sample: 'ن', alwaysAvailable: true },
     ]},
     { id: 'modern-display', label: 'Modern Clean Display', fonts: [
-      { id: 'kamangir', name: 'kamangir', family: "'kamangir', sans-serif", size: 24, sample: 'ک', url: 'fonts/kamangir.woff2' },
       { id: 'narm',     name: 'narm',     family: "'narm', sans-serif",     size: 24, sample: 'ن', url: 'fonts/narm.woff2' },
       { id: 'narma',    name: 'narma',    family: "'narma', sans-serif",    size: 24, sample: 'ن', url: 'fonts/narma.woff2' },
-      { id: 'zan',      name: 'zan',      family: "'zan', sans-serif",      size: 24, sample: 'ز', url: 'fonts/zan.woff2' },
-      { id: 'zendegi',  name: 'zendegi',  family: "'zendegi', sans-serif",  size: 24, sample: 'ز', url: 'fonts/zendegi.woff2' },
+      { id: 'lalezar',  name: 'Lalezar',  family: "'Lalezar', cursive",     size: 22, sample: 'ل', alwaysAvailable: true },
+      { id: 'baz',      name: 'baz',      family: "'baz', cursive",         size: 24, sample: 'ب', url: 'fonts/baz.woff2' },
+      { id: 'bazbaran', name: 'bazbaran', family: "'bazbaran', cursive",    size: 24, sample: 'ب', url: 'fonts/bazbaran.woff2' },
+      { id: 'zanjir',   name: 'zanjir',   family: "'zanjir', cursive",      size: 24, sample: 'ز', url: 'fonts/zanjir.woff2' },
     ]},
     { id: 'decorative', label: 'Decorative / Poster Display', fonts: [
-      { id: 'lalezar',  name: 'Lalezar',  family: "'Lalezar', cursive",  size: 22, sample: 'ل', alwaysAvailable: true },
-      { id: 'baz',      name: 'baz',      family: "'baz', cursive",      size: 24, sample: 'ب', url: 'fonts/baz.woff2' },
-      { id: 'bazbaran', name: 'bazbaran', family: "'bazbaran', cursive", size: 24, sample: 'ب', url: 'fonts/bazbaran.woff2' },
-      { id: 'zanjir',   name: 'zanjir',   family: "'zanjir', cursive",   size: 24, sample: 'ز', url: 'fonts/zanjir.woff2' },
-    ]},
-    { id: 'experimental', label: 'Experimental & Poetic', fonts: [
-      { id: 'zhin',  name: 'zhin',  family: "'zhin', cursive",  size: 24, sample: 'ژ', url: 'fonts/zhin.woff2' },
-      { id: 'zhina', name: 'zhina', family: "'zhina', cursive", size: 24, sample: 'ژ', url: 'fonts/zhina.woff2' },
+      { id: 'kamangir',   name: 'kamangir',   family: "'kamangir', sans-serif", size: 24, sample: 'ک', url: 'fonts/kamangir.woff2' },
+      { id: 'zan',        name: 'zan',        family: "'zan', sans-serif",      size: 24, sample: 'ز', url: 'fonts/zan.woff2' },
+      { id: 'zendegi',    name: 'zendegi',    family: "'zendegi', sans-serif",  size: 24, sample: 'ز', url: 'fonts/zendegi.woff2' },
+      { id: 'ghasedak',   name: 'ghasedak',   family: "'ghasedak', serif",      size: 26, sample: 'غ', url: 'fonts/ghasedak.woff2' },
+      { id: 'ghasedakan', name: 'ghasedakan', family: "'ghasedakan', serif",    size: 26, sample: 'غ', url: 'fonts/ghasedakan.woff2' },
+      { id: 'nikasha',    name: 'nikasha',    family: "'nikasha', serif",       size: 26, sample: 'ن', url: 'fonts/nikasha.woff2' },
+      { id: 'nisha',      name: 'nisha',      family: "'nisha', serif",         size: 26, sample: 'ن', url: 'fonts/nisha.woff2' },
+      { id: 'zhin',       name: 'zhin',       family: "'zhin', cursive",        size: 24, sample: 'ژ', url: 'fonts/zhin.woff2' },
+      { id: 'zhina',      name: 'zhina',      family: "'zhina', cursive",       size: 24, sample: 'ژ', url: 'fonts/zhina.woff2' },
     ]},
   ];
 
@@ -7675,7 +7706,8 @@ document.getElementById('filter-bar').addEventListener('click', function(e) {
       if (det.open) open.push(det.id);
     });
     var notes = document.getElementById('toggle-notes').classList.contains('active');
-    return { m: meanings, p: pronunciation, pe: persian, d: diacritics, n: notes, font: font, size: size, filter: filter, open: open };
+    var natural = document.getElementById('toggle-natural').classList.contains('active');
+    return { m: meanings, p: pronunciation, pe: persian, d: diacritics, n: notes, na: natural, font: font, size: size, filter: filter, open: open };
   }
 
   function stateToHash(s) {
@@ -7685,6 +7717,7 @@ document.getElementById('filter-bar').addEventListener('click', function(e) {
     if (!s.pe) parts.push('pe=0');
     if (s.d) parts.push('d=1');
     if (s.n) parts.push('n=1');
+    if (s.na) parts.push('na=1');
     if (s.font !== 'parastoo') parts.push('fn=' + s.font);
     // Only encode size if it differs from the current font's default
     if (s.size && window.FONT_BY_ID && window.FONT_BY_ID[s.font] && s.size !== window.FONT_BY_ID[s.font].size) {
@@ -7727,6 +7760,10 @@ document.getElementById('filter-bar').addEventListener('click', function(e) {
     var nBtn = document.getElementById('toggle-notes');
     if (params.n === '1' && !nBtn.classList.contains('active')) nBtn.click();
     if (!params.n && nBtn.classList.contains('active')) nBtn.click();
+
+    var naBtn = document.getElementById('toggle-natural');
+    if (params.na === '1' && !naBtn.classList.contains('active')) naBtn.click();
+    if (!params.na && naBtn.classList.contains('active')) naBtn.click();
 
     // Font (apply first, then optionally override the size)
     if (params.fn && window.applyFont) {
@@ -7773,7 +7810,7 @@ document.getElementById('filter-bar').addEventListener('click', function(e) {
   }
 
   // Hook into toggles, filters, font selection, sections
-  ['toggle-meanings', 'toggle-pronunciation', 'toggle-persian', 'toggle-diacritics', 'toggle-notes'].forEach(function(id) {
+  ['toggle-meanings', 'toggle-pronunciation', 'toggle-persian', 'toggle-diacritics', 'toggle-notes', 'toggle-natural'].forEach(function(id) {
     document.getElementById(id).addEventListener('click', function() { setTimeout(syncURL, 0); });
   });
   document.getElementById('filter-bar').addEventListener('click', function(e) {
@@ -7804,11 +7841,13 @@ document.getElementById('filter-bar').addEventListener('click', function(e) {
     var peBtn = document.getElementById('toggle-persian');
     var dBtn = document.getElementById('toggle-diacritics');
     var nBtn = document.getElementById('toggle-notes');
+    var naBtn = document.getElementById('toggle-natural');
     if (!mBtn.classList.contains('active')) mBtn.click();
     if (!pBtn.classList.contains('active')) pBtn.click();
     if (!peBtn.classList.contains('active')) peBtn.click();
     if (dBtn.classList.contains('active')) dBtn.click();
     if (nBtn.classList.contains('active')) nBtn.click();
+    if (naBtn.classList.contains('active')) naBtn.click();
 
     // Reset font (and size) to default
     if (window.applyFont) window.applyFont('parastoo');
