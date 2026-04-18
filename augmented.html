@@ -78,6 +78,12 @@
   .toggle-summary { display: flex; align-items: center; }
   .toggle-summary > h2 { margin: 0; }
   .toggle-summary > .toggle-btn { margin-left: auto; }
+  /* When a summary has multiple VISIBLE toggle-btn children (e.g. Spell Check + IPA),
+     only the first one gets pushed right; subsequent ones sit flush with a small gap.
+     The `:not(.sc-hidden)` guard matters: display:none keeps the element in the DOM,
+     so without it a hidden Spell Check button would still cancel IPA's margin-left:auto
+     via the `+` combinator, leaving IPA flush-left against the section title. */
+  .toggle-summary > .toggle-btn:not(.sc-hidden) + .toggle-btn { margin-left: 8px; }
   /* Section-specific toggles only make sense when their section is open. */
   details:not([open]) > .toggle-summary > .toggle-btn { display: none; }
   /* All open section summaries are sticky; JS sets their top offset */
@@ -164,12 +170,30 @@
     padding: 8pt 0 6pt;
     border-bottom: 1px solid #ddd;
     margin-bottom: 10pt;
+    container-type: inline-size;
+    container-name: toolbar;
   }
   .toolbar-row {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     gap: 8px;
+  }
+  .toolbar-left,
+  .toolbar-right {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    gap: 8px;
+  }
+  .toolbar-right { margin-left: auto; }
+
+  /* When the toolbar can't fit both groups on one line, drop the right
+     cluster to its own line and center both lines instead of letting
+     individual buttons wrap chaotically. */
+  @container toolbar (max-width: 940px) {
+    .toolbar-row { justify-content: center; }
+    .toolbar-right { margin-left: 0; }
   }
   #char-lookup {
     background: #f0f6ff;
@@ -244,9 +268,6 @@
     text-align: center;
   }
 
-  /* Spacer pushes lesson/font/reset to the right */
-  .toolbar-spacer { flex: 1; }
-
   /* Persian font-size A−/A+ controls — sit immediately right of the font trigger */
   .tb-size-controls {
     display: inline-flex;
@@ -283,6 +304,13 @@
     background: #333;
     color: #fff;
   }
+  /* Spell-check toggle — dark forest green variant of the toggle-btn. Only
+     applies to writing-practice inputs; hidden when no writing practice is
+     active anywhere on the page. */
+  .toggle-btn.spellcheck-btn { border-color: #1b6e3a; color: #1b6e3a; }
+  .toggle-btn.spellcheck-btn:hover { background: #e8f5ec; }
+  .toggle-btn.spellcheck-btn.active { background: #1b6e3a; color: #fff; border-color: #1b6e3a; }
+  .toggle-btn.spellcheck-btn.sc-hidden { display: none; }
   .toolbar .reset-btn {
     border: 1.5px solid #aaa;
     background: none;
@@ -530,6 +558,11 @@
 
   /* Center Persian when it's the only visible column */
   .text-row.cols-1 .text-col-persian { text-align: center; }
+  /* Same treatment for writing-practice input mode — when the row collapses
+     to Persian-only, the textarea and its overlay center too so the caret
+     doesn't cling to the right edge of an otherwise-empty row. */
+  .text-row.cols-1 .text-col-input,
+  .text-row.cols-1 .text-col-input-overlay { text-align: center; }
 
   /* Stanza break */
   .text-stanza-break {
@@ -643,6 +676,10 @@
   .input-ch.ch-bad { color: #dc2626; }
   .input-ch.ch-neutral { color: inherit; }
   .text-row.input-complete > .text-col-input-wrap { background: #a7f3d0; }
+  /* Spell check OFF — render all typed chars plainly, no correctness feedback. */
+  body.no-spellcheck .input-ch.ch-ok { background: transparent; border-radius: 0; }
+  body.no-spellcheck .input-ch.ch-bad { color: inherit; }
+  body.no-spellcheck .text-row.input-complete > .text-col-input-wrap { background: transparent; }
 
   @media print {
     .toolbar { display: none; }
@@ -710,6 +747,11 @@
     .row-toggle.rt-en { right: 28px; }
     .row-toggle.rt-di { right: 4px; }
     .text-col-input-wrap { padding: 4pt 6pt; text-align: center; }
+    /* On narrow viewports the row stacks, so the Persian input sits on its
+       own line — center its typed text and overlay to match the Persian
+       read-only column's centered alignment. */
+    .text-col-input,
+    .text-col-input-overlay { text-align: center; }
     .text-col-input-overlay { inset: 4pt 6pt; }
 
     /* Natural text stacks with the rest of the latin column, centered */
@@ -744,30 +786,34 @@
     <button data-filter="NPI5">Lesson 5</button>
     <button data-filter="NPI6">Lesson 6</button>
     <button data-filter="NPI7">Lesson 7</button>
+    <button data-filter="NPI8">Lesson 8</button>
   </div>
 
   <div class="toolbar-row">
-    <button class="toggle-btn active" id="toggle-persian">Persian</button>
-    <button class="toggle-btn active" id="toggle-pronunciation">Transliteration</button>
-    <button class="toggle-btn active" id="toggle-meanings">Meaning</button>
-    <button class="toggle-btn" id="toggle-diacritics">Diacritics</button>
-    <button class="toggle-btn" id="toggle-notes">Notes</button>
-    <span class="toolbar-spacer"></span>
-    <button class="tb-trigger" id="lesson-trigger" title="Filter by lesson">
-      <span class="tb-trigger-label">All Lessons</span>
-      <span class="tb-caret">▾</span>
-    </button>
-    <button class="tb-trigger" id="font-trigger" title="Choose Persian font">
-      <span class="tb-font-sample">فارسی</span>
-      <span class="tb-trigger-label">Parastoo</span>
-      <span class="tb-caret">▾</span>
-    </button>
-    <div class="tb-size-controls" role="group" aria-label="Persian font size">
-      <button class="tb-size-btn" id="font-size-down"  title="Decrease Persian font size">A−</button>
-      <button class="tb-size-btn tb-size-reset" id="font-size-reset" title="Reset Persian font size">A</button>
-      <button class="tb-size-btn" id="font-size-up"    title="Increase Persian font size">A+</button>
+    <div class="toolbar-left">
+      <button class="toggle-btn active" id="toggle-persian">Persian</button>
+      <button class="toggle-btn active" id="toggle-pronunciation">Transliteration</button>
+      <button class="toggle-btn active" id="toggle-meanings">Meaning</button>
+      <button class="toggle-btn" id="toggle-diacritics">Diacritics</button>
+      <button class="toggle-btn" id="toggle-notes">Notes</button>
     </div>
-    <button class="reset-btn" id="reset-btn" title="Reset all settings to defaults">Reset</button>
+    <div class="toolbar-right">
+      <button class="tb-trigger" id="lesson-trigger" title="Filter by lesson">
+        <span class="tb-trigger-label">All Lessons</span>
+        <span class="tb-caret">▾</span>
+      </button>
+      <button class="tb-trigger" id="font-trigger" title="Choose Persian font">
+        <span class="tb-font-sample">فارسی</span>
+        <span class="tb-trigger-label">Parastoo</span>
+        <span class="tb-caret">▾</span>
+      </button>
+      <div class="tb-size-controls" role="group" aria-label="Persian font size">
+        <button class="tb-size-btn" id="font-size-down"  title="Decrease Persian font size">A−</button>
+        <button class="tb-size-btn tb-size-reset" id="font-size-reset" title="Reset Persian font size">A</button>
+        <button class="tb-size-btn" id="font-size-up"    title="Increase Persian font size">A+</button>
+      </div>
+      <button class="reset-btn" id="reset-btn" title="Reset all settings to defaults">Reset</button>
+    </div>
   </div>
 
   <div id="char-lookup">
@@ -793,6 +839,7 @@
       <button class="modal-option" data-filter="NPI5">Lesson 5</button>
       <button class="modal-option" data-filter="NPI6">Lesson 6</button>
       <button class="modal-option" data-filter="NPI7">Lesson 7</button>
+      <button class="modal-option" data-filter="NPI8">Lesson 8</button>
     </div>
   </div>
 </div>
@@ -810,162 +857,185 @@
 <!-- ================================ WORDS ================================ -->
 
 <details class="section-h2" id="sec-words">
-<summary class="toggle-summary"><h2>Words</h2><button class="toggle-btn ipa-toggle" title="Show IPA pronunciation alongside the transliteration">IPA</button></summary>
+<summary class="toggle-summary"><h2>Words</h2><button class="toggle-btn spellcheck-btn active" title="When on, live-check each typed character against the expected Persian. When off, typed text renders plainly with no feedback.">Spell Check</button><button class="toggle-btn ipa-toggle" title="Show IPA pronunciation alongside the transliteration">IPA</button></summary>
 
-<details class="section-h3" id="sec-words-people-identity">
-<summary><h3>People & Identity</h3></summary>
-<div class="text-row" data-lesson="NPI2">
-  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">آمریکایی</span></div>
-  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Amrīkāī</span><span class="ipa-text">  /ɒːmɾiːkɒːjiː/</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">American</span></span></div>
+<details class="section-h3" id="sec-words-feelings-states">
+<summary><h3>Feelings & States</h3></summary>
+<div class="text-row" data-lesson="NPI8">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">افسرده</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Afsorde</span><span class="ipa-text">  /æfsoɾde/</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Depressed / dejected</span></span></div>
 </div>
 
-<div class="text-row" data-lesson="NPI7">
-  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">آشنا</span></div>
-  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Āshnā</span><span class="ipa-text">  /ɒːʃnɒː/</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Familiar / known</span></span></div>
+<div class="text-row" data-lesson="NPI8">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">آرام</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Ārām</span><span class="ipa-text">  /ɒːɾɒːm/</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Calm / peaceful</span></span></div>
 </div>
 
-<div class="text-row" data-lesson="NPI2">
-  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">بابا</span></div>
-  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Bābā</span><span class="ipa-text">  /bɒːbɒː/</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Father / Dad</span></span></div>
+<div class="text-row" data-lesson="NPI8">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">عصبی</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">'Aṣabī</span><span class="ipa-text">  /æsæbiː/</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Nervous / irritated</span></span></div>
 </div>
 
-<div class="text-row" data-lesson="NPI7">
-  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">دلدار</span></div>
-  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Dil-dār</span><span class="ipa-text">  /deldɒːɾ/</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Heart-keeper / beloved</span></span></div>
-  <div class="text-col-notes">Lit. “heart-holder”</div>
+<div class="text-row" data-lesson="NPI8">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">دلتنگ</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Dil-tang</span><span class="ipa-text">  /deltæng/</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Heartsick / longing</span></span></div>
 </div>
 
-<div class="text-row" data-lesson="NPI7">
-  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">دوست</span></div>
-  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Dost</span><span class="ipa-text">  /duːst/</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Friend</span></span></div>
+<div class="text-row" data-lesson="NPI5">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">حِس</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Ḥiss</span><span class="ipa-text">  /hes/</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Feeling</span></span></div>
+</div>
+
+
+<div class="text-row" data-lesson="NPI5">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">احساس</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Iḥsās</span><span class="ipa-text">  /ehsɒːs/</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Feeling</span></span></div>
+</div>
+
+
+<div class="text-row" data-lesson="NPI5">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">احساسات</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Iḥsāsāt</span><span class="ipa-text">  /ehsɒːsɒːt/</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Feelings</span></span></div>
+  <div class="text-col-notes">Plural</div>
+</div>
+
+
+<div class="text-row" data-lesson="NPI3, NPI8">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">جدّی</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Jiddī</span><span class="ipa-text">  /d͡ʒeddiː/</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Serious</span></span></div>
+</div>
+
+
+<div class="text-row" data-lesson="NPI8">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">خوشحال</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Khush-ḥāl</span><span class="ipa-text">  /xoʃhɒːl/</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Happy / glad</span></span></div>
+</div>
+
+<div class="text-row" data-lesson="NPI8">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">متعجب</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Muta'ajjib</span><span class="ipa-text">  /motæʔæd͡ʒd͡ʒeb/</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Astonished</span></span></div>
+</div>
+
+<div class="text-row" data-lesson="NPI8">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">متفکر</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Mutafakker</span><span class="ipa-text">  /motæfækkeɾ/</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Thoughtful / pensive</span></span></div>
+</div>
+
+<div class="text-row" data-lesson="NPI8">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">ناراحت</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Nā-rāhat</span><span class="ipa-text">  /nɒːɾɒːhæt/</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Upset / uncomfortable</span></span></div>
+</div>
+
+<div class="text-row" data-lesson="NPI8">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">نگران</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Negarān</span><span class="ipa-text">  /negæɾɒːn/</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Worried / anxious</span></span></div>
+</div>
+
+<div class="text-row" data-lesson="NPI8">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">شاد</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Shād</span><span class="ipa-text">  /ʃɒːd/</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Joyful / glad</span></span></div>
+</div>
+
+<div class="text-row" data-lesson="NPI5">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">شرمنده</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Sharmande</span><span class="ipa-text">  /ʃæɾmænde/</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Shamed</span></span></div>
+</div>
+
+
+<div class="text-row" data-lesson="NPI8">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">شرمزده</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Sharm-zade</span><span class="ipa-text">  /ʃæɾmzæde/</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Shame-stricken / ashamed</span></span></div>
+</div>
+
+<div class="text-row" data-lesson="NPI8">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">امیدوار</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Ummed-wār</span><span class="ipa-text">  /omiːdvɒːɾ/</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Hopeful</span></span></div>
+</div>
+</details>
+
+<details class="section-h3" id="sec-words-language-numbers-expressions">
+<summary><h3>Language, Numbers & Expressions</h3></summary>
+<div class="text-row" data-lesson="NPI8">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">عدد</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">'Adad</span><span class="ipa-text">  /ædæd/</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Number</span></span></div>
 </div>
 
 <div class="text-row" data-lesson="NPI3">
-  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">حبیب</span></div>
-  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Ḥabīb</span><span class="ipa-text">  /hæbiːb/</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Beloved</span></span></div>
-  <div class="text-col-notes">Also a name</div>
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">آه</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Āh</span><span class="ipa-text">  /ɒːh/</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Lament / Ah</span></span></div>
+</div>
+
+<div class="text-row" data-lesson="NPI8">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">عربی</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">'Arabī</span><span class="ipa-text">  /æɾæbiː/</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Arabic (language)</span></span></div>
 </div>
 
 <div class="text-row" data-lesson="NPI7">
-  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">همدم</span></div>
-  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Ham-dam</span><span class="ipa-text">  /hæmdæm/</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Breath-sharer / companion</span></span></div>
-  <div class="text-col-notes">Lit. “same-breath”</div>
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">چطور</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Cheṭor</span><span class="ipa-text">  /t͡ʃetoːɾ/</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">How</span></span></div>
 </div>
 
-<div class="text-row" data-lesson="NPI7">
-  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">همدل</span></div>
-  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Ham-dil</span><span class="ipa-text">  /hæmdel/</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Heart-sharer / empathetic friend</span></span></div>
-  <div class="text-col-notes">Lit. “same-heart”</div>
-</div>
-
-<div class="text-row" data-lesson="NPI7">
-  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">همنشین</span></div>
-  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Ham-nashīn</span><span class="ipa-text">  /hæmnæʃiːn/</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Same-sitter / companion</span></span></div>
-  <div class="text-col-notes">Lit. “same-sitter”</div>
-</div>
-
-<div class="text-row" data-lesson="NPI7">
-  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">همراه</span></div>
-  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Ham-rāh</span><span class="ipa-text">  /hæmɾɒːh/</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Fellow traveler</span></span></div>
-  <div class="text-col-notes">Lit. “same-road”</div>
-</div>
-
-<div class="text-row" data-lesson="NPI1">
-  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">ایران</span></div>
-  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Īrān</span><span class="ipa-text">  /iːɾɒːn/</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Iran</span></span></div>
-</div>
-
-<div class="text-row" data-lesson="NPI2">
-  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">ایرانی</span></div>
-  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Īrānī</span><span class="ipa-text">  /iːɾɒːniː/</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Iranian</span></span></div>
-</div>
-
-<div class="text-row" data-lesson="NPI2">
-  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">اسم</span></div>
-  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Ism</span><span class="ipa-text">  /esm/</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Name</span></span></div>
+<div class="text-row" data-lesson="NPI3">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">چه</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Chi</span><span class="ipa-text">  /t͡ʃe/</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">What? / How?</span></span></div>
 </div>
 
 <div class="text-row" data-lesson="NPI4">
-  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">خود</span></div>
-  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Khud</span><span class="ipa-text">  /xod/</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Self</span></span></div>
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">چرا</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Chirā</span><span class="ipa-text">  /t͡ʃeɾɒː/</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Why?</span></span></div>
+</div>
+
+<div class="text-row" data-lesson="NPI3">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">دری</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Darī</span><span class="ipa-text">  /dæɾiː/</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">The Court Language</span></span></div>
+  <div class="text-col-notes">Dari</div>
 </div>
 
 <div class="text-row" data-lesson="NPI2">
-  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">من</span></div>
-  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Man</span><span class="ipa-text">  /mæn/</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">I / Me</span></span></div>
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">دو</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Du / Do</span><span class="ipa-text">  /do/</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Two</span></span></div>
 </div>
 
-<div class="text-row" data-lesson="NPI2">
-  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">پاپ</span></div>
-  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Pāp</span><span class="ipa-text">  /pɒːp/</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Pope</span></span></div>
+<div class="text-row" data-lesson="NPI3">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">پارسی</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Pārsī</span><span class="ipa-text">  /pɒːɾsiː/</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">The Persian Language</span></span></div>
 </div>
 
-<div class="text-row" data-lesson="NPI7">
-  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">رفیق</span></div>
-  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Rafīq</span><span class="ipa-text">  /ɾæfiːq/</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Friend / kind</span></span></div>
+<div class="text-row" data-lesson="NPI5">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">ثانیه</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Sāniye</span><span class="ipa-text">  /sɒːnije/</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Second</span></span></div>
+  <div class="text-col-notes">Time</div>
 </div>
 
-<div class="text-row" data-lesson="NPI6">
-  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">صاحب</span></div>
-  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Ṣāḥib</span><span class="ipa-text">  /sɒːheb/</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Owner / lord</span></span></div>
+<div class="text-row" data-lesson="NPI5">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">سه</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Si</span><span class="ipa-text">  /se/</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Three</span></span></div>
 </div>
 
-<div class="text-row" data-lesson="NPI6">
-  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">شاه</span></div>
-  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Shāh</span><span class="ipa-text">  /ʃɒːh/</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">King</span></span></div>
+<div class="text-row" data-lesson="NPI5">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">سی</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Sī</span><span class="ipa-text">  /siː/</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Thirty</span></span></div>
 </div>
 
-<div class="text-row" data-lesson="NPI6">
-  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">شاهد</span></div>
-  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Shāhid</span><span class="ipa-text">  /ʃɒːhed/</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Witness</span></span></div>
-</div>
-
-<div class="text-row" data-lesson="NPI7">
-  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">شخص</span></div>
-  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Shakhs</span><span class="ipa-text">  /ʃæxs/</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Person</span></span></div>
-</div>
-
-<div class="text-row" data-lesson="NPI7">
-  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">شخصیت</span></div>
-  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Shakhsiyyat</span><span class="ipa-text">  /ʃæxsiːjæt/</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Personality</span></span></div>
-</div>
-
-<div class="text-row" data-lesson="NPI6">
-  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">شیخ</span></div>
-  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Shaykh</span><span class="ipa-text">  /ʃejx/</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Elder / shaykh</span></span></div>
-</div>
-
-<div class="text-row" data-lesson="NPI2">
-  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">شما</span></div>
-  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Shumā</span><span class="ipa-text">  /ʃomɒː/</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">You</span></span></div>
-  <div class="text-col-notes">Formal</div>
-</div>
-
-<div class="text-row" data-lesson="NPI7">
-  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">طباخ</span></div>
-  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Ṭabbākh</span><span class="ipa-text">  /tæbbɒːx/</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Cook</span></span></div>
-  <div class="text-col-notes">Kalla-pācha cook</div>
-</div>
-
-<div class="text-row" data-lesson="NPI7">
-  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">طبیب</span></div>
-  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Ṭabīb</span><span class="ipa-text">  /tæbiːb/</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Doctor</span></span></div>
-</div>
-
-<div class="text-row" data-lesson="NPI7">
-  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">طراح</span></div>
-  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Ṭarrāḥ</span><span class="ipa-text">  /tæɾɾɒːh/</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Designer</span></span></div>
+<div class="text-row" data-lesson="NPI3">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">تاجیکی</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Tājīkī</span><span class="ipa-text">  /tɒːd͡ʒiːkiː/</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Language of Tajiks</span></span></div>
+  <div class="text-col-notes">Tajik</div>
 </div>
 
 <div class="text-row" data-lesson="NPI1">
-  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">او</span></div>
-  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Ū</span><span class="ipa-text">  /uː/</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">He / She / They</span></span></div>
-  <div class="text-col-notes">Gender-neutral</div>
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">وای</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Vāy</span><span class="ipa-text">  /vɒːj/</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Oh my!</span></span></div>
 </div>
 
-<div class="text-row" data-lesson="NPI7">
-  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">یار</span></div>
-  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Yār</span><span class="ipa-text">  /jɒːɾ/</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Friend / lover / helper</span></span></div>
+<div class="text-row" data-lesson="NPI5">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">ژاژ</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Zhāzh</span><span class="ipa-text">  /ʒɒːʒ/</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Thistle / Idle talk</span></span></div>
+</div>
+
+<div class="text-row" data-lesson="NPI8">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">ظهر</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Ẓuhr</span><span class="ipa-text">  /zohɾ/</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Noon / midday</span></span></div>
 </div>
 </details>
 
@@ -1167,6 +1237,12 @@
   <div class="text-col-notes">Also a female name</div>
 </div>
 
+<div class="text-row" data-lesson="NPI8">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">عید</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">'Īd</span><span class="ipa-text">  /iːd/</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Eid / Holiday</span></span></div>
+  <div class="text-col-notes">Festival; standalone form</div>
+</div>
+
 <div class="text-row" data-lesson="NPI4">
   <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">جوراب</span></div>
   <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Jūrāb</span><span class="ipa-text">  /d͡ʒuːɾɒːb/</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Sock</span></span></div>
@@ -1227,8 +1303,215 @@
 </div>
 </details>
 
+<details class="section-h3" id="sec-words-people-identity">
+<summary><h3>People & Identity</h3></summary>
+<div class="text-row" data-lesson="NPI2">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">آمریکایی</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Amrīkāī</span><span class="ipa-text">  /ɒːmɾiːkɒːjiː/</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">American</span></span></div>
+</div>
+
+<div class="text-row" data-lesson="NPI8">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">عروس</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">'Arūs</span><span class="ipa-text">  /æɾuːs/</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Bride</span></span></div>
+</div>
+
+<div class="text-row" data-lesson="NPI7">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">آشنا</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Āshnā</span><span class="ipa-text">  /ɒːʃnɒː/</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Familiar / known</span></span></div>
+</div>
+
+<div class="text-row" data-lesson="NPI2">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">بابا</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Bābā</span><span class="ipa-text">  /bɒːbɒː/</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Father / Dad</span></span></div>
+</div>
+
+<div class="text-row" data-lesson="NPI7">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">دلدار</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Dil-dār</span><span class="ipa-text">  /deldɒːɾ/</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Heart-keeper / beloved</span></span></div>
+  <div class="text-col-notes">Lit. “heart-holder”</div>
+</div>
+
+<div class="text-row" data-lesson="NPI7">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">دوست</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Dost</span><span class="ipa-text">  /duːst/</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Friend</span></span></div>
+</div>
+
+<div class="text-row" data-lesson="NPI3">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">حبیب</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Ḥabīb</span><span class="ipa-text">  /hæbiːb/</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Beloved</span></span></div>
+  <div class="text-col-notes">Also a name</div>
+</div>
+
+<div class="text-row" data-lesson="NPI7">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">همدم</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Ham-dam</span><span class="ipa-text">  /hæmdæm/</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Breath-sharer / companion</span></span></div>
+  <div class="text-col-notes">Lit. “same-breath”</div>
+</div>
+
+<div class="text-row" data-lesson="NPI7">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">همدل</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Ham-dil</span><span class="ipa-text">  /hæmdel/</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Heart-sharer / empathetic friend</span></span></div>
+  <div class="text-col-notes">Lit. “same-heart”</div>
+</div>
+
+<div class="text-row" data-lesson="NPI7">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">همنشین</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Ham-nashīn</span><span class="ipa-text">  /hæmnæʃiːn/</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Same-sitter / companion</span></span></div>
+  <div class="text-col-notes">Lit. “same-sitter”</div>
+</div>
+
+<div class="text-row" data-lesson="NPI7">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">همراه</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Ham-rāh</span><span class="ipa-text">  /hæmɾɒːh/</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Fellow traveler</span></span></div>
+  <div class="text-col-notes">Lit. “same-road”</div>
+</div>
+
+<div class="text-row" data-lesson="NPI1">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">ایران</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Īrān</span><span class="ipa-text">  /iːɾɒːn/</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Iran</span></span></div>
+</div>
+
+<div class="text-row" data-lesson="NPI2">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">ایرانی</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Īrānī</span><span class="ipa-text">  /iːɾɒːniː/</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Iranian</span></span></div>
+</div>
+
+<div class="text-row" data-lesson="NPI2">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">اسم</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Ism</span><span class="ipa-text">  /esm/</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Name</span></span></div>
+</div>
+
+<div class="text-row" data-lesson="NPI4">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">خود</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Khud</span><span class="ipa-text">  /xod/</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Self</span></span></div>
+</div>
+
+<div class="text-row" data-lesson="NPI2">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">من</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Man</span><span class="ipa-text">  /mæn/</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">I / Me</span></span></div>
+</div>
+
+<div class="text-row" data-lesson="NPI2">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">پاپ</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Pāp</span><span class="ipa-text">  /pɒːp/</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Pope</span></span></div>
+</div>
+
+<div class="text-row" data-lesson="NPI7">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">رفیق</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Rafīq</span><span class="ipa-text">  /ɾæfiːq/</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Friend / kind</span></span></div>
+</div>
+
+<div class="text-row" data-lesson="NPI6">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">صاحب</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Ṣāḥib</span><span class="ipa-text">  /sɒːheb/</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Owner / lord</span></span></div>
+</div>
+
+<div class="text-row" data-lesson="NPI6">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">شاه</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Shāh</span><span class="ipa-text">  /ʃɒːh/</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">King</span></span></div>
+</div>
+
+<div class="text-row" data-lesson="NPI6">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">شاهد</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Shāhid</span><span class="ipa-text">  /ʃɒːhed/</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Witness</span></span></div>
+</div>
+
+<div class="text-row" data-lesson="NPI7">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">شخص</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Shakhs</span><span class="ipa-text">  /ʃæxs/</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Person</span></span></div>
+</div>
+
+<div class="text-row" data-lesson="NPI7">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">شخصیت</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Shakhsiyyat</span><span class="ipa-text">  /ʃæxsiːjæt/</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Personality</span></span></div>
+</div>
+
+<div class="text-row" data-lesson="NPI6">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">شیخ</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Shaykh</span><span class="ipa-text">  /ʃejx/</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Elder / shaykh</span></span></div>
+</div>
+
+<div class="text-row" data-lesson="NPI2">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">شما</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Shumā</span><span class="ipa-text">  /ʃomɒː/</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">You</span></span></div>
+  <div class="text-col-notes">Formal</div>
+</div>
+
+<div class="text-row" data-lesson="NPI7">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">طباخ</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Ṭabbākh</span><span class="ipa-text">  /tæbbɒːx/</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Cook</span></span></div>
+  <div class="text-col-notes">Kalla-pācha cook</div>
+</div>
+
+<div class="text-row" data-lesson="NPI7">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">طبیب</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Ṭabīb</span><span class="ipa-text">  /tæbiːb/</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Doctor</span></span></div>
+</div>
+
+<div class="text-row" data-lesson="NPI7">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">طراح</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Ṭarrāḥ</span><span class="ipa-text">  /tæɾɾɒːh/</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Designer</span></span></div>
+</div>
+
+<div class="text-row" data-lesson="NPI1">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">او</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Ū</span><span class="ipa-text">  /uː/</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">He / She / They</span></span></div>
+  <div class="text-col-notes">Gender-neutral</div>
+</div>
+
+<div class="text-row" data-lesson="NPI7">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">یار</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Yār</span><span class="ipa-text">  /jɒːɾ/</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Friend / lover / helper</span></span></div>
+</div>
+</details>
+
 <details class="section-h3" id="sec-words-qualities-concepts">
 <summary><h3>Qualities & Concepts</h3></summary>
+<div class="text-row" data-lesson="NPI8">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">عادت</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">'Ādat</span><span class="ipa-text">  /ɒːdæt/</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Habit / custom</span></span></div>
+</div>
+
+<div class="text-row" data-lesson="NPI8">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">عهد</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">'Ahd</span><span class="ipa-text">  /æhd/</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Pact / oath</span></span></div>
+</div>
+
+<div class="text-row" data-lesson="NPI8">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">عجب</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">'Ajab</span><span class="ipa-text">  /æd͡ʒæb/</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Wonder / surprise</span></span></div>
+</div>
+
+<div class="text-row" data-lesson="NPI8">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">عجیب</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">'Ajīb</span><span class="ipa-text">  /æd͡ʒiːb/</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Strange / wondrous</span></span></div>
+</div>
+
+<div class="text-row" data-lesson="NPI8">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">عرض</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">'Arz</span><span class="ipa-text">  /æɾz/</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Width / presentation</span></span></div>
+</div>
+
+<div class="text-row" data-lesson="NPI8">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">عصب</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">'Aṣab</span><span class="ipa-text">  /æsæb/</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Nerve</span></span></div>
+</div>
+
+<div class="text-row" data-lesson="NPI8">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">عیب</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">'Ayb</span><span class="ipa-text">  /ejb/</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Fault / defect</span></span></div>
+</div>
+
+<div class="text-row" data-lesson="NPI8">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">عذاب</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">'Azāb</span><span class="ipa-text">  /æzɒːb/</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Torment</span></span></div>
+</div>
+
+<div class="text-row" data-lesson="NPI8">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">عزیز</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">'Azīz</span><span class="ipa-text">  /æziːz/</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Dear / precious</span></span></div>
+</div>
+
 <div class="text-row" data-lesson="NPI2">
   <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">بد</span></div>
   <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Bad</span><span class="ipa-text">  /bæd/</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Bad</span></span></div>
@@ -1259,25 +1542,9 @@
   <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Ḥadd</span><span class="ipa-text">  /hædd/</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Limit</span></span></div>
 </div>
 
-<div class="text-row" data-lesson="NPI5">
-  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">حِس</span></div>
-  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Ḥiss</span><span class="ipa-text">  /hes/</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Feeling</span></span></div>
-</div>
-
 <div class="text-row" data-lesson="NPI3">
   <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">هُوَیدا</span></div>
   <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Huwaydā</span><span class="ipa-text">  /hovejdɒː/</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Visible</span></span></div>
-</div>
-
-<div class="text-row" data-lesson="NPI5">
-  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">احساس</span></div>
-  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Iḥsās</span><span class="ipa-text">  /ehsɒːs/</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Feeling</span></span></div>
-</div>
-
-<div class="text-row" data-lesson="NPI5">
-  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">احساسات</span></div>
-  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Iḥsāsāt</span><span class="ipa-text">  /ehsɒːsɒːt/</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Feelings</span></span></div>
-  <div class="text-col-notes">Plural</div>
 </div>
 
 <div class="text-row" data-lesson="NPI6">
@@ -1290,14 +1557,14 @@
   <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Istiṡnā'</span><span class="ipa-text">  /estesnɒː/</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Exception</span></span></div>
 </div>
 
-<div class="text-row" data-lesson="NPI3">
-  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">جواب</span></div>
-  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Jawāb</span><span class="ipa-text">  /d͡ʒævɒːb/</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Reply</span></span></div>
+<div class="text-row" data-lesson="NPI8">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">عزّت</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">'Izzat</span><span class="ipa-text">  /ezzæt/</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Honor / esteem</span></span></div>
 </div>
 
 <div class="text-row" data-lesson="NPI3">
-  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">جدّی</span></div>
-  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Jiddī</span><span class="ipa-text">  /d͡ʒeddiː/</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Serious</span></span></div>
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">جواب</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Jawāb</span><span class="ipa-text">  /d͡ʒævɒːb/</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Reply</span></span></div>
 </div>
 
 <div class="text-row" data-lesson="NPI5">
@@ -1372,11 +1639,6 @@
   <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Shadīd</span><span class="ipa-text">  /ʃædiːd/</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Intense</span></span></div>
 </div>
 
-<div class="text-row" data-lesson="NPI5">
-  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">شرمنده</span></div>
-  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Sharmande</span><span class="ipa-text">  /ʃæɾmænde/</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Shamed</span></span></div>
-</div>
-
 <div class="text-row" data-lesson="NPI6">
   <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">صحت</span></div>
   <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Ṣiḥat</span><span class="ipa-text">  /sehhæt/</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Soundness / health / truth</span></span></div>
@@ -1405,6 +1667,11 @@
 <div class="text-row" data-lesson="NPI6">
   <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">صورتی</span></div>
   <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Ṣūratī</span><span class="ipa-text">  /suːɾætiː/</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Pink / handsome</span></span></div>
+</div>
+
+<div class="text-row" data-lesson="NPI8">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">تعصّب</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Ta'aṣṣub</span><span class="ipa-text">  /tæʔæssob/</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Bigotry / fanaticism</span></span></div>
 </div>
 
 <div class="text-row" data-lesson="NPI2">
@@ -1437,6 +1704,17 @@
   <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Taṣawwur</span><span class="ipa-text">  /tæsævvoɾ/</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Imagining</span></span></div>
 </div>
 
+<div class="text-row" data-lesson="NPI8">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">تظاهر</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Taẓāhur</span><span class="ipa-text">  /tæzɒːhoɾ/</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Pretense / demonstration</span></span></div>
+</div>
+
+<div class="text-row" data-lesson="NPI8">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">تظاهرات</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Taẓāhurāt</span><span class="ipa-text">  /tæzɒːhoɾɒːt/</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Demonstrations / protests</span></span></div>
+  <div class="text-col-notes">Plural</div>
+</div>
+
 <div class="text-row" data-lesson="NPI5">
   <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">تازه</span></div>
   <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Tāze</span><span class="ipa-text">  /tɒːze/</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Fresh / New</span></span></div>
@@ -1450,6 +1728,11 @@
 <div class="text-row" data-lesson="NPI5">
   <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">عذر</span></div>
   <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">'Uzr</span><span class="ipa-text">  /ozɾ/</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Excuse</span></span></div>
+</div>
+
+<div class="text-row" data-lesson="NPI8">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">ظاهر</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Ẓāhir</span><span class="ipa-text">  /zɒːheɾ/</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Apparent / visible</span></span></div>
 </div>
 
 <div class="text-row" data-lesson="NPI7">
@@ -1471,76 +1754,10 @@
   <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">ضد</span></div>
   <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Żidd</span><span class="ipa-text">  /zedd/</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Against / opposite</span></span></div>
 </div>
-</details>
 
-<details class="section-h3" id="sec-words-language-numbers-expressions">
-<summary><h3>Language, Numbers & Expressions</h3></summary>
-<div class="text-row" data-lesson="NPI3">
-  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">آه</span></div>
-  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Āh</span><span class="ipa-text">  /ɒːh/</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Lament / Ah</span></span></div>
-</div>
-
-<div class="text-row" data-lesson="NPI7">
-  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">چطور</span></div>
-  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Cheṭor</span><span class="ipa-text">  /t͡ʃetoːɾ/</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">How</span></span></div>
-</div>
-
-<div class="text-row" data-lesson="NPI3">
-  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">چه</span></div>
-  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Chi</span><span class="ipa-text">  /t͡ʃe/</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">What? / How?</span></span></div>
-</div>
-
-<div class="text-row" data-lesson="NPI4">
-  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">چرا</span></div>
-  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Chirā</span><span class="ipa-text">  /t͡ʃeɾɒː/</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Why?</span></span></div>
-</div>
-
-<div class="text-row" data-lesson="NPI3">
-  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">دری</span></div>
-  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Darī</span><span class="ipa-text">  /dæɾiː/</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">The Court Language</span></span></div>
-  <div class="text-col-notes">Dari</div>
-</div>
-
-<div class="text-row" data-lesson="NPI2">
-  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">دو</span></div>
-  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Du / Do</span><span class="ipa-text">  /do/</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Two</span></span></div>
-</div>
-
-<div class="text-row" data-lesson="NPI3">
-  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">پارسی</span></div>
-  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Pārsī</span><span class="ipa-text">  /pɒːɾsiː/</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">The Persian Language</span></span></div>
-</div>
-
-<div class="text-row" data-lesson="NPI5">
-  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">ثانیه</span></div>
-  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Sāniye</span><span class="ipa-text">  /sɒːnije/</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Second</span></span></div>
-  <div class="text-col-notes">Time</div>
-</div>
-
-<div class="text-row" data-lesson="NPI5">
-  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">سه</span></div>
-  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Si</span><span class="ipa-text">  /se/</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Three</span></span></div>
-</div>
-
-<div class="text-row" data-lesson="NPI5">
-  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">سی</span></div>
-  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Sī</span><span class="ipa-text">  /siː/</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Thirty</span></span></div>
-</div>
-
-<div class="text-row" data-lesson="NPI3">
-  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">تاجیکی</span></div>
-  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Tājīkī</span><span class="ipa-text">  /tɒːd͡ʒiːkiː/</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Language of Tajiks</span></span></div>
-  <div class="text-col-notes">Tajik</div>
-</div>
-
-<div class="text-row" data-lesson="NPI1">
-  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">وای</span></div>
-  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Vāy</span><span class="ipa-text">  /vɒːj/</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Oh my!</span></span></div>
-</div>
-
-<div class="text-row" data-lesson="NPI5">
-  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">ژاژ</span></div>
-  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Zhāzh</span><span class="ipa-text">  /ʒɒːʒ/</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Thistle / Idle talk</span></span></div>
+<div class="text-row" data-lesson="NPI8">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">ظهور</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Ẓuhūr</span><span class="ipa-text">  /zohuːɾ/</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Appearance / emergence</span></span></div>
 </div>
 </details>
 
@@ -1549,7 +1766,7 @@
 <!-- =============================== PHRASES =============================== -->
 
 <details class="section-h2" id="sec-phrases">
-<summary class="toggle-summary"><h2>Phrases</h2><button class="toggle-btn ipa-toggle" title="Show IPA pronunciation alongside the transliteration">IPA</button></summary>
+<summary class="toggle-summary"><h2>Phrases</h2><button class="toggle-btn spellcheck-btn active" title="When on, live-check each typed character against the expected Persian. When off, typed text renders plainly with no feedback.">Spell Check</button><button class="toggle-btn ipa-toggle" title="Show IPA pronunciation alongside the transliteration">IPA</button></summary>
 
 <details class="section-h3" id="sec-apology">
 <summary><h3>Apology</h3></summary>
@@ -1754,7 +1971,7 @@
 <!-- ============================= STORIES ============================= -->
 
 <details class="section-h2" id="sec-stories" data-no-filter>
-<summary><h2>Stories</h2></summary>
+<summary class="toggle-summary"><h2>Stories</h2><button class="toggle-btn spellcheck-btn active" title="When on, live-check each typed character against the expected Persian. When off, typed text renders plainly with no feedback.">Spell Check</button></summary>
 
 <details class="section-h3 text-section" id="sec-story-bad-dream">
 <summary><h3>خواب بد — A Bad Dream</h3></summary>
@@ -1960,7 +2177,7 @@
 <!-- ============================= TEXTS ============================== -->
 
 <details class="section-h2" id="sec-texts" data-no-filter>
-<summary class="toggle-summary"><h2>Texts</h2><button class="toggle-btn" id="toggle-natural" title="Show a natural, flowing English translation below each line">Flow</button></summary>
+<summary class="toggle-summary"><h2>Texts</h2><button class="toggle-btn spellcheck-btn active" title="When on, live-check each typed character against the expected Persian. When off, typed text renders plainly with no feedback.">Spell Check</button><button class="toggle-btn" id="toggle-natural" title="Show a natural, flowing English translation below each line">Flow</button></summary>
 
 <details class="section-h3" id="sec-texts-classical">
 <summary><h3>Classical Poetry (She'r)</h3></summary>
@@ -6056,25 +6273,25 @@
   <div class="text-col-notes">Emphatic S (Arabic-origin words). Same shape family as <span class="persian-inline">ض</span></div>
 </div>
 
-<div class="text-row letter-entry" data-lesson="NPI5/7">
+<div class="text-row letter-entry" data-lesson="NPI5, NPI7">
   <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">ض</span></div>
   <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Zād — Z</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="letter-forms">(ض  ضـ  ـضـ  ـض)</span></span></div>
   <div class="text-col-notes">Emphatic Z (Arabic-origin words). Same as <span class="persian-inline">ص</span> + dot above</div>
 </div>
 
-<div class="text-row letter-entry" data-lesson="NPI2/7">
+<div class="text-row letter-entry" data-lesson="NPI2, NPI7">
   <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">ط</span></div>
   <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Ṭā' — Ṭ</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="letter-forms">(ط  طـ  ـطـ  ـط)</span></span></div>
   <div class="text-col-notes">Emphatic T (Arabic-origin words)</div>
 </div>
 
-<div class="text-row letter-entry" data-lesson="NPI4">
+<div class="text-row letter-entry" data-lesson="NPI4, NPI8">
   <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">ظ</span></div>
   <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Ẓā' — Ẓ</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="letter-forms">(ظ  ظـ  ـظـ  ـظ)</span></span></div>
   <div class="text-col-notes">Emphatic Z (Arabic-origin words). Same as <span class="persian-inline">ط</span> + dot above</div>
 </div>
 
-<div class="text-row letter-entry" data-lesson="NPI1">
+<div class="text-row letter-entry" data-lesson="NPI1, NPI8">
   <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">ع</span></div>
   <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">'Ayn — '</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="letter-forms">(ع  عـ  ـعـ  ـع)</span></span></div>
   <div class="text-col-notes">Pharyngeal consonant (Arabic-origin). Four distinct forms</div>
@@ -6867,6 +7084,7 @@ window.scheduleFitPersianColumns = scheduleFitPersianColumns;
         else row.classList.toggle('hide-persian-override');
         if (window.applyPersianMode) window.applyPersianMode(row);
         if (window.scheduleFitPersianColumns) window.scheduleFitPersianColumns();
+        if (window.updateSpellcheckVisibility) window.updateSpellcheckVisibility();
         // Auto-focus the newly mounted input so the user can start typing
         if (row.classList.contains('persian-as-input') && row._inputEl) {
           row._inputEl.focus();
@@ -6972,7 +7190,37 @@ window.scheduleFitPersianColumns = scheduleFitPersianColumns;
   document.getElementById('toggle-persian').addEventListener('click', function() {
     this.classList.toggle('active');
     syncAllRows('hide-persian', !this.classList.contains('active'));
+    if (window.updateSpellcheckVisibility) window.updateSpellcheckVisibility();
   });
+
+  // Spell Check — one button per input-capable section summary (Words, Phrases,
+  // Stories, Texts), kept in sync. Gates the correctness coloring inside
+  // writing-practice inputs via body.no-spellcheck.
+  document.querySelectorAll('.spellcheck-btn').forEach(function(btn) {
+    btn.addEventListener('click', function(e) {
+      // Button lives inside a <summary> — don't let the click toggle the section.
+      e.stopPropagation();
+      e.preventDefault();
+      var turnOn = !this.classList.contains('active');
+      document.querySelectorAll('.spellcheck-btn').forEach(function(b) {
+        b.classList.toggle('active', turnOn);
+      });
+      document.body.classList.toggle('no-spellcheck', !turnOn);
+    });
+  });
+
+  // Show each section's Spell Check button only when at least one row IN THAT
+  // SECTION is currently in writing-practice mode. The existing
+  // `details:not([open]) > .toggle-summary > .toggle-btn { display: none }` rule
+  // already hides it when the section is collapsed.
+  function updateSpellcheckVisibility() {
+    document.querySelectorAll('.spellcheck-btn').forEach(function(btn) {
+      var section = btn.closest('.section-h2');
+      var hasActive = !!(section && section.querySelector('.text-row.persian-as-input'));
+      btn.classList.toggle('sc-hidden', !hasActive);
+    });
+  }
+  window.updateSpellcheckVisibility = updateSpellcheckVisibility;
 
   // Toggle diacritics
   document.getElementById('toggle-diacritics').addEventListener('click', function() {
@@ -6990,7 +7238,9 @@ window.scheduleFitPersianColumns = scheduleFitPersianColumns;
 
   // Toggle natural-English ("Flow") — active = show the per-line natural
   // translation below each .text-row in the Texts section.
-  document.getElementById('toggle-natural').addEventListener('click', function(e) {
+  // Absent in teachings-no-texts.html (Texts section is stripped there).
+  var naturalBtn = document.getElementById('toggle-natural');
+  if (naturalBtn) naturalBtn.addEventListener('click', function(e) {
     // Button lives inside the Texts <summary>; stop the click from toggling it closed.
     e.stopPropagation();
     e.preventDefault();
@@ -7706,8 +7956,10 @@ document.getElementById('filter-bar').addEventListener('click', function(e) {
       if (det.open) open.push(det.id);
     });
     var notes = document.getElementById('toggle-notes').classList.contains('active');
-    var natural = document.getElementById('toggle-natural').classList.contains('active');
-    return { m: meanings, p: pronunciation, pe: persian, d: diacritics, n: notes, na: natural, font: font, size: size, filter: filter, open: open };
+    var naBtn = document.getElementById('toggle-natural');
+    var natural = naBtn ? naBtn.classList.contains('active') : false;
+    var spellcheck = !document.body.classList.contains('no-spellcheck');
+    return { m: meanings, p: pronunciation, pe: persian, d: diacritics, n: notes, na: natural, sc: spellcheck, font: font, size: size, filter: filter, open: open };
   }
 
   function stateToHash(s) {
@@ -7718,6 +7970,7 @@ document.getElementById('filter-bar').addEventListener('click', function(e) {
     if (s.d) parts.push('d=1');
     if (s.n) parts.push('n=1');
     if (s.na) parts.push('na=1');
+    if (!s.sc) parts.push('sc=0');
     if (s.font !== 'parastoo') parts.push('fn=' + s.font);
     // Only encode size if it differs from the current font's default
     if (s.size && window.FONT_BY_ID && window.FONT_BY_ID[s.font] && s.size !== window.FONT_BY_ID[s.font].size) {
@@ -7762,8 +8015,18 @@ document.getElementById('filter-bar').addEventListener('click', function(e) {
     if (!params.n && nBtn.classList.contains('active')) nBtn.click();
 
     var naBtn = document.getElementById('toggle-natural');
-    if (params.na === '1' && !naBtn.classList.contains('active')) naBtn.click();
-    if (!params.na && naBtn.classList.contains('active')) naBtn.click();
+    if (naBtn) {
+      if (params.na === '1' && !naBtn.classList.contains('active')) naBtn.click();
+      if (!params.na && naBtn.classList.contains('active')) naBtn.click();
+    }
+
+    // Spell check — default ON; sc=0 means explicitly off. Clicking any one
+    // .spellcheck-btn syncs all of them and toggles body.no-spellcheck.
+    var scBtn = document.querySelector('.spellcheck-btn');
+    if (scBtn) {
+      if (params.sc === '0' && scBtn.classList.contains('active')) scBtn.click();
+      if (params.sc !== '0' && !scBtn.classList.contains('active')) scBtn.click();
+    }
 
     // Font (apply first, then optionally override the size)
     if (params.fn && window.applyFont) {
@@ -7810,8 +8073,13 @@ document.getElementById('filter-bar').addEventListener('click', function(e) {
   }
 
   // Hook into toggles, filters, font selection, sections
+  // toggle-natural is absent in teachings-no-texts.html
   ['toggle-meanings', 'toggle-pronunciation', 'toggle-persian', 'toggle-diacritics', 'toggle-notes', 'toggle-natural'].forEach(function(id) {
-    document.getElementById(id).addEventListener('click', function() { setTimeout(syncURL, 0); });
+    var el = document.getElementById(id);
+    if (el) el.addEventListener('click', function() { setTimeout(syncURL, 0); });
+  });
+  document.querySelectorAll('.spellcheck-btn').forEach(function(btn) {
+    btn.addEventListener('click', function() { setTimeout(syncURL, 0); });
   });
   document.getElementById('filter-bar').addEventListener('click', function(e) {
     if (e.target.tagName === 'BUTTON') setTimeout(syncURL, 0);
@@ -7842,12 +8110,14 @@ document.getElementById('filter-bar').addEventListener('click', function(e) {
     var dBtn = document.getElementById('toggle-diacritics');
     var nBtn = document.getElementById('toggle-notes');
     var naBtn = document.getElementById('toggle-natural');
+    var scBtn = document.querySelector('.spellcheck-btn');
     if (!mBtn.classList.contains('active')) mBtn.click();
     if (!pBtn.classList.contains('active')) pBtn.click();
     if (!peBtn.classList.contains('active')) peBtn.click();
     if (dBtn.classList.contains('active')) dBtn.click();
     if (nBtn.classList.contains('active')) nBtn.click();
-    if (naBtn.classList.contains('active')) naBtn.click();
+    if (naBtn && naBtn.classList.contains('active')) naBtn.click();
+    if (scBtn && !scBtn.classList.contains('active')) scBtn.click();
 
     // Reset font (and size) to default
     if (window.applyFont) window.applyFont('parastoo');
@@ -7882,6 +8152,8 @@ document.getElementById('filter-bar').addEventListener('click', function(e) {
 
     // Reset diacritics
     window._allRowDiacData.forEach(function(rd) { rd.applyDiac(false); });
+
+    if (window.updateSpellcheckVisibility) window.updateSpellcheckVisibility();
   });
 
   // Restore state from URL on page load
@@ -7890,6 +8162,7 @@ document.getElementById('filter-bar').addEventListener('click', function(e) {
 
   // Initial grid computation for all rows
   recomputeAllRows();
+  if (window.updateSpellcheckVisibility) window.updateSpellcheckVisibility();
   // Initial Persian column auto-fit (after fonts have rendered)
   if (window.scheduleFitPersianColumns) window.scheduleFitPersianColumns();
   // Re-fit once webfonts have actually loaded — Parastoo / Vazirmatn change
