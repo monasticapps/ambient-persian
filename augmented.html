@@ -509,8 +509,12 @@
   body:not(.show-ipa) .text-row.hide-translit-override .text-col-translit { display: none; }
   .text-row.hide-meaning .text-col-meaning,
   .text-row.hide-meaning-override .text-col-meaning { display: none; }
-  /* Per-row override beats global hide */
-  .text-row.hide-translit.show-translit-override .text-col-translit { display: block; }
+  /* Per-row override beats global hide. The `body` prefix lifts specificity
+     above the `body:not(.show-ipa) …` collapse rule so the override wins
+     when IPA is off. The second rule re-shows the per-word .tw children
+     that the global hide-translit rule above hid. */
+  body .text-row.hide-translit.show-translit-override .text-col-translit { display: block; }
+  .text-row.hide-translit.show-translit-override .text-col-translit > .tw { display: inline; }
   .text-row.hide-meaning.show-meaning-override .text-col-meaning { display: block; }
 
   /* Notes column */
@@ -5703,6 +5707,174 @@
 <div class="text-row">
   <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">ایران</span></div>
   <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">irān</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Iran!</span></span></div>
+</div>
+
+</div><!-- /text-grid -->
+</details>
+
+<details class="section-h3 text-section" id="sec-text-vatanam">
+<summary><h3>Vatanam — Hojat Ashrafzadeh</h3></summary>
+
+<div class="text-grid" id="text-vatanam">
+
+<!-- Stanza 1 -->
+<div class="text-row">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">شکوه</span> <span class="tw" data-wi="1">از</span> <span class="tw" data-wi="2">تو</span> <span class="tw" data-wi="3">غرور</span> <span class="tw" data-wi="4">از</span> <span class="tw" data-wi="5">تو</span> <span class="tw" data-wi="6">غم</span> <span class="tw" data-wi="7">دنیا</span> <span class="tw" data-wi="8">به</span> <span class="tw" data-wi="9">دور</span> <span class="tw" data-wi="10">از</span> <span class="tw" data-wi="11">تو</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">shokuh</span> <span class="tw" data-wi="1">az</span> <span class="tw" data-wi="2">to</span> <span class="tw" data-wi="3">ghorur</span> <span class="tw" data-wi="4">az</span> <span class="tw" data-wi="5">to</span> <span class="tw" data-wi="6">gham-e</span> <span class="tw" data-wi="7">donyā</span> <span class="tw" data-wi="8">be</span> <span class="tw" data-wi="9">dur</span> <span class="tw" data-wi="10">az</span> <span class="tw" data-wi="11">to</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Grandeur</span> <span class="tw" data-wi="1">from</span> <span class="tw" data-wi="2">you,</span> <span class="tw" data-wi="3">pride</span> <span class="tw" data-wi="4">from</span> <span class="tw" data-wi="5">you,</span> <span class="tw" data-wi="6">the sorrow of</span> <span class="tw" data-wi="7">the world,</span> <span class="tw" data-wi="8">[is]</span> <span class="tw" data-wi="9">far</span> <span class="tw" data-wi="10">from</span> <span class="tw" data-wi="11">you</span></span></div>
+</div>
+
+<div class="text-row">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">تو</span> <span class="tw" data-wi="1">شوق</span> <span class="tw" data-wi="2">تماشایی</span> <span class="tw" data-wi="3">تو</span> <span class="tw" data-wi="4">بی</span> <span class="tw" data-wi="5">پروا</span> <span class="tw" data-wi="6">و</span> <span class="tw" data-wi="7">زیبایی</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">to</span> <span class="tw" data-wi="1">shouq-e</span> <span class="tw" data-wi="2">tamāshā-i</span> <span class="tw" data-wi="3">to</span> <span class="tw" data-wi="4">bi</span> <span class="tw" data-wi="5">parvā</span> <span class="tw" data-wi="6">o</span> <span class="tw" data-wi="7">zibā-i</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">You</span> <span class="tw" data-wi="1">are the longing of</span> <span class="tw" data-wi="2">beholding,</span> <span class="tw" data-wi="3">you</span> <span class="tw" data-wi="4">[are] without</span> <span class="tw" data-wi="5">fear</span> <span class="tw" data-wi="6">and</span> <span class="tw" data-wi="7">beautiful</span></span></div>
+</div>
+
+<div class="text-row">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">دلت</span> <span class="tw" data-wi="1">دریا</span> <span class="tw" data-wi="2">شبت</span> <span class="tw" data-wi="3">روشن</span> <span class="tw" data-wi="4">به</span> <span class="tw" data-wi="5">نام</span> <span class="tw" data-wi="6">توست</span> <span class="tw" data-wi="7">نام</span> <span class="tw" data-wi="8">من</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">delat</span> <span class="tw" data-wi="1">daryā</span> <span class="tw" data-wi="2">shabat</span> <span class="tw" data-wi="3">roushan</span> <span class="tw" data-wi="4">be</span> <span class="tw" data-wi="5">nām-e</span> <span class="tw" data-wi="6">tost</span> <span class="tw" data-wi="7">nām-e</span> <span class="tw" data-wi="8">man</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Your heart</span> <span class="tw" data-wi="1">[is] a sea,</span> <span class="tw" data-wi="2">your night</span> <span class="tw" data-wi="3">[is] bright,</span> <span class="tw" data-wi="4">by</span> <span class="tw" data-wi="5">the name of</span> <span class="tw" data-wi="6">you is</span> <span class="tw" data-wi="7">the name of</span> <span class="tw" data-wi="8">me</span></span></div>
+</div>
+
+<div class="text-row">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">دیدنی‌ترین</span> <span class="tw" data-wi="1">آسمان</span> <span class="tw" data-wi="2">ای</span> <span class="tw" data-wi="3">ستاره</span> <span class="tw" data-wi="4">باران</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">didani-tarin</span> <span class="tw" data-wi="1">āsemān</span> <span class="tw" data-wi="2">ey</span> <span class="tw" data-wi="3">setāre</span> <span class="tw" data-wi="4">bārān</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Most-worthy-to-see</span> <span class="tw" data-wi="1">sky,</span> <span class="tw" data-wi="2">O</span> <span class="tw" data-wi="3">star-</span> <span class="tw" data-wi="4">rain</span></span></div>
+</div>
+
+<!-- Stanza break -->
+<div class="text-row text-stanza-break"></div>
+
+<!-- Refrain A -->
+<div class="text-row">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">زخمی</span> <span class="tw" data-wi="1">عشقی</span> <span class="tw" data-wi="2">وطنم</span> <span class="tw" data-wi="3">باید</span> <span class="tw" data-wi="4">صدایت</span> <span class="tw" data-wi="5">بزنم</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">zakhmi-ye</span> <span class="tw" data-wi="1">eshq-i</span> <span class="tw" data-wi="2">vatanam</span> <span class="tw" data-wi="3">bāyad</span> <span class="tw" data-wi="4">sedāyat</span> <span class="tw" data-wi="5">bezanam</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Wounded of</span> <span class="tw" data-wi="1">love you are,</span> <span class="tw" data-wi="2">my homeland,</span> <span class="tw" data-wi="3">I must</span> <span class="tw" data-wi="4">call out</span> <span class="tw" data-wi="5">to you</span></span></div>
+</div>
+
+<div class="text-row">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">باید</span> <span class="tw" data-wi="1">کنارت</span> <span class="tw" data-wi="2">بمانم</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">bāyad</span> <span class="tw" data-wi="1">kenārat</span> <span class="tw" data-wi="2">bemānam</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">I must</span> <span class="tw" data-wi="1">beside you</span> <span class="tw" data-wi="2">remain</span></span></div>
+</div>
+
+<div class="text-row">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">شعری</span> <span class="tw" data-wi="1">و</span> <span class="tw" data-wi="2">شوری</span> <span class="tw" data-wi="3">وطنم</span> <span class="tw" data-wi="4">وقتی</span> <span class="tw" data-wi="5">صدای</span> <span class="tw" data-wi="6">تو</span> <span class="tw" data-wi="7">منم</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">she'r-i</span> <span class="tw" data-wi="1">o</span> <span class="tw" data-wi="2">shur-i</span> <span class="tw" data-wi="3">vatanam</span> <span class="tw" data-wi="4">vaqti</span> <span class="tw" data-wi="5">sedā-ye</span> <span class="tw" data-wi="6">to</span> <span class="tw" data-wi="7">manam</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">A poem you are</span> <span class="tw" data-wi="1">and</span> <span class="tw" data-wi="2">a fervor,</span> <span class="tw" data-wi="3">my homeland,</span> <span class="tw" data-wi="4">when</span> <span class="tw" data-wi="5">the voice of</span> <span class="tw" data-wi="6">you</span> <span class="tw" data-wi="7">I am</span></span></div>
+</div>
+
+<div class="text-row">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">باید</span> <span class="tw" data-wi="1">که</span> <span class="tw" data-wi="2">از</span> <span class="tw" data-wi="3">تو</span> <span class="tw" data-wi="4">بخوانم</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">bāyad</span> <span class="tw" data-wi="1">ke</span> <span class="tw" data-wi="2">az</span> <span class="tw" data-wi="3">to</span> <span class="tw" data-wi="4">bekhānam</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">I must</span> <span class="tw" data-wi="1">that</span> <span class="tw" data-wi="2">of</span> <span class="tw" data-wi="3">you</span> <span class="tw" data-wi="4">I sing</span></span></div>
+</div>
+
+<!-- Stanza break -->
+<div class="text-row text-stanza-break"></div>
+
+<!-- Refrain A (repeat) -->
+<div class="text-row">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">زخمی</span> <span class="tw" data-wi="1">عشقی</span> <span class="tw" data-wi="2">وطنم</span> <span class="tw" data-wi="3">باید</span> <span class="tw" data-wi="4">صدایت</span> <span class="tw" data-wi="5">بزنم</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">zakhmi-ye</span> <span class="tw" data-wi="1">eshq-i</span> <span class="tw" data-wi="2">vatanam</span> <span class="tw" data-wi="3">bāyad</span> <span class="tw" data-wi="4">sedāyat</span> <span class="tw" data-wi="5">bezanam</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Wounded of</span> <span class="tw" data-wi="1">love you are,</span> <span class="tw" data-wi="2">my homeland,</span> <span class="tw" data-wi="3">I must</span> <span class="tw" data-wi="4">call out</span> <span class="tw" data-wi="5">to you</span></span></div>
+</div>
+
+<div class="text-row">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">باید</span> <span class="tw" data-wi="1">کنارت</span> <span class="tw" data-wi="2">بمانم</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">bāyad</span> <span class="tw" data-wi="1">kenārat</span> <span class="tw" data-wi="2">bemānam</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">I must</span> <span class="tw" data-wi="1">beside you</span> <span class="tw" data-wi="2">remain</span></span></div>
+</div>
+
+<div class="text-row">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">شعری</span> <span class="tw" data-wi="1">و</span> <span class="tw" data-wi="2">شوری</span> <span class="tw" data-wi="3">وطنم</span> <span class="tw" data-wi="4">وقتی</span> <span class="tw" data-wi="5">صدای</span> <span class="tw" data-wi="6">تو</span> <span class="tw" data-wi="7">منم</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">she'r-i</span> <span class="tw" data-wi="1">o</span> <span class="tw" data-wi="2">shur-i</span> <span class="tw" data-wi="3">vatanam</span> <span class="tw" data-wi="4">vaqti</span> <span class="tw" data-wi="5">sedā-ye</span> <span class="tw" data-wi="6">to</span> <span class="tw" data-wi="7">manam</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">A poem you are</span> <span class="tw" data-wi="1">and</span> <span class="tw" data-wi="2">a fervor,</span> <span class="tw" data-wi="3">my homeland,</span> <span class="tw" data-wi="4">when</span> <span class="tw" data-wi="5">the voice of</span> <span class="tw" data-wi="6">you</span> <span class="tw" data-wi="7">I am</span></span></div>
+</div>
+
+<div class="text-row">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">باید</span> <span class="tw" data-wi="1">که</span> <span class="tw" data-wi="2">از</span> <span class="tw" data-wi="3">تو</span> <span class="tw" data-wi="4">بخوانم</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">bāyad</span> <span class="tw" data-wi="1">ke</span> <span class="tw" data-wi="2">az</span> <span class="tw" data-wi="3">to</span> <span class="tw" data-wi="4">bekhānam</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">I must</span> <span class="tw" data-wi="1">that</span> <span class="tw" data-wi="2">of</span> <span class="tw" data-wi="3">you</span> <span class="tw" data-wi="4">I sing</span></span></div>
+</div>
+
+<!-- Stanza break -->
+<div class="text-row text-stanza-break"></div>
+
+<!-- Stanza 2 -->
+<div class="text-row">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">مرا</span> <span class="tw" data-wi="1">با</span> <span class="tw" data-wi="2">خود</span> <span class="tw" data-wi="3">ببر</span> <span class="tw" data-wi="4">آرام</span> <span class="tw" data-wi="5">به</span> <span class="tw" data-wi="6">بغض</span> <span class="tw" data-wi="7">آخرین</span> <span class="tw" data-wi="8">سنگر</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">marā</span> <span class="tw" data-wi="1">bā</span> <span class="tw" data-wi="2">khod</span> <span class="tw" data-wi="3">bebar</span> <span class="tw" data-wi="4">ārām</span> <span class="tw" data-wi="5">be</span> <span class="tw" data-wi="6">boghz-e</span> <span class="tw" data-wi="7">ākharin</span> <span class="tw" data-wi="8">sangar</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Me</span> <span class="tw" data-wi="1">with</span> <span class="tw" data-wi="2">yourself</span> <span class="tw" data-wi="3">take</span> <span class="tw" data-wi="4">gently,</span> <span class="tw" data-wi="5">to</span> <span class="tw" data-wi="6">the lump-in-throat of</span> <span class="tw" data-wi="7">the last</span> <span class="tw" data-wi="8">trench</span></span></div>
+</div>
+
+<div class="text-row">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">به</span> <span class="tw" data-wi="1">خواب</span> <span class="tw" data-wi="2">کوچه‌ی</span> <span class="tw" data-wi="3">عاشق</span> <span class="tw" data-wi="4">به</span> <span class="tw" data-wi="5">عطر</span> <span class="tw" data-wi="6">لاله‌ی</span> <span class="tw" data-wi="7">پرپر</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">be</span> <span class="tw" data-wi="1">khāb-e</span> <span class="tw" data-wi="2">kuche-ye</span> <span class="tw" data-wi="3">āsheq</span> <span class="tw" data-wi="4">be</span> <span class="tw" data-wi="5">atr-e</span> <span class="tw" data-wi="6">lāle-ye</span> <span class="tw" data-wi="7">parpar</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">To</span> <span class="tw" data-wi="1">the sleep of</span> <span class="tw" data-wi="2">the alley of</span> <span class="tw" data-wi="3">the lover,</span> <span class="tw" data-wi="4">to</span> <span class="tw" data-wi="5">the scent of</span> <span class="tw" data-wi="6">the tulip</span> <span class="tw" data-wi="7">scattered</span></span></div>
+</div>
+
+<div class="text-row">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">تو</span> <span class="tw" data-wi="1">حس</span> <span class="tw" data-wi="2">خوب</span> <span class="tw" data-wi="3">بارانی</span> <span class="tw" data-wi="4">تو</span> <span class="tw" data-wi="5">فریاد</span> <span class="tw" data-wi="6">دلیرانی</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">to</span> <span class="tw" data-wi="1">hess-e</span> <span class="tw" data-wi="2">khub-e</span> <span class="tw" data-wi="3">bārān-i</span> <span class="tw" data-wi="4">to</span> <span class="tw" data-wi="5">faryād-e</span> <span class="tw" data-wi="6">dalirān-i</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">You</span> <span class="tw" data-wi="1">[are] the feeling</span> <span class="tw" data-wi="2">good</span> <span class="tw" data-wi="3">of rain,</span> <span class="tw" data-wi="4">you</span> <span class="tw" data-wi="5">[are] the cry</span> <span class="tw" data-wi="6">of the brave</span></span></div>
+</div>
+
+<div class="text-row">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">حریم</span> <span class="tw" data-wi="1">امن</span> <span class="tw" data-wi="2">دورانی</span> <span class="tw" data-wi="3">تو</span> <span class="tw" data-wi="4">ایرانی</span> <span class="tw" data-wi="5">تو</span> <span class="tw" data-wi="6">ایرانی</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">harim-e</span> <span class="tw" data-wi="1">amn-e</span> <span class="tw" data-wi="2">dourān-i</span> <span class="tw" data-wi="3">to</span> <span class="tw" data-wi="4">irān-i</span> <span class="tw" data-wi="5">to</span> <span class="tw" data-wi="6">irān-i</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">The sanctuary</span> <span class="tw" data-wi="1">safe</span> <span class="tw" data-wi="2">of eras you are,</span> <span class="tw" data-wi="3">you</span> <span class="tw" data-wi="4">are Iran,</span> <span class="tw" data-wi="5">you</span> <span class="tw" data-wi="6">are Iran</span></span></div>
+</div>
+
+<!-- Stanza break -->
+<div class="text-row text-stanza-break"></div>
+
+<!-- Refrain A (repeat) -->
+<div class="text-row">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">زخمی</span> <span class="tw" data-wi="1">عشقی</span> <span class="tw" data-wi="2">وطنم</span> <span class="tw" data-wi="3">باید</span> <span class="tw" data-wi="4">صدایت</span> <span class="tw" data-wi="5">بزنم</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">zakhmi-ye</span> <span class="tw" data-wi="1">eshq-i</span> <span class="tw" data-wi="2">vatanam</span> <span class="tw" data-wi="3">bāyad</span> <span class="tw" data-wi="4">sedāyat</span> <span class="tw" data-wi="5">bezanam</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Wounded of</span> <span class="tw" data-wi="1">love you are,</span> <span class="tw" data-wi="2">my homeland,</span> <span class="tw" data-wi="3">I must</span> <span class="tw" data-wi="4">call out</span> <span class="tw" data-wi="5">to you</span></span></div>
+</div>
+
+<div class="text-row">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">باید</span> <span class="tw" data-wi="1">کنارت</span> <span class="tw" data-wi="2">بمانم</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">bāyad</span> <span class="tw" data-wi="1">kenārat</span> <span class="tw" data-wi="2">bemānam</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">I must</span> <span class="tw" data-wi="1">beside you</span> <span class="tw" data-wi="2">remain</span></span></div>
+</div>
+
+<div class="text-row">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">شعری</span> <span class="tw" data-wi="1">و</span> <span class="tw" data-wi="2">شوری</span> <span class="tw" data-wi="3">وطنم</span> <span class="tw" data-wi="4">وقتی</span> <span class="tw" data-wi="5">صدای</span> <span class="tw" data-wi="6">تو</span> <span class="tw" data-wi="7">منم</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">she'r-i</span> <span class="tw" data-wi="1">o</span> <span class="tw" data-wi="2">shur-i</span> <span class="tw" data-wi="3">vatanam</span> <span class="tw" data-wi="4">vaqti</span> <span class="tw" data-wi="5">sedā-ye</span> <span class="tw" data-wi="6">to</span> <span class="tw" data-wi="7">manam</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">A poem you are</span> <span class="tw" data-wi="1">and</span> <span class="tw" data-wi="2">a fervor,</span> <span class="tw" data-wi="3">my homeland,</span> <span class="tw" data-wi="4">when</span> <span class="tw" data-wi="5">the voice of</span> <span class="tw" data-wi="6">you</span> <span class="tw" data-wi="7">I am</span></span></div>
+</div>
+
+<div class="text-row">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">باید</span> <span class="tw" data-wi="1">که</span> <span class="tw" data-wi="2">از</span> <span class="tw" data-wi="3">تو</span> <span class="tw" data-wi="4">بخوانم</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">bāyad</span> <span class="tw" data-wi="1">ke</span> <span class="tw" data-wi="2">az</span> <span class="tw" data-wi="3">to</span> <span class="tw" data-wi="4">bekhānam</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">I must</span> <span class="tw" data-wi="1">that</span> <span class="tw" data-wi="2">of</span> <span class="tw" data-wi="3">you</span> <span class="tw" data-wi="4">I sing</span></span></div>
+</div>
+
+<!-- Stanza break -->
+<div class="text-row text-stanza-break"></div>
+
+<!-- Refrain A (repeat) -->
+<div class="text-row">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">زخمی</span> <span class="tw" data-wi="1">عشقی</span> <span class="tw" data-wi="2">وطنم</span> <span class="tw" data-wi="3">باید</span> <span class="tw" data-wi="4">صدایت</span> <span class="tw" data-wi="5">بزنم</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">zakhmi-ye</span> <span class="tw" data-wi="1">eshq-i</span> <span class="tw" data-wi="2">vatanam</span> <span class="tw" data-wi="3">bāyad</span> <span class="tw" data-wi="4">sedāyat</span> <span class="tw" data-wi="5">bezanam</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Wounded of</span> <span class="tw" data-wi="1">love you are,</span> <span class="tw" data-wi="2">my homeland,</span> <span class="tw" data-wi="3">I must</span> <span class="tw" data-wi="4">call out</span> <span class="tw" data-wi="5">to you</span></span></div>
+</div>
+
+<div class="text-row">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">باید</span> <span class="tw" data-wi="1">کنارت</span> <span class="tw" data-wi="2">بمانم</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">bāyad</span> <span class="tw" data-wi="1">kenārat</span> <span class="tw" data-wi="2">bemānam</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">I must</span> <span class="tw" data-wi="1">beside you</span> <span class="tw" data-wi="2">remain</span></span></div>
+</div>
+
+<div class="text-row">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">شعری</span> <span class="tw" data-wi="1">و</span> <span class="tw" data-wi="2">شوری</span> <span class="tw" data-wi="3">وطنم</span> <span class="tw" data-wi="4">وقتی</span> <span class="tw" data-wi="5">صدای</span> <span class="tw" data-wi="6">تو</span> <span class="tw" data-wi="7">منم</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">she'r-i</span> <span class="tw" data-wi="1">o</span> <span class="tw" data-wi="2">shur-i</span> <span class="tw" data-wi="3">vatanam</span> <span class="tw" data-wi="4">vaqti</span> <span class="tw" data-wi="5">sedā-ye</span> <span class="tw" data-wi="6">to</span> <span class="tw" data-wi="7">manam</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">A poem you are</span> <span class="tw" data-wi="1">and</span> <span class="tw" data-wi="2">a fervor,</span> <span class="tw" data-wi="3">my homeland,</span> <span class="tw" data-wi="4">when</span> <span class="tw" data-wi="5">the voice of</span> <span class="tw" data-wi="6">you</span> <span class="tw" data-wi="7">I am</span></span></div>
+</div>
+
+<div class="text-row">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">باید</span> <span class="tw" data-wi="1">که</span> <span class="tw" data-wi="2">از</span> <span class="tw" data-wi="3">تو</span> <span class="tw" data-wi="4">بخوانم</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">bāyad</span> <span class="tw" data-wi="1">ke</span> <span class="tw" data-wi="2">az</span> <span class="tw" data-wi="3">to</span> <span class="tw" data-wi="4">bekhānam</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">I must</span> <span class="tw" data-wi="1">that</span> <span class="tw" data-wi="2">of</span> <span class="tw" data-wi="3">you</span> <span class="tw" data-wi="4">I sing</span></span></div>
+</div>
+
+<!-- Stanza break -->
+<div class="text-row text-stanza-break"></div>
+
+<!-- Outro short refrain -->
+<div class="text-row">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">زخمی</span> <span class="tw" data-wi="1">عشقی</span> <span class="tw" data-wi="2">وطنم</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">zakhmi-ye</span> <span class="tw" data-wi="1">eshq-i</span> <span class="tw" data-wi="2">vatanam</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Wounded of</span> <span class="tw" data-wi="1">love you are,</span> <span class="tw" data-wi="2">my homeland</span></span></div>
+</div>
+
+<div class="text-row">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">شعری</span> <span class="tw" data-wi="1">و</span> <span class="tw" data-wi="2">شوری</span> <span class="tw" data-wi="3">وطنم</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">she'r-i</span> <span class="tw" data-wi="1">o</span> <span class="tw" data-wi="2">shur-i</span> <span class="tw" data-wi="3">vatanam</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">A poem you are</span> <span class="tw" data-wi="1">and</span> <span class="tw" data-wi="2">a fervor,</span> <span class="tw" data-wi="3">my homeland</span></span></div>
+</div>
+
+<div class="text-row">
+  <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">باید</span> <span class="tw" data-wi="1">که</span> <span class="tw" data-wi="2">از</span> <span class="tw" data-wi="3">تو</span> <span class="tw" data-wi="4">بخوانم</span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">bāyad</span> <span class="tw" data-wi="1">ke</span> <span class="tw" data-wi="2">az</span> <span class="tw" data-wi="3">to</span> <span class="tw" data-wi="4">bekhānam</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">I must</span> <span class="tw" data-wi="1">that</span> <span class="tw" data-wi="2">of</span> <span class="tw" data-wi="3">you</span> <span class="tw" data-wi="4">I sing</span></span></div>
 </div>
 
 </div><!-- /text-grid -->

@@ -509,8 +509,12 @@
   body:not(.show-ipa) .text-row.hide-translit-override .text-col-translit { display: none; }
   .text-row.hide-meaning .text-col-meaning,
   .text-row.hide-meaning-override .text-col-meaning { display: none; }
-  /* Per-row override beats global hide */
-  .text-row.hide-translit.show-translit-override .text-col-translit { display: block; }
+  /* Per-row override beats global hide. The `body` prefix lifts specificity
+     above the `body:not(.show-ipa) …` collapse rule so the override wins
+     when IPA is off. The second rule re-shows the per-word .tw children
+     that the global hide-translit rule above hid. */
+  body .text-row.hide-translit.show-translit-override .text-col-translit { display: block; }
+  .text-row.hide-translit.show-translit-override .text-col-translit > .tw { display: inline; }
   .text-row.hide-meaning.show-meaning-override .text-col-meaning { display: block; }
 
   /* Notes column */
@@ -1724,6 +1728,8 @@
 </details>
 </details>
 
+<!-- ============================= STORIES ============================= -->
+
 <details class="section-h2" id="sec-stories" data-no-filter>
 <summary><h2>Stories</h2></summary>
 
@@ -2663,7 +2669,7 @@ function renderOverlay(row, wrap, input, overlay) {
 window.renderOverlay = renderOverlay;
 
 // Decide whether a row should currently be in writing-practice input mode,
-// and mount/unmount accordingly. Only Words / Phrases / Texts rows are eligible.
+// and mount/unmount accordingly. Only Words / Phrases / Stories / Texts rows are eligible.
 function applyPersianMode(row) {
   if (row.classList.contains('text-stanza-break')) return;
   var section = row.closest('.section-h2');
@@ -2827,7 +2833,7 @@ window.scheduleFitPersianColumns = scheduleFitPersianColumns;
       ? window.normalizePersian(row._expectedPersian)
       : row._expectedPersian;
 
-    // Determine input-mode capability (only Words / Phrases / Texts).
+    // Determine input-mode capability (only Words / Phrases / Stories / Texts).
     var sectionH2 = row.closest('.section-h2');
     var sectionH2Id = sectionH2 ? sectionH2.id : '';
     var inputCapable = (sectionH2Id === 'sec-words' || sectionH2Id === 'sec-phrases' || sectionH2Id === 'sec-stories' || sectionH2Id === 'sec-texts');
