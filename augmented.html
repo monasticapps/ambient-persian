@@ -1176,7 +1176,7 @@
 
 <div class="text-row" data-lesson="NPI9">
   <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">مسجد نصیرالملک</span></div>
-  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Masjed-e Nasīr al-mulk</span><span class="ipa-text">  /mæsd͡ʒede næsiːɾolmolk/</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Nasir al-Mulk Mosque</span></span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Masjed-e Nasīr-al-mulk</span><span class="ipa-text">  /mæsd͡ʒede næsiːɾolmolk/</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Nasir al-Mulk Mosque</span></span></div>
   <div class="text-col-notes">"Pink Mosque" — Shiraz</div>
 </div>
 
@@ -1334,13 +1334,13 @@
 
 <div class="text-row" data-lesson="NPI6">
   <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">چای دمی</span></div>
-  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Chāy-damī</span><span class="ipa-text">  /t͡ʃɒːje dæmiː/</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Steam-steeped tea</span></span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Chāy damī</span><span class="ipa-text">  /t͡ʃɒːje dæmiː/</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Steam-steeped tea</span></span></div>
   <div class="text-col-notes">Brewed in a pot atop the samovar</div>
 </div>
 
 <div class="text-row" data-lesson="NPI6">
   <div class="text-col-persian font-parastoo" dir="rtl"><span class="tw" data-wi="0">چای قند پهلو</span></div>
-  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Chāy-e qand-pahlu</span><span class="ipa-text">  /t͡ʃɒːje qænd pæhluː/</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Tea with sugar cube</span></span></div>
+  <div class="text-col-latin"><span class="text-col-translit"><span class="tw" data-wi="0">Chāy-e qand pahlu</span><span class="ipa-text">  /t͡ʃɒːje qænd pæhluː/</span></span><span class="text-sep"> </span><span class="text-col-meaning"><span class="tw" data-wi="0">Tea with sugar cube</span></span></div>
   <div class="text-col-notes">Sugar cube held between teeth while sipping</div>
 </div>
 
@@ -6602,7 +6602,7 @@
     ['\u064F', ['o','u']],                                // ُ  Damma
     ['\u0651', []],                                       // ّ  Tashdid
     ['\u0652', []],                                       // ْ  Sukun
-    ['\u0627', ['ā','Ā','a','A','ī','Ī','e','o','i','u','U']], // ا Alef
+    ['\u0627', ['ā','Ā','a','A','e','o','i','u','U','']], // ا Alef — trailing '' = silent carrier (e.g. initial ا before ی in Īrān)
     ['\u0628', ['b','B']],                                // ب
     ['\u067E', ['p','P']],                                // پ
     ['\u062A', ['t','T']],                                // ت
@@ -6632,8 +6632,8 @@
     ['\u0645', ['m','M']],                                // م
     ['\u0646', ['n','N']],                                // ن
     ['\u0648', ['ū','Ū','ō','Ō','ow','aw','w','v','o','u','W','V']], // و
-    ['\u0647', ['h','H','e','a']],                        // ه
-    ['\u06CC', ['ī','Ī','y','Y','i','á','a']],            // ی
+    ['\u0647', ['h','H','e','E','a','A','i','I']],        // ه
+    ['\u06CC', ['ī','Ī','y','Y','i','I','á','a','']],     // ی — trailing '' = silent (e.g. word-final 2nd ی in آمریکایی)
     ['\u0621', ["'",'']],                                 // ء Hamza
     ['\u0626', ["'",'']],                                 // ئ
     ['\u0623', ['a','o','e','u']],                        // أ
@@ -6643,8 +6643,26 @@
   ];
   pairs.forEach(function(p) { MAP[p[0]] = p[1]; });
 
-  var IMPLICIT_VOWELS = /^[aeiouyāīūōâ]/i;
+  var IMPLICIT_VOWELS = /^[aeiouāīūōâ]/i;
   var NUM_COLORS = 12;
+  // Persian letters that can act as long-vowel carriers. When the *next*
+  // Persian char is one of these, a trailing vowel in the translit belongs
+  // to that carrier, NOT as an implicit vowel after the current consonant.
+  // ه is included because word-final ه often carries 'e'/'a'.
+  var VOWEL_CARRIER_NEXT = '\u0627\u0622\u0648\u06CC\u0647';
+  // A small set of "pure consonant" options used to decide whether the
+  // current Persian char has a consonant reading at all. If not, it can
+  // only absorb a vowel (which means we skip absorb-filtering).
+  function hasConsonantOpt(opts) {
+    if (!opts) return false;
+    for (var i = 0; i < opts.length; i++) {
+      var o = opts[i];
+      if (!o) continue;
+      // consonant if first char is NOT a vowel
+      if (!/^[aeiouāīūōâ]/i.test(o[0])) return true;
+    }
+    return false;
+  }
 
   function alignChars(persian, translit) {
     // Returns array of { p: persianStr, t: translitStr, c: colorIndex }
@@ -6657,11 +6675,34 @@
     while (pi < pText.length) {
       var pChar = pText[pi];
 
-      // Handle spaces
+      // Handle spaces — consume translit up to (and including) next space, so
+      // the ezafe marker `-e ` between words is absorbed here (c=-1 = no color).
       if (pChar === ' ') {
-        result.push({ p: ' ', t: ' ', c: -1 });
+        var tStart = ti;
+        while (ti < tText.length && tText[ti] !== ' ') ti++;
+        if (ti < tText.length) ti++; // consume the space itself
+        var between = tText.substring(tStart, ti);
+        result.push({ p: ' ', t: between || ' ', c: -1 });
         pi++;
-        while (ti < tText.length && (tText[ti] === ' ' || tText[ti] === '-')) ti++;
+        continue;
+      }
+
+      // Handle tashdid (ّ) — doubles the preceding consonant. Absorb the
+      // doubled copy from translit into the tashdid's slot (c=-1, no color —
+      // the doubling reads visually as part of the preceding consonant).
+      if (pChar === '\u0651') {
+        var prev = result.length > 0 ? result[result.length - 1] : null;
+        var doubled = '';
+        if (prev && prev.t && ti < tText.length) {
+          // Find the last consonant letter of prev.t (strip trailing vowels)
+          var prevConsTail = prev.t.replace(/[aeiouāīūōâ]+$/i, '').slice(-1);
+          if (prevConsTail && tText[ti].toLowerCase() === prevConsTail.toLowerCase()) {
+            doubled = tText[ti];
+            ti++;
+          }
+        }
+        result.push({ p: pChar, t: doubled, c: -1 });
+        pi++;
         continue;
       }
 
@@ -6675,11 +6716,24 @@
         continue;
       }
 
+      // If the NEXT Persian char is a vowel carrier (ا آ و ی ه), the trailing
+      // vowel in the translit belongs to that carrier. So for the current
+      // char we must prefer consonant-only options (e.g. ج→'j', not 'ja';
+      // ه→'h', not 'e'). Falls back to full opts if no consonant matches.
+      var nextPChar0 = pi + 1 < pText.length ? pText[pi + 1] : '';
+      var preferConsonant = nextPChar0 && VOWEL_CARRIER_NEXT.indexOf(nextPChar0) !== -1 && hasConsonantOpt(opts);
+      var effectiveOpts = opts;
+      if (preferConsonant) {
+        effectiveOpts = opts.filter(function(o) {
+          return o && !/^[aeiouāīūōâ]/i.test(o[0]);
+        });
+      }
+
       // Try longest match first
       var bestMatch = '';
       var bestLen = 0;
-      for (var k = 0; k < opts.length; k++) {
-        var opt = opts[k];
+      for (var k = 0; k < effectiveOpts.length; k++) {
+        var opt = effectiveOpts[k];
         if (opt.length === 0) continue;
         if (opt.length <= bestLen) continue;
         var slice = tText.substring(ti, ti + opt.length);
@@ -6692,6 +6746,23 @@
           if (match) { bestMatch = slice; bestLen = opt.length; }
         }
       }
+      // If no consonant-only match succeeded (rare: translit genuinely starts
+      // with a vowel here, e.g. word-initial ا), fall back to full opts.
+      if (bestLen === 0 && preferConsonant) {
+        for (var k2 = 0; k2 < opts.length; k2++) {
+          var opt2 = opts[k2];
+          if (opt2.length === 0) continue;
+          if (opt2.length <= bestLen) continue;
+          var slice2 = tText.substring(ti, ti + opt2.length);
+          if (slice2.length === opt2.length) {
+            var match2 = true;
+            for (var c2 = 0; c2 < opt2.length; c2++) {
+              if (slice2[c2].toLowerCase() !== opt2[c2].toLowerCase()) { match2 = false; break; }
+            }
+            if (match2) { bestMatch = slice2; bestLen = opt2.length; }
+          }
+        }
+      }
 
       if (bestLen > 0) {
         // Matched! Now absorb any following implicit vowels in translit
@@ -6700,9 +6771,11 @@
         var nextTi = ti + bestLen;
         var nextPChar = pi + 1 < pText.length ? pText[pi + 1] : '';
 
-        // Absorb trailing implicit vowels — but stop if the next Persian
-        // char can match at the current translit position
-        if (nextPChar && nextPChar !== ' ') {
+        // Absorb trailing implicit vowels into the current consonant's slot.
+        // Skip entirely if the next Persian char is a vowel carrier — the
+        // vowel belongs to that carrier, not to this consonant.
+        var nextIsCarrier = nextPChar && VOWEL_CARRIER_NEXT.indexOf(nextPChar) !== -1;
+        if (nextPChar && nextPChar !== ' ' && !nextIsCarrier) {
           while (nextTi < tText.length && IMPLICIT_VOWELS.test(tText[nextTi]) && tText[nextTi] !== ' ') {
             var nextOpts = MAP[nextPChar];
             if (nextOpts) {
@@ -6731,10 +6804,10 @@
         ti = nextTi;
         colorIdx++;
       } else if (opts.indexOf('') !== -1) {
-        // Silent letter
-        result.push({ p: pChar, t: '', c: colorIdx % NUM_COLORS });
+        // Silent letter (e.g. initial ا in Īrān — ا carries no translit char,
+        // the Ī belongs to the following ی). No color, no colorIdx increment.
+        result.push({ p: pChar, t: '', c: -1 });
         pi++;
-        colorIdx++;
       } else {
         // No match — skip hyphens/apostrophes in translit and retry
         if (ti < tText.length && /[-'\u2019\u2018]/.test(tText[ti])) {
@@ -7145,17 +7218,14 @@ function scheduleFitPersianColumns() {
 }
 window.scheduleFitPersianColumns = scheduleFitPersianColumns;
 
-// ===== Phrases section: split single-tw multi-word rows into per-word tws =====
-// In the Phrases section each row's Persian + transliteration is authored as a
+// ===== Words & Phrases sections: split single-tw multi-word rows into per-word tws =====
+// In Words and Phrases each row's Persian + transliteration is authored as a
 // single .tw span wrapping the whole phrase. Click-to-color and hover work
 // per-word, so we split compatible rows here at runtime — sequential data-wi
 // indices on both columns. Rows whose Persian/translit token counts don't
 // match (e.g. fused ezāfe in the translit, alternate forms with "/") are
 // left as a single .tw and continue to color the whole row on click.
 (function() {
-  var section = document.getElementById('sec-phrases');
-  if (!section) return;
-
   function splitTokens(s) {
     return s.trim().split(/\s+/).filter(function(t) { return t.length > 0; });
   }
@@ -7170,22 +7240,26 @@ window.scheduleFitPersianColumns = scheduleFitPersianColumns;
     }).join(' ');
   }
 
-  section.querySelectorAll('.text-row').forEach(function(row) {
-    var pCol = row.querySelector('.text-col-persian');
-    var tCol = row.querySelector('.text-col-translit');
-    if (!pCol || !tCol) return;
-    var pTws = pCol.querySelectorAll('.tw');
-    var tTws = tCol.querySelectorAll('.tw');
-    if (pTws.length !== 1 || tTws.length !== 1) return;
-    var pTokens = splitTokens(pTws[0].textContent);
-    var tTokens = splitTokens(tTws[0].textContent);
-    if (pTokens.length < 2) return;
-    if (pTokens.length !== tTokens.length) return;
-    // Preserve any .ipa-text span before rebuilding
-    var ipaSpan = tCol.querySelector('.ipa-text');
-    pCol.innerHTML = buildSpans(pTokens);
-    tCol.innerHTML = buildSpans(tTokens);
-    if (ipaSpan) tCol.appendChild(ipaSpan);
+  ['sec-words', 'sec-phrases'].forEach(function(id) {
+    var section = document.getElementById(id);
+    if (!section) return;
+    section.querySelectorAll('.text-row').forEach(function(row) {
+      var pCol = row.querySelector('.text-col-persian');
+      var tCol = row.querySelector('.text-col-translit');
+      if (!pCol || !tCol) return;
+      var pTws = pCol.querySelectorAll('.tw');
+      var tTws = tCol.querySelectorAll('.tw');
+      if (pTws.length !== 1 || tTws.length !== 1) return;
+      var pTokens = splitTokens(pTws[0].textContent);
+      var tTokens = splitTokens(tTws[0].textContent);
+      if (pTokens.length < 2) return;
+      if (pTokens.length !== tTokens.length) return;
+      // Preserve any .ipa-text span before rebuilding
+      var ipaSpan = tCol.querySelector('.ipa-text');
+      pCol.innerHTML = buildSpans(pTokens);
+      tCol.innerHTML = buildSpans(tTokens);
+      if (ipaSpan) tCol.appendChild(ipaSpan);
+    });
   });
 })();
 
@@ -7986,6 +8060,9 @@ document.getElementById('filter-bar').addEventListener('click', function(e) {
 
     var row = tw.closest('.text-row');
     if (!row) return;
+    // Click-to-color is only meaningful in Words/Phrases. Alignment for full
+    // verses in Texts is not guaranteed correct, so disable it there.
+    if (tw.closest('#sec-texts')) return;
     var wi = tw.getAttribute('data-wi');
 
     // If clicking same word, deactivate
