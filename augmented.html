@@ -6645,11 +6645,35 @@
 
   var IMPLICIT_VOWELS = /^[aeiouāīūōâ]/i;
   var NUM_COLORS = 12;
-  // Persian letters that can act as long-vowel carriers. When the *next*
-  // Persian char is one of these, a trailing vowel in the translit belongs
-  // to that carrier, NOT as an implicit vowel after the current consonant.
-  // ه is included because word-final ه often carries 'e'/'a'.
-  var VOWEL_CARRIER_NEXT = '\u0627\u0622\u0648\u06CC\u0647';
+  // Persian letters that can act as long-vowel carriers. ا آ و are always
+  // carriers; ه and ی are carriers only at word-end (word-medial/initial they
+  // read as the consonants 'h' and 'y'). Position-sensitive because writing
+  // like جهان (Jahān) / پیدا (Payda) has consonant ه / ی mid-word, whereas
+  // چاه (Chāh) / نی (nay) has carrier ه / ی at word-end.
+  function isCarrierAt(pText, idx) {
+    if (idx >= pText.length) return false;
+    var ch = pText[idx];
+    if (ch === '\u0627' || ch === '\u0622' || ch === '\u0648') return true;
+    if (ch !== '\u0647' && ch !== '\u06CC') return false;
+    var after = idx + 1;
+    return after >= pText.length || pText[after] === ' ';
+  }
+  // Translit options for a Persian char, narrowed by position. Word-medial
+  // ه can only be consonant 'h'; word-medial ی can only be consonant 'y' or
+  // long 'ī' — never short 'a'/'i' (those belong to the preceding consonant).
+  function effectiveOptsAt(pText, idx) {
+    var ch = pText[idx];
+    var opts = MAP[ch];
+    if (!opts) return opts;
+    if (ch === '\u0647' || ch === '\u06CC') {
+      var after = idx + 1;
+      var isWordEnd = after >= pText.length || pText[after] === ' ';
+      if (!isWordEnd) {
+        return ch === '\u0647' ? ['h', 'H'] : ['ī', 'Ī', 'y', 'Y'];
+      }
+    }
+    return opts;
+  }
   // A small set of "pure consonant" options used to decide whether the
   // current Persian char has a consonant reading at all. If not, it can
   // only absorb a vowel (which means we skip absorb-filtering).
@@ -6706,7 +6730,7 @@
         continue;
       }
 
-      var opts = MAP[pChar];
+      var opts = effectiveOptsAt(pText, pi);
       if (!opts) { pi++; continue; } // unknown char
 
       // Diacritics with no output
@@ -6716,12 +6740,14 @@
         continue;
       }
 
-      // If the NEXT Persian char is a vowel carrier (ا آ و ی ه), the trailing
-      // vowel in the translit belongs to that carrier. So for the current
-      // char we must prefer consonant-only options (e.g. ج→'j', not 'ja';
-      // ه→'h', not 'e'). Falls back to full opts if no consonant matches.
+      // If the NEXT Persian char is a vowel carrier (ا آ و, plus word-final
+      // ی / ه), the trailing vowel in the translit belongs to that carrier.
+      // So for the current char we must prefer consonant-only options
+      // (e.g. ج→'j', not 'ja'; ه→'h', not 'e'). Falls back to full opts if
+      // no consonant matches. Word-medial ی / ه are NOT carriers — see
+      // isCarrierAt above.
       var nextPChar0 = pi + 1 < pText.length ? pText[pi + 1] : '';
-      var preferConsonant = nextPChar0 && VOWEL_CARRIER_NEXT.indexOf(nextPChar0) !== -1 && hasConsonantOpt(opts);
+      var preferConsonant = nextPChar0 && isCarrierAt(pText, pi + 1) && hasConsonantOpt(opts);
       var effectiveOpts = opts;
       if (preferConsonant) {
         effectiveOpts = opts.filter(function(o) {
@@ -6774,10 +6800,10 @@
         // Absorb trailing implicit vowels into the current consonant's slot.
         // Skip entirely if the next Persian char is a vowel carrier — the
         // vowel belongs to that carrier, not to this consonant.
-        var nextIsCarrier = nextPChar && VOWEL_CARRIER_NEXT.indexOf(nextPChar) !== -1;
+        var nextIsCarrier = nextPChar && isCarrierAt(pText, pi + 1);
         if (nextPChar && nextPChar !== ' ' && !nextIsCarrier) {
           while (nextTi < tText.length && IMPLICIT_VOWELS.test(tText[nextTi]) && tText[nextTi] !== ' ') {
-            var nextOpts = MAP[nextPChar];
+            var nextOpts = effectiveOptsAt(pText, pi + 1);
             if (nextOpts) {
               var wouldMatch = false;
               for (var nm = 0; nm < nextOpts.length; nm++) {
