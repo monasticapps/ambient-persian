@@ -186,7 +186,8 @@
     align-items: center;
     gap: 8px;
   }
-  .toolbar-right { margin-left: auto; }
+  .tb-yt-btn { margin-left: auto; }  /* pushes right cluster to the right edge */
+  .toolbar-right { margin-left: 0; }
 
   /* When the toolbar can't fit both groups on one line, drop the right
      cluster to its own line and center both lines instead of letting
@@ -194,6 +195,7 @@
   @container toolbar (max-width: 940px) {
     .toolbar-row { justify-content: center; }
     .toolbar-right { margin-left: 0; }
+    .tb-yt-btn { margin-left: 0; }
   }
   #char-lookup {
     background: #f0f6ff;
@@ -758,9 +760,8 @@
     .tb-trigger { padding: 0 8px; }
     #font-trigger .tb-font-sample { font-size: 13pt; }
 
-    /* YouTube button gets its own full-width line on small screens */
-    .toolbar-right { flex-wrap: wrap; justify-content: center; }
-    .tb-yt-btn { flex-basis: 100%; justify-content: center; }
+    /* YouTube button jumps to the top line on small screens */
+    .tb-yt-btn { order: -1; flex-basis: 100%; justify-content: center; margin-left: 0; }
 
     /* Per-row toggle buttons sit at the bottom-right; on narrow screens
        they need a bit less reach so they don't overlap content */
@@ -823,8 +824,8 @@
       <button class="toggle-btn" id="toggle-diacritics">Diacritics</button>
       <button class="toggle-btn" id="toggle-notes">Notes</button>
     </div>
+    <a class="tb-yt-btn" href="https://www.youtube.com/playlist?list=PLw0X9V8opKGVtYXZohfR7VEI39Qcb-2Rb" target="_blank" rel="noopener" title="Watch the app guide playlist on YouTube">&#9654; Watch App Guide</a>
     <div class="toolbar-right">
-      <a class="tb-yt-btn" href="https://www.youtube.com/playlist?list=PLw0X9V8opKGVtYXZohfR7VEI39Qcb-2Rb" target="_blank" rel="noopener" title="Watch the app guide playlist on YouTube">&#9654; Watch App Guide</a>
       <button class="tb-trigger" id="lesson-trigger" title="Filter by lesson">
         <span class="tb-trigger-label">All Lessons</span>
         <span class="tb-caret">▾</span>
