@@ -758,6 +758,10 @@
     .tb-trigger { padding: 0 8px; }
     #font-trigger .tb-font-sample { font-size: 13pt; }
 
+    /* YouTube button gets its own full-width line on small screens */
+    .toolbar-right { flex-wrap: wrap; justify-content: center; }
+    .tb-yt-btn { flex-basis: 100%; justify-content: center; }
+
     /* Per-row toggle buttons sit at the bottom-right; on narrow screens
        they need a bit less reach so they don't overlap content */
     .row-toggle { font-size: 9pt; width: 20px; }
@@ -784,7 +788,8 @@
     .toggle-btn,
     .tb-trigger,
     .toolbar .reset-btn,
-    .tb-size-btn { font-size: 10pt; height: 28px; }
+    .tb-size-btn,
+    .tb-yt-btn { font-size: 10pt; height: 28px; }
     .toggle-btn { padding: 0 8px; }
     .tb-trigger { padding: 0 6px; gap: 4px; }
     .tb-size-btn { padding: 0 7px; }
