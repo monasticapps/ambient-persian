@@ -250,6 +250,25 @@
     box-sizing: border-box;
   }
 
+  /* YouTube app guide link — styled like a trigger button */
+  .tb-yt-btn {
+    font-family: 'Georgia', serif;
+    font-size: 11pt;
+    height: 32px;
+    padding: 0 12px;
+    border-radius: 4px;
+    border: 1.5px solid #c00;
+    color: #c00;
+    background: #fff;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    box-sizing: border-box;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+  .tb-yt-btn:hover { background: #fff5f5; }
+
   /* Trigger buttons (lesson + font) */
   .tb-trigger {
     border: 1.5px solid #1a6db5;
@@ -800,6 +819,7 @@
       <button class="toggle-btn" id="toggle-notes">Notes</button>
     </div>
     <div class="toolbar-right">
+      <a class="tb-yt-btn" href="https://www.youtube.com/playlist?list=PLw0X9V8opKGVtYXZohfR7VEI39Qcb-2Rb" target="_blank" rel="noopener" title="Watch the app guide playlist on YouTube">&#9654; Watch App Guide</a>
       <button class="tb-trigger" id="lesson-trigger" title="Filter by lesson">
         <span class="tb-trigger-label">All Lessons</span>
         <span class="tb-caret">▾</span>
